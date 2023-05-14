@@ -1,0 +1,139 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Helvetica;
+	background-color: blue;
+}
+
+div.container {
+	width: 70%;
+	margin: auto;
+	margin-top: 30px;
+	padding: 20px 0 30px 30px;
+}
+
+div.container .form-content h1 {
+	font-size: 20px;
+	font-family: Georgia;
+	margin-bottom: 20px;
+	color: #000000;
+	text-align: left;
+}
+
+div.container #fill-out-form {
+	width: 80%;
+	margin: auto;
+	background-color: #ffffff;
+	padding: 30px;
+	border-radius: 15px;
+}
+
+div.container #fill-out-form .row-1-content,
+div.container #fill-out-form .row-2-content,
+div.container #fill-out-form .row-3-content,
+div.container #fill-out-form .row-4-content,
+div.container #fill-out-form .row-5-content,
+div.container #fill-out-form .row-6-content,
+div.container #fill-out-form .row-7-content {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+div.container #fill-out-form .row-1-content label,
+div.container #fill-out-form .row-2-content label,
+div.container #fill-out-form .row-3-content label,
+div.container #fill-out-form .row-4-content label,
+div.container #fill-out-form .row-5-content label,
+div.container #fill-out-form .row-6-content label,
+div.container #fill-out-form .row-7-content label {
+	display: block;
+	font-size: 11.5px;
+	margin-bottom: 5px;
+	font-family: Verdana;
+}
+
+#fill-out-form input[type="text"],
+#fill-out-form input[type="email"],
+#fill-out-form input[type="password"],
+#fill-out-form input[type="number"] {
+	padding: 8px 15px;
+	border: none;
+	border-bottom: 1px solid #000000;
+	outline: none;
+	width: 250px;
+}
+
+#fill-out-form input[type="text"]:hover,
+#fill-out-form input[type="email"]:hover,
+#fill-out-form input[type="password"]:hover,
+#fill-out-form input[type="number"]:hover {
+	border-bottom: 1px solid blue;
+	transition: all 0.3s ease 0s;
+}
+
+#fill-out-form select {
+	padding: 8px 15px;
+	border: 1px solid gray;
+	outline: none;
+	width: 250px;
+	font-size: 11.5px;
+	font-style: Verdana;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  	-webkit-appearance: none;
+  	margin: 0;
+}
+
+#fill-out-form input[type="text"]::placeholder,
+#fill-out-form input[type="email"]::placeholder,
+#fill-out-form input[type="password"]::placeholder,
+#fill-out-form input[type="number"]::placeholder {
+	font-size: 11.5px;
+	font-style: Verdana;
+}
+
+#fill-out-form button#register {
+	padding: 10px 15px;
+	border: none;
+	outline: none;
+	font-size: 11.5px;
+	width: 40%;
+	margin: 20px auto 15px auto;
+	background-color: blue;
+	color: #ffffff;
+	border-radius: 15px;
+	display: block;
+}
+
+#fill-out-form button#register:hover {
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+	background-color: skyblue;
+}
+
+#fill-out-form input[type="file"] {
+	display: none;
+}
+
+#fill-out-form label#upload-pic {
+	background-color: gray;
+	padding: 8px 15px;
+	color: #ffffff;
+	border-radius: 5px;
+	font-size: 11.5px;
+	position: relative;
+	left: 0;
+}
+
+#fill-out-form .already-have-account {
+	font-size: 12px;
+	text-align: center;
+}

@@ -1,0 +1,450 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Georgia, "Times New Roman", Arial;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.container {
+	background-color: #e6e6e6;
+	padding: 20px;
+	width: 100%;
+	margin: auto;
+}
+
+.container .main-header {
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	width: 100%;
+	margin: auto;
+}
+
+.container .main-header .left h1 {
+	display: inline-block;
+	font-size: 1.1vw;
+	font-family: Verdana;
+	font-weight: 700;
+}
+
+.container .main-header .left input[type="search"] {
+	padding: 6px;
+	border: 1px solid #cccccc;
+	width: 200px;
+}
+
+.container .main-header .left input[type="search"]:hover {
+	border: 1px solid #FFB916;
+	transition: all 0.3s ease 0s;
+}
+
+.container .main-header .left input[type="search"]::placeholder {
+	font-size: 12px;
+	font-style: Verdana;
+}
+
+.container .main-header .right {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+.container .main-header .right .signin {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	margin: 8px 10px 0 0;
+}
+
+.container .main-header .right .signup {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	margin: 8px 10px 0 0;
+}
+
+.container .main-header .right i {
+	margin: 0 5px;
+	font-size: 1.2vw;
+	color: #0079C1;
+}
+
+.container .main-header .right a {
+	text-decoration: none;
+	color: #000000;
+	font-size: 0.9vw;
+	font-family: Verdana;
+}
+
+.container .main-header .right a:hover {
+	cursor: pointer;
+	text-decoration: underline;
+	transition: all 0.3s ease 0s;
+}
+
+.container .main-header .right .profile {
+	margin: 5px 10px 0 0;
+}
+
+.container .main-header .right .logout {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	margin-right: 10px;
+}
+
+.container .main-header .right .logout button {
+	border: none;
+	padding: 8px 15px;
+	font-size: 0.9vw;
+	background-color: #FFB916;
+	color: #ffffff;
+}
+
+.container .main-header .right .logout button:hover {
+	cursor: pointer;
+	background-color: #FF0021;
+	color: #ffffff;
+	transition: all 0.3s ease 0s;
+}
+
+.navigations {
+	width: 100%;
+	margin: auto;
+	background-color: #cccccc;
+	padding: 25px;
+	position: sticky;
+	top: 0;
+	z-index: 2;
+}
+
+.navigations .links {
+	text-align: center;
+	width: 80%;
+	margin: auto;
+}
+
+.navigations .links > a {
+	text-decoration: none;
+	color: #000000;
+	font-family: Verdana;
+	font-size: 1vw;
+	padding: 0 8px;
+	width: 100%;
+	margin: auto;
+}
+
+.navigations .links > i {
+	font-size: 1vw;
+}
+
+.navigations .links .home {
+	color: #FF0021;
+}
+
+.navigations .links .computer {
+	color: #1260CC;
+}
+
+.navigations .links .mobile {
+	color: mediumseagreen;
+}
+
+.navigations .links .television {
+	color: tomato;
+}
+
+.navigations .links .hardware {
+	color: #CD7F32;
+}
+
+.navigations .links .software {
+	color: #7E8987;
+}
+
+.navigations .links .electronics {
+	color: #1260CC;
+}
+
+.navigations .links > a:hover {
+	cursor: pointer;
+	text-decoration: underline;
+	transition: all 0.3s ease 0s;
+}
+
+/* ============================== PENETRATION TESTING ================================  */
+.chatbox-container {
+	width: 80%;
+	margin: 50px auto 0 auto;
+	font-size: 0.9vw;
+	font-family: Verdana, "Times New Roman";
+	display: flex;
+	justify-content: space-around;
+	align-content: center;
+	color: #ffffff;
+}
+
+.chatbox-container .chatbox-content {
+	position: relative;
+}
+
+.chatbox-container .friends-list {
+	background-color: #547A8A;
+	padding: 20px;
+	border-radius: 12px;
+	width: 35%;
+	margin-right: 30px;
+	height: 57.1vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.chatbox-container .friends-list img, .chatbox-container .chatbox img {
+	border-radius: 50%;
+	margin-right: 15px;
+}
+
+.chatbox-container input[type="search"] {
+	border: none;
+	border-radius: 12px;
+	padding: 10px 15px;
+	width: 100%;
+	background-color: #384F5D;
+}
+
+.chatbox-container .friends {
+	margin-top: 30px;
+	display: flex;
+	justify-content: flex-start;
+	align-content: center;
+}
+
+.chatbox-container .friends:hover {
+	background-color: #384F5D;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+	border-radius: 35px;
+}
+
+.chatbox-container .friends p {
+	margin-top: 20px;
+}
+
+.chatbox-container .content i, .chatbox-container .chatbox i:not(.contacts i) {
+	font-size: 0.6vw;
+}
+
+.chatbox-container .chatbox {
+	background-image: linear-gradient(to right, #547A8A, #4D5383);
+	padding: 20px;
+	border-radius: 12px;
+	width: 65%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.chatbox-container .chatbox .header {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+.chatbox-container .chatbox .contacts {
+	margin-left: 50%;
+	margin-top: 15px;
+}
+
+.chatbox-container .chatbox .contacts i {
+	margin-right: 30px;
+	font-size: 1vw;
+}
+
+.chatbox-container .chatbox .contacts i:hover {
+	cursor: pointer;
+}
+
+.chatbox-container .chatbox .exchange p {
+	margin-top: 15px;
+}
+
+.chatbox-container .message-box textarea {
+	position: absolute;
+	resize: none;
+	top: 380%;
+	border-radius: 15px 0 0 15px;
+	background-color: #36415D;
+	color: #ffffff;
+	border: none;
+	outline: none;
+	padding: 25px 0 25px 15px;
+	width: 87.5%;
+	height: 70px;
+}
+
+.chatbox-container .message-box textarea:hover, 
+.chatbox-container .message-box textarea:focus {
+	border: 1px solid #28A3D8;
+}
+
+.chatbox-container .message-box button {
+	position: absolute;
+	top: 380%;
+	left: 87.5%;
+	padding: 27px 20px;
+	border-radius: 0 15px 15px 0;
+	border: none;
+	background-color: #28A3D8;
+	color: #ffffff;
+	font-style: italic;
+}
+
+.chatbox-container .message-box button:hover {
+	cursor: pointer;
+	background-color: deepskyblue;
+	color: #ffffff;
+	transition: all 0.3s ease 0s;
+}
+/* ============================== PENETRATION TESTING ================================  */
+
+/* Main Footer */
+.main-footer {
+	width: 100%;
+	margin: auto;
+	margin-top: 90px;
+}
+
+.main-footer .header {
+	background-color: #444444;
+	color: #ffffff;
+	text-align: center;
+	padding: 30px;
+	font-size: 0.9vw;
+	font-family:"Times New Roman";
+}
+
+.main-footer .content {
+	display: flex;
+	justify-content: space-around;
+	align-content: center;
+	background-color: #111111;
+	color: #ffffff;
+	padding: 30px;
+}
+
+.main-footer .content .row-1 h3 {
+	font-family: "Times New Roman";
+	font-size: 0.9vw;
+	margin-bottom: 25px;
+}
+
+.main-footer .content .row-1:not(.contact-links) a {
+	text-decoration: none;
+	color: #B4B4B4;
+	font-size: 0.9vw;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.main-footer .content .contact-links a {
+	text-decoration: none;
+	color: #B4B4B4;
+	font-size: 0.9vw;
+}
+
+.main-footer .content .row-1 a:hover {
+	text-decoration: underline;
+}
+
+.main-footer .content .contact-links .call, .email {
+	margin-bottom: 12px;
+}
+
+.main-footer .content .contact-links i {
+	margin-right: 10px;
+	font-size: 1vw;
+}
+
+.main-footer .content .contact-links .call i {
+	color: #117914;
+}
+
+.main-footer .content .contact-links .email i {
+	color: #1E88E5;
+}
+
+.main-footer .content .contact-links .group i {
+	color: #505050;
+}
+
+.main-footer .content .social-media i {
+	margin-right: 5px;
+	font-size: 1.2vw;
+}
+
+.main-footer .content .social-media .facebook {
+	color: #1674EA;
+}
+
+.main-footer .content .social-media .twitter {
+	color: #1C9CEA;
+}
+
+.main-footer .content .social-media .youtube {
+	color: #F70000;
+}
+
+.main-footer .content .social-media .instagram {
+	color: #F65E52;
+}
+
+.main-footer .content .social-media .linked-in {
+	color: #0E76A8;
+}
+
+.main-footer .content .social-media .stores img {
+	margin-top: 20px;
+}	
+
+.main-footer .copyrights {
+	width: 100%;
+	margin: auto;
+	background-color: #111111;
+	color: #B4B4B4;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	padding-bottom: 15px;
+	font-size: 0.8vw;
+}
+
+.main-footer .copyrights h5 {
+	display: inline;
+}
+
+.main-footer .copyrights h5 a {
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 0.8vw;
+	letter-spacing: 0.2px;
+}
+
+.main-footer .copyrights small {
+	font-size: 0.9vw;
+}
+
+.main-footer .copyrights a {
+	text-decoration: none;
+	color: #B4B4B4;
+	font-size: 0.9vw;
+}
+
+.main-footer .copyrights a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+/* End of Main Footer */
