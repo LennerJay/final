@@ -7,6 +7,23 @@
     }else{
         echo "Function not exist";
     }
+    function fnGetUser(){
+        $backend = new Backend;
+        echo $backend->fnGetUser($_POST['userid']);
+    }
+    function fnRegister(){
+        $backend = new Backend;
+        $files = $_FILES['profile_picture']['name'];
+        $folder = "../images/profile/";
+        $destination = $folder . $files;
+        $result = $backend->fnRegister($_POST['username'],$_POST['firstname'],$_POST['lastname'],$_POST['street'],$_POST['city'],$_POST['state'],$_POST['zipcode'],$_POST['age'],$_POST['gender'],$_POST['email'],md5($_POST['password']),$files,$_POST['userid']);
+        if($result === 1){
+        move_uploaded_file($_FILES['profile_picture']['tmp_name'],$destination);
+            echo 1;
+        }else{
+            echo 2;
+        }
+    }
     function checkStatus(){
         if(isset($_SESSION['email']) && $_SESSION['password']){
             echo 1;

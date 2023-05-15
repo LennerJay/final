@@ -6,7 +6,7 @@
 <div id="app-form" class="bg-container">
     <div class="container">
         <div class="form-content">
-            <form id="fill-out-form" @submit="fnRegister($event)">
+            <form id="fill-out-form" @submit.prevent="fnRegister($event)">
                 <h1 class="title">Registration</h1>
 
                 <div class="row-1-content">
