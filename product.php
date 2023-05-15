@@ -134,7 +134,7 @@
       <div class="logo-image">
         <img src="images/1.png" alt="">
       </div>
-        <span class="logo_name">E-C PC</span>
+        <span class="logo_name">Tactical Minds</span>
       </div>
 
       <div class="menu-items">

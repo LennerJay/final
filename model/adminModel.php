@@ -83,13 +83,20 @@ function fnUpdateUser(){
     global $con;
     $username = $_POST['username'];
     $email = $_POST['email'];
+    $firstname = $_POST['fname'];
+    $lastname = $_POST['lname'];
+    $street = $_POST['street'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zipcode = $_POST['zipcode'];
+    $gender = $_POST['gender'];
     $roles = $_POST['roles'];
     $status = $_POST['status'];
     $isactive = $_POST['isactive'];
     $userid = $_POST['userid'];
  
-    $query = $con->prepare('CALL sp_updateUser(?,?,?,?,?,?,?,?,?)');
-    $query->bind_param('siississi',$username,$email,$roles,$status,$isactive,$userid);
+    $query = $con->prepare('CALL sp_updateUser(?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    $query->bind_param('sssssssisiiii',$username,$email,$firstname,$lastname,$street,$city,$state,$zipcode,$gender,$roles,$status,$isactive,$userid);
     
     if($query->execute()){
         echo 1;

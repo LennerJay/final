@@ -27,15 +27,16 @@
                 <p>Product Category: {{  item.product_category }}</p>
                 <label for="Status">Status</label>
                 <select name="" id="" class="form-control btn btn-default">
-                  <option value="1" name="pending">Pending</option>
-                  <option value="2" name="on_delivery">On Delivery</option>
-                  <option value="3" name="complete">Complete</option>
+                  <option value="pending" name="pending">Pending</option>
+                  <option value="on_delivery" name="on_delivery">On Delivery</option>
+                  <option value="complete" name="complete">Complete</option>
                 </select>
               </div>
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-default" style="background-color:blue; color: white;">Submit</button>
         </div>
       </div>
     </div>
@@ -45,7 +46,7 @@
         <div class="logo-image">
           <img src="images/1.png" alt="">
         </div>
-        <span class="logo_name">E-C PC</span>
+        <span class="logo_name">Tactical Minds</span>
       </div>
 
       <div class="menu-items">
