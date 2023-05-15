@@ -132,7 +132,7 @@ createApp({
             data.append('product_id',this.product_id);
             axios.post('model/adminModel.php',data)
             .then(function(r){
-                console.log(r);
+                // console.log(r);
                 if(r.data == 1)
                 {
                     Swal.fire(
