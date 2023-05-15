@@ -21,9 +21,6 @@
               <input type="text" class="form-control" name="price" id="price" >
             </div>
             <div class="input-field">
-              <input type="hidden" class="form-control" name="new_price" id="new_price" >
-            </div>
-            <div class="input-field">
               <label for="brand">Product Brand</label>
               <input type="text" class="form-control" name="brand" id="brand">
             </div>
@@ -83,12 +80,8 @@
               <input type="text" class="form-control" name="product_name" id="product_name" v-model="product_name">
             </div>
             <div class="input-field">
-            <label for="price">Product Old Price</label>
+              <label for="price">Product Price</label>
               <input type="text" class="form-control" name="price" id="price" v-model="product_price">
-            </div>
-            <div class="input-field">
-              <label for="new_price">Product New Price</label>
-              <input type="text" class="form-control" name="new_price" id="new_price">
             </div>
             <div class="input-field">
               <label for="brand">Product Brand</label>
