@@ -1,6 +1,8 @@
 <?php
     include "../include/dbCon.php";
     
+    session_start();
+
     $method = $_POST['method'];
 
     if(function_exists($method)){

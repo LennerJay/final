@@ -17,8 +17,41 @@
               <input type="text" class="form-control" name="username" id="username" v-model="username">
             </div>
             <div class="input-field">
-              <label for="price">Email</label>
+              <label for="email">Email</label>
               <input type="email" class="form-control" name="email" id="email" v-model="email">
+            </div>
+            <div class="input-field">
+              <label for="fname">Firstname</label>
+              <input type="text" class="form-control" name="fname" id="fname" v-model="firstname">
+            </div>
+            <div class="input-field">
+              <label for="lname">Lastname</label>
+              <input type="text" class="form-control" name="lname" id="lname" v-model="lastname">
+            </div>
+            <div class="input-field">
+              <label for="street">Street</label>
+              <input type="text" class="form-control" name="street" id="street" v-model="street">
+            </div>
+            <div class="input-field">
+              <label for="city">City</label>
+              <input type="text" class="form-control" name="city" id="city" v-model="city">
+            </div>
+            <div class="input-field">
+              <label for="state">State</label>
+              <input type="text" class="form-control" name="state" id="state" v-model="state">
+            </div>
+            <div class="input-field">
+              <label for="zipcode">Zipcode</label>
+              <input type="text" class="form-control" name="zipcode" id="zipcode" v-model="zipcode">
+            </div>
+            <div class="input-field">
+              <label for="Gender">Gender</label>
+              <select id="gender" name="gender" class="form-control" v-model="gender">
+                <option value="" disabled selected hidden >Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+              </select>
             </div>
             <div class="input-field">
               <label for="brand">Roles</label>
@@ -48,7 +81,7 @@
       <div class="logo-image">
         <img src="images/1.png" alt="">
       </div>
-      <span class="logo_name">E-C PC</span>
+      <span class="logo_name">Tactical Minds</span>
     </div>
     <div class="menu-items">
       <ul class="nav-links">
@@ -117,6 +150,18 @@
                     <div class="data email">
                       <th class="data-title">Email</th></span>
                     </div>
+                    <div class="data email">
+                      <th class="data-title">Fullname</th></span>
+                    </div>
+                    <div class="data email">
+                      <th class="data-title">Address</th></span>
+                    </div>
+                    <div class="data email">
+                      <th class="data-title">Zipcode</th></span>
+                    </div>
+                    <div class="data email">
+                      <th class="data-title">Gender</th></span>
+                    </div>
                     <div class="data joined">
                       <th class="data-title">Date Joined</th>
                     </div>
@@ -125,9 +170,6 @@
                     </div>
                     <div class="data status">
                       <th class="data-title">Status</th></span>
-                    </div>
-                    <div class="data status">
-                      <th class="data-title">isActive</th></span>
                     </div>
                     <div class="data action">
                       <th class="data-title">Action</th></span>
@@ -138,10 +180,13 @@
                   <tr v-for="user in users">
                     <td>{{  user.username }}</td>
                     <td>{{  user.email }}</td>
+                    <td>{{  user.firstname }} {{user.lastname}}</td>
+                    <td>{{  user.street }},{{user.city}},{{user.state}}</td>
+                    <td>{{  user.zipcode }}</td>
+                    <td>{{  user.gender }}</td>
                     <td>{{  user.date_created }}</td>
                     <td>{{  user.role }}</td>
                     <td>{{  user.status }}</td>
-                    <td>{{  user.isactive }}</td>
                     <td>
                       <button class="form-control btn btn-default" data-toggle="modal" data-target="#edit" @click="fnGetUser(user.userid)">Edit</button>
                     </td>

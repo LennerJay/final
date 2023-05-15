@@ -36,6 +36,13 @@ createApp({
                         vm.users.push({
                             username: e.username,
                             email: e.email,
+                            firstname: e.firstname,
+                            lastname: e.lastname,
+                            street: e.street,
+                            city: e.city,
+                            state: e.state,
+                            zipcode: e.zipcode,
+                            gender: e.gender,
                             date_created: e.date_created,
                             role: e.role,
                             status: e.status,
@@ -48,6 +55,13 @@ createApp({
                     f.data.forEach(function(e){
                             vm.username = e.username,
                             vm.email = e.email,
+                            vm.firstname = e.firstname,
+                            vm.lastname = e.lastname,
+                            vm.street = e.street,
+                            vm. city = e.city,
+                            vm.state = e.state,
+                            vm.zipcode = e.zipcode,
+                            vm.gender = e.gender,
                             vm.date_created = e.date_created,
                             vm.role = e.role,
                             vm.status = e.status,
@@ -70,6 +84,7 @@ createApp({
             data.append('userid',this.userid);
             axios.post('model/adminModel.php',data)
             .then(function(r){
+                console.log(r);
                 if(r.data == 1)
                 {
                     Swal.fire(
@@ -117,6 +132,7 @@ createApp({
             data.append('product_id',this.product_id);
             axios.post('model/adminModel.php',data)
             .then(function(r){
+                console.log(r);
                 if(r.data == 1)
                 {
                     Swal.fire(
@@ -133,6 +149,9 @@ createApp({
                         'error'
                     )
                 }
+                setTimeout(function(){
+                    location.reload();
+                }, 2000);
             })
         },
         fnGetItems:function(productid){
