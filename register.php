@@ -1,6 +1,7 @@
 <?php
     include "client/registerHeader.php";
-    $app = "<script src='Server-side/Javascript/form.app.js'></script>";
+    $app = "<script src='js/login-reg-form.js'></script>";
+
 ?>
 <div id="app-form" class="bg-container">
     <div class="container">

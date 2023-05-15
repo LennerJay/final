@@ -16,16 +16,35 @@ createApp({
             axios.post('dbCon/router.php',data)
             .then(function(respond){
                 console.log(respond.data)
-                console.log(respond.data.length)
                 if(respond.data === 1){
-                    localStorage.setItem('isLoggedIn','200')
-                    window.location.href = 'index.php'
+                    Swal.fire(
+                        'Success!',
+                        '',
+                        'success',
+                        
+                    ).then(result=>{
+                        window.location.href ="index.php"
+                    })
+                    setTimeout(function(){
+                        location.replace('index.php');
+                    }, 2500);
                 }else{
-                    alert('incorrect credential')
+                    Swal.fire(
+                        'Error!',
+                        'Wrong email and password.',
+                        'error'
+                    )
                 }
             })
-        }
-    }
+        },
+        // test:function(){
+        //     console.log('test')
+        // }
+    },
+    // created:function(){
+    //     this.test()
+    // }
 
 
-}).mount('#app')
+}).mount('#app-form')
+

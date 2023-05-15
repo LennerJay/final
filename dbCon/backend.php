@@ -103,22 +103,23 @@ require "database.php";
                 return $e;
             }
         }
-        public function login($username,$password){
+        public function login($email,$password){
             try{
                 $db = new Database();
                 if($db->getStatus()){
                     $tmp = md5($password);
-                    $stmt = $db->getCon()->prepare('CALL sp_checkUser(?,?)');
-                    $stmt->execute(array($username,$tmp));
+                    $stmt = $db->getCon()->prepare('call sp_checkUser(?,?)');
+                    $stmt->execute(array($email,$tmp));
                     $result = $stmt->fetch();
-                    if($result){
-                        $_SESSION['username'] = $username;
+                    if($result['ret'] === 1){
+                        $_SESSION['email'] = $email;
                         $_SESSION['password'] = $tmp;
-                        $_SESSION['user_id'] = $result['user_id'];
+                        $_SESSION['user_id'] = $result['userid'];
+                        $_SESSION['role'] = $result['role'];
                         $db->closeConnection();
-                        return  1;
+                        return  $result['ret'];
                     }else{
-                        return 0;
+                        return $result['ret'];
                     }
 
                 }else{

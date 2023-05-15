@@ -59,9 +59,9 @@ createApp({
             axios.post('dbCon/router.php',data).then((respond)=>{
                 if(respond.data === 1){
                     this.isLoggedIn = false
+                    window.location.href = "index.php"
                 }
             })
-
         },
         displayItem:function(category){
             this.currentPage = 1;
@@ -215,16 +215,19 @@ createApp({
             const data = new FormData;
             data.append('method','getShoppingCart');
             axios.post('dbCon/router.php',data).then(respond =>{
-                vm.fetchProducts.forEach(e =>{
-                    respond.data.filter(item => item.status == 0).forEach(item =>{
-                        if(item.product_id == e.id){
-                            this.cart.push(e)
-                            vm.shoppingCart.push({
-                                id: item.product_id
-                            })
-                        }
+                if(respond.data.length > 0){
+                    vm.fetchProducts.forEach(e =>{
+                        respond.data.filter(item => item.status == 0).forEach(item =>{
+                            if(item.product_id == e.id){
+                                this.cart.push(e)
+                                vm.shoppingCart.push({
+                                    id: item.product_id
+                                })
+                            }
+                        })
                     })
-                })
+                }
+     
             })
         },
         getCurrentItems() {
@@ -251,12 +254,14 @@ createApp({
             const data = new FormData;
             data.append('method','getPurchasedProduct')
             axios.post('dbCon/router.php',data).then(respond =>{
-                respond.data.filter(item => item.status == 0).forEach(product=>{
-                    vm.purchasedProduct.push({
-                        id: product.product_id,
-                        quantity: product.quantity
+                if(respond.data.length > 0){
+                    respond.data.filter(item => item.status == 0).forEach(product=>{
+                        vm.purchasedProduct.push({
+                            id: product.product_id,
+                            quantity: product.quantity
+                        })
                     })
-                })
+                }
             })
         }
     },

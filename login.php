@@ -1,13 +1,13 @@
 <?php
     session_start();
     include "client/loginHeader.php";
-    $app = "<script src='Server-side/Javascript/form.app.js'></script>";
+    $app = "<script src='js/login-reg-form.js'></script>";
 ?>
 <div id="app-form" class="bg-container">
     <div class="container">
         <div class="form-content">
             <h2>Login</h2>
-            <form id="fill-out-form" @submit="fnLogin($event)">
+            <form id="fill-out-form" @submit.prevent="fnLogIn($event)">
                 <div class="input-field">
                     <i class="fa-sharp fa-solid fa-envelope"></i>
                     <input type="text" name="email" id="email" placeholder="Enter your email" required>

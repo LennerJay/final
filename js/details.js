@@ -17,9 +17,7 @@ createApp({
     },
     methods:{
         fnAddToCart:function(product_id){
-            console.log(product_id)
             let isExists = this.shoppingCart.some(item => item.id == product_id)
-            console.log(isExists)
             if(isExists){
                 swal.fire({
                     text:'Item has been added to your shopping cart',

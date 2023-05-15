@@ -8,14 +8,14 @@
         echo "Function not exist";
     }
     function checkStatus(){
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['email']) && $_SESSION['password']){
             echo 1;
         }else{
             echo 2;
         }
     }
     function updateQuantity(){
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['email']) && isset( $_SESSION['password'])){
             $backend = new Backend();
             echo $backend->updateQuantity($_SESSION['user_id'],$_POST['product_id'],$_POST['quantity']);
         }else{
@@ -23,7 +23,7 @@
         }
     }
     function getPurchasedProduct(){
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['email']) && isset( $_SESSION['password'])){
             $backend = new Backend();
             echo $backend->fnGetPurchasedProduct($_SESSION['user_id']);
         }else{
@@ -31,7 +31,7 @@
         }
     }
     function fnPurchase(){
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['email']) && isset( $_SESSION['password'])){
             $backend = new Backend();
             echo $backend->fnPurchase($_SESSION['user_id'],$_POST['product_id'],$_POST['quantity'],0);
         }else{
@@ -39,14 +39,16 @@
         }
     }
     function getShoppingCart(){
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['email']) && isset( $_SESSION['password'])){
             $backend = new Backend;
             echo $backend->getShoppingCart($_SESSION['user_id']);
+        }else{
+            echo 2;
         }
 
     }
     function fnAddToCart(){
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['email']) && isset( $_SESSION['password'])){
             $backend = new Backend();
             echo $backend->addToCart($_SESSION['user_id'],$_POST['product_id'],0);
         }else{
@@ -56,7 +58,7 @@
     }
     function fnLogIn(){
         $backend = new Backend();
-        echo $backend->login($_POST['username'],$_POST['password']);
+        echo $backend->login($_POST['email'],$_POST['password']);
     }
 
     function register(){
