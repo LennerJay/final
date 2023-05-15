@@ -1,6 +1,36 @@
 <?php 
 require "database.php";
     class Backend{
+        public function fnGetUser($userid){
+            try{
+                $db = new Database;
+                if($db->getStatus()){
+                    $stmt = $db->getCon()->prepare('call sp_getUser(?)');
+                    $stmt->execute(array($userid));
+                    $result = $stmt->fetchAll();
+                    return json_encode($result);
+                }else{
+                    return "Database Connection Error";
+                }
+            }catch(PDOException $e){
+                return $e;
+            }
+        }
+        public function fnRegister($username,$firstname,$lastname,$street,$city,$state,$zipcode,$age,$gender,$email,$password,$files,$userid){
+            try{
+                $db= new Database;
+                if($db->getStatus()){
+                    $stmt = $db->getCon()->prepare('call sp_saveUser(?,?,?,?,?,?,?,?,?,?,?,?,?)');
+                    $stmt->execute(array($username,$firstname,$lastname,$street,$city,$state,$zipcode,$age,$gender,$email,$password,$files,$userid));
+                    $db->closeConnection();
+                    return 1;
+                }else{
+                    return "Database Connection Error";      
+                }
+            }catch(PDOException $e){
+                return $e;
+            }
+        }
         public function updateQuantity($user_id,$product_id,$quantity){
             $db = new Database;
             if($db->getStatus()){

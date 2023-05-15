@@ -3,8 +3,9 @@ const {createApp} = Vue;
 createApp({
     data(){
         return{
-            userDetails:[]
- 
+            userDetails:[],
+            email:'',
+            fetchData:[],
         }
     },
     methods:{
@@ -37,13 +38,47 @@ createApp({
                 }
             })
         },
-        // test:function(){
-        //     console.log('test')
-        // }
+        fnRegister:function(e){
+            const data = new FormData(e.currentTarget)
+            data.append('method','fnRegister')
+            data.append('userid',0)
+            axios.post('dbCon/router.php',data).then(respond=>{
+                console.log(respond.data)
+                if(respond.data == 1)
+                {
+                    Swal.fire(
+                        'Success!',
+                        'User has been Created.',
+                        'success'
+                    ).then(result =>{
+                        window.location.href = 'login.php'
+                    })
+
+                }
+                else
+                {
+                    Swal.fire(
+                        'Error!',
+                        'Email already been used.',
+                        'error'
+                    )
+                }
+            })
+        },
+        fnGetUser:function(id){
+            const data = new FormData;
+            data.append('method','fnGetUser')
+            data.append('userid',id)
+            axios.post('dbCon/router.php',data).then(respond=>{
+                console.log(respond.data)
+                
+            })
+
+        }
     },
-    // created:function(){
-    //     this.test()
-    // }
+    created:function(){
+        this.fnGetUser(0);
+    }
 
 
 }).mount('#app-form')
