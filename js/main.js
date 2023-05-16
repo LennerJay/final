@@ -148,7 +148,7 @@ createApp({
                         }
                     })
                 }else{
-                    this.fnSendToRouter(brandName,product_id,price,category,img,'saveProduct');
+                    this.fnSendToRouter(brandName,product_id,price,category,img,'fnPurchase');
                 }
             }
         },
@@ -184,7 +184,7 @@ createApp({
                                 data.append('method',option)
                             }else{
                                 data.append('quantity',quantity.value)
-                                data.append('method','fnPurchase')
+                                data.append('method',option)
                             }
                             data.append('product_id',product_id)
                             axios.post('dbCon/router.php',data).then(respond=>{

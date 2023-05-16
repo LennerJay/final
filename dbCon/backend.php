@@ -5,9 +5,11 @@ require "database.php";
             try{
                 $db = new Database;
                 if($db->getStatus()){
-                    $stmt = $db->getCon()->prepare('call sp_getUser(?)');
-                    $stmt->execute(array($userid));
+                    $stmt = $db->getCon()->prepare('SELECT `userid`,`email`,`password`,`role`,`isactive` FROM `tbl_user` ');
+                    $stmt->execute();
+                    // $stmt->execute(array($userid));
                     $result = $stmt->fetchAll();
+                    $db->closeConnection();
                     return json_encode($result);
                 }else{
                     return "Database Connection Error";
@@ -140,18 +142,16 @@ require "database.php";
                     $tmp = md5($password);
                     $stmt = $db->getCon()->prepare('call sp_checkUser(?,?)');
                     $stmt->execute(array($email,$tmp));
-                    $result = $stmt->fetch();
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
                     if($result['ret'] === 1){
                         $_SESSION['email'] = $email;
                         $_SESSION['password'] = $tmp;
                         $_SESSION['user_id'] = $result['userid'];
                         $_SESSION['role'] = $result['role'];
                         $db->closeConnection();
-                        return  $result['ret'];
-                    }else{
-                        return $result['ret'];
                     }
-
+                    return json_encode($result);
+                  
                 }else{
                     return "Database Connection Error";
                 }
