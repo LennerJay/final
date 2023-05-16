@@ -5,7 +5,7 @@ createApp({
         return{
             userDetails:[],
             email:'',
-            usersData:[],
+            usersEmail:[],
         }
     },
     methods:{
@@ -45,6 +45,15 @@ createApp({
             })
         },
         fnRegister:function(e){
+            console.log(this.usersEmail.includes(this.email))
+            if(this.usersEmail.includes(this.email)){
+                swal.fire({
+                    icon:'warning',
+                    title:'Email already exist',
+                    text:'Please input another email'
+                })
+
+            }else{
             const data = new FormData(e.currentTarget)
             data.append('method','fnRegister')
             data.append('userid',0)
@@ -61,38 +70,23 @@ createApp({
                     })
 
                 }
-                else
-                {
-                    Swal.fire(
-                        'Error!',
-                        'Email already been used.',
-                        'error'
-                    )
-                }
             })
+            }
+
         },
-        fnGetUser:function(id){
+        fnGetUser:function(){
             const vm = this;
             const data = new FormData;
             data.append('method','fnGetUser')
-            data.append('userid',id)
             axios.post('dbCon/router.php',data).then(respond=>{
-                // console.log(respond.data)
-                // respond.data.forEach(user => {
-                    
-                // });
-                // vm.usersData.push(respond.data);
+                respond.data.forEach(user => {
+                    vm.usersEmail.push(user.email)
+                });
             })
         }
     },
-    mounted:function(){
-        // console.log(this.usersData)
-        // console.log(Object.keys(this.usersData))
-    },
     created:function(){
-        this.fnGetUser(0);
+        this.fnGetUser();
     }
-
-
 }).mount('#app-form')
 

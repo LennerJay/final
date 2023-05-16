@@ -9,7 +9,7 @@
     }
     function fnGetUser(){
         $backend = new Backend;
-        echo $backend->fnGetUser($_POST['userid']);
+        echo $backend->fnGetUser();
     }
     function fnRegister(){
         $backend = new Backend;
