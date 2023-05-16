@@ -1,6 +1,6 @@
 <?php
     include "admin/header.php";
-    $app = "<script src='Server-side/Javascript/dashboard.js'></script>";
+    $app = "<script src='Server-side/Javascript/dashboard.js?".time()."'></script>";
 ?>
 
 <div id="dashboard-app">
@@ -12,31 +12,40 @@
           <h4 class="modal-title">Product Purchased!</h4>
         </div>
         <div class="modal-body">
-        <div class="row" v-for="item in items">
+          <form @submit="fnUpdateSales($event)">
+            <div class="row" v-for="purchased in purchasedItems">
               <div class="col-md-3">
-                <img class="img-fluid" :src="'images/'+ item.product_category +'/' + item.product_images" style="height:100px; width:100px; object-fit: cover;">
+                <img class="img-fluid" :src="'images/'+ purchased.product_category +'/' + purchased.product_images" style="height:100px; width:100px; object-fit: cover;">
               </div>
               <div class="col-md-9">
-                <p>Product Brand: {{  item.product_brand }}</p>
-                <p>Product Name: {{  item.product_name }}</p>
-                <p>Product Description: {{  item.product_description }}</p>
-                <p>Product Specification: {{  item.product_spec }}</p>
-                <p>Product Price: {{  item.product_price }}</p>
-                <p>Product Variant: {{  item.product_variant }}</p>
-                <p>Product New Price: {{  item.product_newPrice }}</p>
-                <p>Product Category: {{  item.product_category }}</p>
-                <label for="Status">Status</label>
-                <select name="" id="" class="form-control btn btn-default">
-                  <option value="pending" name="pending">Pending</option>
-                  <option value="on_delivery" name="on_delivery">On Delivery</option>
-                  <option value="complete" name="complete">Complete</option>
-                </select>
+                <input type="hidden" name="product_id" v-model="purchased.product_id">
+                <p>Product Brand: {{  purchased.product_brand }}</p>
+                <p>Product Name: {{  purchased.product_name }}</p>
+                <p>Product Description: {{  purchased.product_description }}</p>
+                <p>Product Specification: {{  purchased.product_specification }}</p>
+                <p>Quantity: {{  purchased.quantity }}</p>
+                <input type="hidden" name="quantity" v-model="purchased.quantity">
+                <p>Total Price: {{  purchased.product_oldPrice }}</p>
+                <input type="hidden" name="tprice" v-model="purchased.product_oldPrice">
+                <p>Product Variant: {{  purchased.product_variant }}</p>
+                <!-- <p>Product New Price: {{  purchased.product_newPrice }}</p> -->
+                <p>Product Category: {{  purchased.product_category }}</p>
+                <div class="input-field" style="padding-bottom: 20px;">
+                  <label for="Status">Status</label>
+                  <select name="status" id="status" class="form-control btn btn-default">
+                    <option value="1">Pending</option>
+                    <option value="2">Approve</option>
+                  </select>
+                </div>
               </div>
             </div>
+            <div class="input-field" style="padding-top: 20px;">
+              <button type="submit" class="form-control btn btn-default" style="background-color:blue; color:white;">Submit</button>
+            </div>
+          <form>       
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer"> 
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-default" style="background-color:blue; color: white;">Submit</button>
         </div>
       </div>
     </div>
@@ -83,7 +92,7 @@
           </li>
           <ul class="logout-mode">
             <li>
-              <a href="#" onclick="logout()">
+              <a href="logout.php">
                 <i class="uil uil-signout"></i>
                 <span class="link-name">Logout</span>
               </a>
@@ -112,27 +121,18 @@
                       <thead>
                         <tr>
                             <div class="data names">
-                                <th class="data-title">First Name</th></span>
-                            </div>
-                            <div class="data names">
-                                <th class="data-title">Last Name</th></span>
+                                <th class="data-title">Customer Name</th></span>
                             </div>
                             <div class="data email">
-                                <th class="data-title">Street</th></span>
+                                <th class="data-title">Address</th></span>
                             </div>
                             <div class="data joined">
-                                <th class="data-title">City</th>
-                            </div>
-                            <div class="data type">
-                                <th class="data-title">State</th></span>
-                            </div>
-                            <div class="data type">
-                                <th class="data-title">Zipcode</th></span>
+                                <th class="data-title">Zipcode</th>
                             </div>
                             <div class="data type">
                                 <th class="data-title">Gender</th></span>
                             </div>
-                            <div class="data status">
+                            <div class="data type">
                                 <th class="data-title">Email</th></span>
                             </div>
                             <div class="data status">
@@ -141,16 +141,13 @@
                         </tr>
                       </thead>
                         <tbody id="tbl_Data">
-                            <tr>
-                                <td>Ranel</td>
-                                <td>Soliano</td>
-                                <td>Atabay</td>
-                                <td>Lapu Lapu City</td>
-                                <td>Philippines</td>
-                                <td>6016</td>
-                                <td>Male</td>
-                                <td>ranel.soliano@gmail.com</td>
-                                <td><button class="form-control" data-toggle="modal" data-target="#view-product">View</button></td>
+                            <tr v-for="costumer in customers">
+                                <td>{{ costumer.fullname }}</td>
+                                <td>{{ costumer.address }}</td>
+                                <td>{{ costumer.zipcode }}</td>
+                                <td>{{ costumer.gender }}</td>
+                                <td>{{ costumer.email }}</td>
+                                <td><button class="form-control" data-toggle="modal" data-target="#view-product" @click="fnGetCustomerPurchased(costumer.userid)">View</button></td>
                             </tr>
                         </tbody>
                     </div>

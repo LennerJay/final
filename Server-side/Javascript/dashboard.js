@@ -4,8 +4,9 @@ createApp({
     data(){
         return{
             users: [],
-            disuser: [],
+            customers: [],
             items: [],
+            purchasedItems: [],
             username: '',
             email: '',
             userid: 0,
@@ -17,9 +18,9 @@ createApp({
             product_variant: '',
             product_stock: '',
             product_description: '',
-            product_spec: '',
+            product_specification: '',
             product_images: '',
-            product_catergory: ''
+            product_category: ''
         }
     },
     methods:{
@@ -84,7 +85,6 @@ createApp({
             data.append('userid',this.userid);
             axios.post('model/adminModel.php',data)
             .then(function(r){
-                console.log(r);
                 if(r.data == 1)
                 {
                     Swal.fire(
@@ -104,6 +104,118 @@ createApp({
                 setTimeout(function(){
                     location.reload();
                 }, 2000);
+            })
+        },
+        fnGetCustomer:function(userid){
+            const vm = this;
+            const data = new FormData();
+            data.append("method","fnGetCustomer");
+            data.append("userid",userid);
+            axios.post('model/adminModel.php',data)
+            .then(function(f){
+                if(userid == 0){
+                    vm.customers = [];
+                    f.data.forEach(function(e){
+                        vm.customers.push({
+                            fullname: e.Costumer_Name,
+                            address: e.Address,
+                            zipcode: e.zipcode,
+                            gender: e.gender,
+                            email: e.email,
+                            userid: e.userid
+                        })
+                    })
+                }
+                else{
+                    f.data.forEach(function(e){
+                            vm.fullname = e.Costumer_Name,
+                            vm.address = e.Address,
+                            vm.zipcode = e.zipcode,
+                            vm.gender = e.gender,
+                            vm.email = e.email,
+                            vm.userid = e.userid
+                        })
+                }
+                setTimeout(function(){
+                    if (!$.fn.DataTable.isDataTable('#myDataTable')) {
+                      $('#myDataTable').dataTable();
+                    }
+                }, 100);
+            })
+        },
+        fnGetCustomerPurchased:function(id){
+            const vm = this;
+            const data = new FormData();
+            data.append("method","fnGetCustomerPurchased");
+            data.append("id",id);
+            axios.post('model/adminModel.php',data)
+            .then(function(f){
+                if(id == 0){
+                    vm.purchasedItems = [];
+                    f.data.forEach(function(e){
+                        vm.purchasedItems.push({
+                            product_brand: e.product_brand,
+                            product_name: e.product_name,
+                            product_description: e.product_description,
+                            product_variant: e.product_variant,
+                            product_specification: e.product_specification,
+                            quantity: e.quantity,
+                            product_stock: e.product_stock,
+                            product_oldPrice: e.product_oldPrice,
+                            product_newPrice: e.product_newPrice,
+                            product_category: e.product_category,
+                            product_images: e.product_img,
+                            product_id: e.product_id
+                        })
+                    })
+                }
+                else{
+                    f.data.forEach(function(e){
+                            vm.product_brand = e.product_brand,
+                            vm.product_name = e.product_name,
+                            vm.product_description = e.product_description,
+                            vm.product_variant = e.product_variant,
+                            vm.product_specification = e.product_specification,
+                            vm.quantity = e.quantity,
+                            vm.product_stock = e.product_stock,
+                            vm.product_oldPrice = e.product_oldPrice,
+                            vm.product_newPrice = e.product_newPrice,
+                            vm.product_category = e.product_category,
+                            vm.product_images = e.product_img,
+                            vm.product_id = e.product_id
+                        })
+                }
+            })
+        },
+        fnUpdateSales:function(e)
+        {
+            e.preventDefault();
+            var form = e.currentTarget;
+            const data = new FormData(form);
+            data.append('method','fnUpdateSales');
+            data.append('userid',this.userid);
+            axios.post('model/adminModel.php',data)
+            .then(function(r){
+                console.log(r);
+                if(r.data == 1)
+                {
+                    Swal.fire(
+                        'Updated!',
+                        'User has been updated.',
+                        'success'
+                    )
+                }
+                else
+                {
+                    Swal.fire(
+                        'Error!',
+                        'There is an error upon updating.',
+                        'error'
+                    )
+                }
+                // setTimeout(function(){
+                //     location.reload();
+                // }, 2000);
             })
         },
         fnGetDisableUser:function(){
@@ -132,7 +244,6 @@ createApp({
             data.append('product_id',this.product_id);
             axios.post('model/adminModel.php',data)
             .then(function(r){
-                // console.log(r);
                 if(r.data == 1)
                 {
                     Swal.fire(
@@ -248,5 +359,7 @@ createApp({
     created:function(){
         this.fnGetItems(0);
         this.fnGetUser(0);
+        this.fnGetCustomer(0);
+        this.fnGetCustomerPurchased(0);
     }
 }).mount('#dashboard-app')

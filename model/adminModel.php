@@ -106,4 +106,54 @@ function fnUpdateUser(){
         echo json_encode(mysqli_error($con));
     }
 }
+function fnGetCustomer(){
+    global $con;
+    $userid = $_POST['userid'];
+
+    $query = $con->prepare('CALL sp_getCustomer(?)');
+    $query->bind_param('i',$userid);
+
+    $query->execute();
+    $result = $query->get_result();
+    $data = array();
+    while($row = $result->fetch_array()){
+        $data[] = $row;
+    }
+
+    echo json_encode($data);
+}
+function fnGetCustomerPurchased(){
+    global $con;
+    $userid = $_POST['id'];
+
+    $query = $con->prepare('CALL sp_getCustomerPurchased(?)');
+    $query->bind_param('i',$userid);
+
+    $query->execute();
+    $result = $query->get_result();
+    $data = array();
+    while($row = $result->fetch_array()){
+        $data[] = $row;
+    }
+
+    echo json_encode($data);
+}
+function fnUpdateSales(){
+    global $con;
+    $id = $_POST['userid'];
+    $pid = $_POST['product_id'];
+    $quantity = $_POST['quantity'];
+    $price = $_POST['tprice'];
+    $status = $_POST['status'];
+
+    $query = $con->prepare('CALL sp_updateSales(?,?,?,?,?)');
+    $query->bind_param('iiiis',$id,$pid,$quantity,$price,$status);
+
+    if($query->execute()){
+        echo 1;
+    }
+    else{
+        echo json_encode(mysqli_error($con));
+    }
+}
 ?>
