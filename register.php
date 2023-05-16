@@ -90,7 +90,7 @@
                     <div class="row-5">
                         <label for="email">Email</label>
                         <div class="col-2">
-                            <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                            <input type="email" name="email" id="email" placeholder="Enter your email" required v-model="email">
                         </div>
                     </div>
                 </div>
