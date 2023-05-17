@@ -76,7 +76,7 @@ createApp({
                 this.data = []
             }
             this.searchData = this.fetchProducts.filter(item => item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0 && e.target.value != "")
-            this.searchData.forEach(e => this.data.push({name: e.name.slice(0,13) + '...',id:e.id}))
+            this.searchData.forEach(e => this.data.push({name: e.name.slice(0,20) + '...',id:e.id}))
             if(e.which == 13){
                 this.searhInput = ''
             }
