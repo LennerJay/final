@@ -12,6 +12,7 @@
                     <ul v-if="searhInput.length > 0">
                         <li v-for="item in data"><a @click.prevent="fnViewDetail(item.id)">{{item.name}}</a></li>
                     </ul>
+                    <i  id="searchIcon"class="fa-solid fa-solid fa-magnifying-glass"></i>
                 </div>
             </div>
             <div v-if="isLoggedIn" class="right">

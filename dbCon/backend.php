@@ -7,7 +7,6 @@ require "database.php";
                 if($db->getStatus()){
                     $stmt = $db->getCon()->prepare('SELECT `userid`,`email`,`password`,`role`,`isactive` FROM `tbl_user` ');
                     $stmt->execute();
-                    // $stmt->execute(array($userid));
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $db->closeConnection();
                     return json_encode($result);
