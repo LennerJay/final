@@ -17,16 +17,28 @@
             </div>
             <div v-if="isLoggedIn" class="right">
                     <div class="cart" @click="showShoppingCart()" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
-                        <i class="fa-sharp fa-solid fa-cart-shopping"> 
-                        <span v-if="cartLength() > 0">{{cartLength()}}</span></i>
-                        <div v-if="showShoppingCart" >
-                            <p v-for="item in cart" @click="shoppingCart(item.id)" >{{item.name.slice(0,13) + '...'}}</p>
-                            <p>Buy All</p>
+                        <i class="fa-sharp fa-solid fa-cart-shopping" id="shoppingCart"> 
+                            <span v-if="cartLength() > 0" class="cartNum">{{cartLength()}}</span>
+                        </i>
+                        <!-- v-if="showShoppingCart"  -->
+                        <div v-if="showShoppingCart" class="shoppingList">
+                            <ul>
+                                <li v-for="item in cart" @click="shoppingCart(item.id)">{{item.name.slice(0,13) + '...'}}</li>
+                                    <li v-if="cartLength() > 0">
+                                    Buy All
+                                    </li>
+                            </ul>
                         </div>
                     </div>
-                    <i class="fa-solid fa-user"></i>
-                <!-- <img src="icons/profile-icon.png" alt="profile-icon"> -->
-                <button @click.prevent="logout()">logout</button>
+                    <div class='userIcon'>
+                    <i class="fa-solid fa-user" id="userIcon"  @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
+                    <ul v-if="showProfile">
+                        <li>
+                            Setting
+                        </li>
+                        <li>Log Out</li>
+                    </ul>
+                    </div>
             </div>
             <div v-else class="right">
                 <div class="signin">
