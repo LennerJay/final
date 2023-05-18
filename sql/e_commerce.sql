@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2023 at 04:10 AM
+-- Generation Time: May 18, 2023 at 05:37 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -113,13 +113,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomer` (IN `sp_id` INT)   
 	if sp_id = 0 THEN
     SELECT DISTINCT tu.userid,concat(tu.firstname, ' ', tu.lastname) as Costumer_Name, 
     concat(tu.street, ',', tu.city, ',', tu.state) as Address, tu.zipcode, tu.gender, tu.email
-    FROM tbl_purchase as tp left join tbl_user tu on tp.user_id = tu.userid;
+    FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid;
     end if;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerPurchased` (IN `sp_id` INT)   BEGIN
 	if sp_id = 0 THEN
-    SELECT * FROM tbl_purchase as tp left JOIN tbl_products as tpr on tp.product_id = tpr.product_id;
+    SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
     else 
     SELECT 	tpr.product_id,
     		tpr.product_brand,
@@ -132,8 +132,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerPurchased` (IN `sp_id
             tpr.product_category,
             tpr.product_img,
             tp.quantity,
-            tpr.product_stock
-    FROM tbl_purchase as tp left JOIN tbl_products as tpr on tp.product_id = tpr.product_id WHERE tp.user_id = sp_id;
+            tpr.product_stock,
+            tp.userid
+            
+    FROM tbl_purchase as tp left JOIN tbl_products as tpr on tp.product_id = tpr.product_id WHERE tp.userid = sp_id;
     end if;
 END$$
 
@@ -177,7 +179,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateSales` (IN `sp_id` INT, IN `sp_pid` INT, IN `sp_quantity` INT, IN `sp_price` INT, IN `sp_status` INT)   BEGIN
 	if sp_id = 0 THEN
-        SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.user_id = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
+        SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
     else
     	UPDATE tbl_purchase set
         		`status` = sp_status WHERE userid = sp_id AND product_id = sp_pid;
@@ -262,14 +264,14 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (20, 'tesla', 'computer', 'asdada', 'blue', 'sdad', '200.00', '11999.99', '0.00', 20, 0, 'computer.jpg', 'computer', 0, '2023-05-01 15:20:52'),
 (21, 'Propermac', 'Work PC Bundle ', 'Refurbished Pc with the upgraded drive to  Solid State Drive – up to 10 times quicker than with a standard HDD, the system will start in seconds. Cleaned and resprayed if needed.', '', 'Intel i7 Quad Core 3.4 GHz i7-4770,  Integrated with CPU Intel HD 4600, 960GB SSD, 16GB RAM DDR3,\r\n2×24″ Full HD Monitor (brand and model depending on the stock – pictures for illustration purposes only),\r\nDVD RW, WiFi, Power cable, keyboard and mouse,Genuine Windows digitally activated,Windows 10 Home 64 bit', '25981.57', '22999.85', '0.00', 10, 0, 'computer-set2.webp', 'computer', 0, '2023-05-01 15:32:56'),
 (22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', '', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '110870.21', '100870.21', '0.00', 20, 250, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
-(23, 'Collinx Computer Technology', 'System Unit Intel I7 10th Gen Processor', 'Collinx Computer Technology offers high-tech, brand-new, and complete computer products at an affordable price. It also specializes in the repair and customized cool computer builds.', '', ' Processor:  Intel i7 10700 (10th Gen)\r\nIntel Core i7 10700 Core i7 10700 - desktop processor produced by Intel for socket BGA-1200 that has 8 cores and 16 threads, Motherboard: Msi / Asus / Gigabyte/ Colorful H410M (LGA1200), LGA1150 socket for Intel® 4th Generation Core™i7/ Core™i5/Core™i3 Processors, Dual-Channel DDR3 1333 / 1600 support, SATA 3Gb/s, GPU: Intel HD Graphics 630, RAM: 8GB DDR4 RAM, SSD: 240GB 2.5\" SATA SSD (10x Faster than Hard Disk), Case: Darkflash dk150  ATX, Fans: 4  FANS,PSU: 650w True rated 80+ PSU, gtx1050ti galax df ', '45160.00', '41160.00', '0.00', 5, 106, 'systemUnit.jpg', 'computer', 0, '2023-05-01 16:24:36'),
+(23, 'Collinx Computer Technology', 'System Unit Intel I7 10th Gen Processor', 'Collinx Computer Technology offers high-tech, brand-new, and complete computer products at an affordable price. It also specializes in the repair and customized cool computer builds.', '', ' Processor:  Intel i7 10700 (10th Gen)\r\nIntel Core i7 10700 Core i7 10700 - desktop processor produced by Intel for socket BGA-1200 that has 8 cores and 16 threads, Motherboard: Msi / Asus / Gigabyte/ Colorful H410M (LGA1200), LGA1150 socket for Intel® 4th Generation Core™i7/ Core™i5/Core™i3 Processors, Dual-Channel DDR3 1333 / 1600 support, SATA 3Gb/s, GPU: Intel HD Graphics 630, RAM: 8GB DDR4 RAM, SSD: 240GB 2.5\" SATA SSD (10x Faster than Hard Disk), Case: Darkflash dk150  ATX, Fans: 4  FANS,PSU: 650w True rated 80+ PSU, gtx1050ti galax df ', '45160.00', '41160.00', '45160.00', 3, 108, 'systemUnit.jpg', 'computer', 0, '2023-05-01 16:24:36'),
 (24, '‎HP', 'HP ZBook Fury G9 16\" Mobile Workstation ', 'Tackle your most intense workflows with the ZBook Fury-now offering a desktop CPU in a laptop. With integrated or discrete graphics, a stunning display and collaboration features you can edit 8K videos, render in 3D or train machine learning models. Experience extreme pro performance-all on the move.\r\n\r\n', '', 'With 64 GB DDR5 SDRAM of memory, users can run many programs without losing execution, 16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity, 1 TB SSD for spacious storage with much faster data transfer speed than standard hard drives, NVIDIA RTX A5000 16 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '233078.31', '213078.31', '0.00', 25, 115, 'laptop1.webp', 'computer', 0, '2023-05-01 16:28:02'),
 (25, 'Asus', 'Asus Ga503qmbs94q ROG Zephyrus G15 15.6\" QHD Laptop - AMD Ryzen 9 -', 'Power meets portability in the versatile ROG Zephyrus G15, which puts premium gaming in an ultra-slim 1.9kg chassis. Performance is fast and smooth with a powerful CPU and advanced GPU. The WQHD gaming panel balances speed with rich detail to draw you deep into the action.', '', 'ROG Zephyrus G15 , Game & create & and beyond, Blaze through gaming.', '88696.06', '85696.06', '0.00', 5, 0, 'laptop2.webp', 'computer', 0, '2023-05-01 16:31:42'),
 (26, 'MSI', 'MSI All-in-One Computer PRO', 'MSI All-in-One Computer PRO 22XT 10M-459US Intel Core i3 10th Gen 10100 (3.60GHz) 8GB DDR4 256 GB M.2 NVMe SSD 21.5\" Touchscreen Windows 11 Home 64-bit', '', 'Intel Core i3 10th Gen 10100 (3.60GHz), 8GB DDR4 256 GB M.2 NVMe SSD, 21.5\" Touchscreen 1920 x 1080, Windows 11 Home 64-bit, Intel UHD Graphics 630', '52986.87', '50.00', '0.00', 2, 0, 'computer.jpg', 'computer', 0, '2023-05-01 16:36:13'),
 (27, 'Intel Core', 'Intel Core i3 i3-4160 Dual-Core (2 Core) 3.60 GHz Processor', 'The Intel Core i3 processor is the perfect entry point for a fast, responsive PC experience. Do not let too many open applications slow you and your PC down. Get smart performance now.\r\n\r\n', '', 'Intel Core i3-4160 CPU/Processor 3,60GHz Dual Core, your 1st choice for 2nd generation hardware', '699.45', '499.45', '0.00', 100, 0, 'corei3.webp', 'computer', 0, '2023-05-01 16:39:42'),
 (28, 'Tecware', 'Tecware Pulse Elite Wireless Gaming Mouse', 'Tecware Pulse Elite Wireless Gaming Mouse', '', '2.4GHz Wireless with Dongle, 5 Fully Programmable Buttons, PixArt 3370 Sensor, Up to 19000DPI Resolution, 400 / 800 / 1600 / 3200 / 6400 / 19000 DPI, 2x Huano Switch,2x Kailh Switch,Macro Support via Software, 400mAh, Up to 50 hours Battery Life,1.6m Paracord USB-C to USB2.0 Cable Included, 125 x 63.5 x 40mm / 70g ', '2500.00', '2195.35', '0.00', 300, 0, 'mouse.jpg', 'computer', 0, '2023-05-01 17:01:20'),
 (29, 'Logitech', 'Logitech G102 Gaming Mouse Black', 'Logitech G102 Gaming Mouse Black', '', 'LIGHTSYNC RGB lighting, 6 programmable buttons, Resolution: 200 – 8,000 DPI, Height: 116.6 mm, Width: 62.15 mm, Depth: 38.2 mm, Weight: 85 g, (mouse only), Cable Length: 2.1 m', '1495.00', '945.00', '0.00', 50, 0, 'mouse1.webp', 'computer', 0, '2023-05-01 17:04:26'),
-(30, 'Samsung', 'Samsung Galaxy S22 ', 'Samsung Galaxy S22 cellphone sale 12GB + 512GB original phone mobile phone 5G smartphone COD', '', 'Model No.Galaxy S22 Ultra+, Platform MTK6889, Standby Dual sim dual standby(Dual SIM+Dedicated micro SD Card Slot), Screen 6.8 HD+ Full Display 1440*3200, Speaker 1511 Box Speaker, FrequencyGSM85090018001900MHz,3GWCDMA85019002100MHz，4G LTE 5G\r\n,Vibration Support, Memory 12/16GB RAM + /256GB/512GB ROM\r\n,Multi Media MP3 MP4 3GPFM RadioBluetooth, Camera 24MP+58MP, 11.Battery 6800 mAh Lithium-ion battery', '3399.00', '2999.00', '0.00', 30, 0, 'cp.jpg', 'mobile', 0, '2023-05-01 17:10:53'),
+(30, 'Samsung', 'Samsung Galaxy S22 ', 'Samsung Galaxy S22 cellphone sale 12GB + 512GB original phone mobile phone 5G smartphone COD', '', 'Model No.Galaxy S22 Ultra+, Platform MTK6889, Standby Dual sim dual standby(Dual SIM+Dedicated micro SD Card Slot), Screen 6.8 HD+ Full Display 1440*3200, Speaker 1511 Box Speaker, FrequencyGSM85090018001900MHz,3GWCDMA85019002100MHz，4G LTE 5G\r\n,Vibration Support, Memory 12/16GB RAM + /256GB/512GB ROM\r\n,Multi Media MP3 MP4 3GPFM RadioBluetooth, Camera 24MP+58MP, 11.Battery 6800 mAh Lithium-ion battery', '3399.00', '2999.00', '3399.00', 29, 1, 'cp.jpg', 'mobile', 0, '2023-05-01 17:10:53'),
 (31, 'Asus', 'Asus ROG Phone 7 Ultimate', 'Asus ROG Phone 7 Ultimate mobile was launched on 13th April 2023. The phone comes with a 165 Hz refresh rate 6.78-inch touchscreen display offering a resolution of 2448x1080 pixels (FHD+) at a pixel density of 395 pixels per inch (ppi).', '', 'Display: 6.78-inch (2448x1080), Processor: Snapdragon 8 Gen 2, Front Camera: 32MP, Rear Camera :50MP + 13MP + 8MP, RAM: 16GB, Storage: 512GB, Battery Capacity: 6000mAh, \r\nOS: Android 13', '63450.00', '60999.00', '0.00', 50, 0, 'asus.avif', 'mobile', 0, '2023-05-01 17:15:30'),
 (32, 'Apple ', 'Apple iPhone 14 Pro Max ', 'The iPhone 14 Pro Max redefines what a smartphone can be. The gorgeous 6.7 inches 460ppi Super Retina always-on display is fitted with the new Dynamic Island Notch.', '', 'Capture incredible detail with a 48MP Main camera, Experience iPhone in a whole new way with Dynamic Island and Always-On display, 6.7 inches Super Retina XDR display: featuring Always-On and ProMotion,Dynamic Island: a magical new way to interact with iPhone,48MP Main camera: for up to 4x greater resolution,Cinematic mode: now in 4K Dolby Vision up to 30 fps,\r\nAction mode: for smooth, steady, hand-held videos, A vital safety feature: Crash Detection, System: iOS 16,Processor: A16 Bionic chip & 6-core CPU with 2 performance and 4 efficiency cores, 5-core GPU, 16-core Neural Engine\r\nMemory: Internal: 128GB / 256GB / 512GB / 1TB (See Version Above)', '115890.00', '110890.00', '0.00', 50, 0, 'iphone14.jpg', 'mobile', 0, '2023-05-01 17:26:31'),
 (33, 'LG ', 'LG G6 - Ice Platinum', 'FullVision display with narrow bezel in premium metal and glass body elevates LG G6 into the next generation of smartphone design.', '', 'Full Vision Display, Dual Wide Angle Camera, Square Camera ,IP68 Water & Dust Resistant, Qualcomm Snapdragon,Display: FullVision 5.7” Quad HD+ (1440x2880), 18:9 ratio, screen to body ratio: 80.7%, HDR10 & Dolby Vision™, Size: 148.9 x 71.9 x 7.9 mm, Memory	4GB RAM / 64GB eMMC / micro SD slot (up to 2TB), Battery: 3,300mAh (embedded) / Qualcomm® Quick Charge 3.0', '13036.00', '11036.00', '0.00', 50, 0, 'lg.avif', 'mobile', 0, '2023-05-01 17:37:43'),
@@ -305,7 +307,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 
 CREATE TABLE `tbl_purchase` (
   `purchase_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `status` int(11) NOT NULL,
@@ -316,9 +318,9 @@ CREATE TABLE `tbl_purchase` (
 -- Dumping data for table `tbl_purchase`
 --
 
-INSERT INTO `tbl_purchase` (`purchase_id`, `user_id`, `product_id`, `quantity`, `status`, `date_purchased`) VALUES
-(7, 9, 30, 1, 0, '2023-05-15 06:32:25'),
-(8, 9, 23, 2, 0, '2023-05-15 06:43:14');
+INSERT INTO `tbl_purchase` (`purchase_id`, `userid`, `product_id`, `quantity`, `status`, `date_purchased`) VALUES
+(7, 9, 30, 1, 2, '2023-05-15 06:32:25'),
+(8, 9, 23, 2, 2, '2023-05-15 06:43:14');
 
 -- --------------------------------------------------------
 
@@ -358,7 +360,8 @@ INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`,
 (11, 'saranghae', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 23, '0', 'jenc@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:58:38', 1, 1, 1, '0000-00-00 00:00:00'),
 (12, 'ran', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 25, 'Male', 'ranel.soliano1@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 18:47:40', 1, 1, 1, '0000-00-00 00:00:00'),
 (13, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 1234, 28, 'Female', 'jenc5@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:27:19', 1, 1, 1, '0000-00-00 00:00:00'),
-(14, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 0, 28, 'Female', 'jenc51@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:28:24', 1, 1, 1, '0000-00-00 00:00:00');
+(14, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 0, 28, 'Female', 'jenc51@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:28:24', 1, 1, 1, '0000-00-00 00:00:00'),
+(16, 'soulyaknow', 'lenar', 'onailos', 'atabay', 'lapu lapu', 'philippines', 6016, 25, 'Female', 'lenar123@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '331106143_1364428367646657_658814879832039531_n.jpg', '2023-05-17 20:27:28', 1, 1, 1, '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -415,7 +418,7 @@ ALTER TABLE `tbl_purchase`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
