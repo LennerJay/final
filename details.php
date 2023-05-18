@@ -5,43 +5,44 @@
 	$app = "<script src='js/details.js'></script>";
 ?>
 <div id="details-app">
-<div class="container">
-	<header class="main-header">
-		<div class="left">
-			<h1><a @click="fnHome()">TacticalMinds</a></h1>
-			<div  class="searchBar">
-				<input type="search" v-model="searhInput" name="search" placeholder="search..."  @keyup="searchInput($event)">
-				<ul v-if="searhInput.length > 0">
-					<li v-for="item in data"><a @click.prevent="fnViewDetail(item.id)">{{item.name}}</a></li>
-				</ul>
+<header>
+        <div class="main-container">
+            <div class="left">
+				<h1><a @click="fnHome()">TacticalMinds</a></h1>
+                <div  class="searchBar">
+                    <input type="search" v-model="searhInput" name="search" placeholder="search..."  @keyup="searchInput($event)" @keydown.down="selectNextAutocomplete" @keydown.up="selectPreviousAutocomplete" >
+                    <ul v-if="searhInput.length > 0">
+                        <li v-for="(item,index) in data" :key ="index" :class="{'selected': index === selectedIndex }" @click.prevent="fnViewDetail(item.id)"><a >{{item.name}}</a></li>
+                    </ul>
+                    <i  id="searchIcon"class="fa-solid fa-solid fa-magnifying-glass"></i>
+                </div>
             </div>
-		</div>
-		<div v-if="isLoggedIn" class="right">
-			<div class="cart" @click="showShoppingCart()" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
-				<i class="fa-sharp fa-solid fa-cart-shopping"> 
-				<span v-if="cartLength() > 0">{{cartLength()}}</span></i>
-				<div v-if="showShoppingCart" >
-					<p v-for="item in cart" @click="shoppingCart(item.id)" >{{item.name.slice(0,13) + '...'}}</p>
-					<p>Buy All</p>
+            <div v-if="isLoggedIn" class="right">
+                    <div class="cart" @click="showShoppingCart()" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
+                        <i class="fa-sharp fa-solid fa-cart-shopping"> 
+                        <span v-if="cartLength() > 0">{{cartLength()}}</span></i>
+                        <div v-if="showShoppingCart" >
+                            <p v-for="item in cart" @click="shoppingCart(item.id)" >{{item.name.slice(0,13) + '...'}}</p>
+                            <p>Buy All</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-user"></i>
+                <!-- <img src="icons/profile-icon.png" alt="profile-icon"> -->
+                <button @click.prevent="logout()">logout</button>
+            </div>
+            <div v-else class="right">
+                <div class="signin">
+                    <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
+                    <a href="login.php">Sign in</a>
 				</div>
-			</div>
-			<i class="fa-solid fa-user"></i>
-		<!-- <img src="icons/profile-icon.png" alt="profile-icon"> -->
-			<button @click.prevent="logout()">logout</button>
-        </div>
-		<div v-else class="right">
-			<div class="signin">
-				<i class="fa-sharp fa-solid fa-right-to-bracket"></i>
-				<a href="login.php">Sign in</a>
-			</div>
-			<div class="signup">
-				<i class="fa-solid fa-user-plus"></i>
-				<a href="register.php">Sign up</a>
-			</div>
+                <div class="signup">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <a href="register.php">Sign up</a>
+                </div>
 
-		</div>
-	</header>
-</div><!-- End of class container -->
+            </div>
+        </div>
+    </header>
 
 <div class="navigations">
 	<div class="links">

@@ -8,9 +8,9 @@
             <div class="left">
                 <h1><a @click="fnHome()">TacticalMinds</a></h1>
                 <div  class="searchBar">
-                    <input type="search" v-model="searhInput" name="search" placeholder="search..."  @keyup="searchInput($event)">
+                    <input type="search" v-model="searhInput" name="search" placeholder="search..."  @keyup="searchInput($event)" @keydown.down="selectNextAutocomplete" @keydown.up="selectPreviousAutocomplete" >
                     <ul v-if="searhInput.length > 0">
-                        <li v-for="item in data"><a @click.prevent="fnViewDetail(item.id)">{{item.name}}</a></li>
+                        <li v-for="(item,index) in data" :key ="index" :class="{'selected': index === selectedIndex }" @click.prevent="fnViewDetail(item.id)"><a >{{item.name}}</a></li>
                     </ul>
                     <i  id="searchIcon"class="fa-solid fa-solid fa-magnifying-glass"></i>
                 </div>
@@ -60,7 +60,7 @@
             <a href="#">Shop Now</a>
         </div>
         <div class="best-seller-section">
-            <div class="product-container" v-for="product in bestSellerProducts"> 
+            <div class="product-container" v-for="product in Object.fromEntries( Object.entries(bestSellerProducts).slice(0, 4) )"> 
                 <div class="best-seller-product">
                     <div class="best-seller-tag">
                         <h3>Best Seller</h3>
