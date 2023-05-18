@@ -73,8 +73,11 @@ createApp({
             // this.$refs.product.$forceUpdate();
         },
         searchInput:function(e){
+            if(e.target.value.length <= 0){
+                this.selectedIndex = -1;
+            }
             if(this.searchData.length > 0){ 
-                this.data = []
+                this.data = [];
             }
             this.searchData = this.fetchProducts.filter(item => item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0 && e.target.value != "")
             this.searchData.forEach(e => this.data.push({name: e.name.slice(0,20) + '...',id:e.id}))

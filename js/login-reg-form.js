@@ -16,7 +16,7 @@ createApp({
             data.append('method','fnLogIn')
             axios.post('dbCon/router.php',data)
             .then(respond=>{
-                console.log(respond.data)
+                // console.log(respond.data)
                 if(respond.data.ret == 0){
                     swal.fire(
                         'Error!',
