@@ -142,15 +142,8 @@ require "database.php";
                     $stmt = $db->getCon()->prepare('call sp_checkUser(?,?)');
                     $stmt->execute(array($email,$tmp));
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if($result['ret'] === 1){
-                        $_SESSION['email'] = $email;
-                        $_SESSION['password'] = $tmp;
-                        $_SESSION['user_id'] = $result['userid'];
-                        $_SESSION['role'] = $result['role'];
-                        $db->closeConnection();
-                    }
-                    return json_encode($result);
-                  
+                    $db->closeConnection();
+                    return $result;
                 }else{
                     return "Database Connection Error";
                 }

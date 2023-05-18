@@ -75,7 +75,14 @@
     }
     function fnLogIn(){
         $backend = new Backend();
-        echo $backend->login($_POST['email'],$_POST['password']);
+        $result = $backend->login($_POST['email'],$_POST['password']);
+        if($result['ret'] == 1){
+            $_SESSION['email'] = $result['email'];
+            $_SESSION['password'] = $result['password'];
+            $_SESSION['user_id'] = $result['userid'];
+            $_SESSION['role'] = $result['role'];
+        }
+        echo json_encode( $result);
     }
 
     function register(){
