@@ -47,7 +47,7 @@ require "database.php";
             try{
                 $db = new Database;
                 if($db->getStatus()){
-                    $stmt = $db->getCon()->prepare("SELECT * FROM `tbl_purchase` WHERE user_id = ?");
+                    $stmt = $db->getCon()->prepare("SELECT * FROM `tbl_purchase` WHERE userid = ?");
                     $stmt->execute(array($user_id));
                     $result = $stmt->fetchAll();
                     $db->closeConnection();

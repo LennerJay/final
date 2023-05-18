@@ -125,7 +125,7 @@ function fnGetCustomer(){
 function fnGetCustomerPurchased(){
     global $con;
     $userid = $_POST['id'];
-
+    
     $query = $con->prepare('CALL sp_getCustomerPurchased(?)');
     $query->bind_param('i',$userid);
 
@@ -140,10 +140,11 @@ function fnGetCustomerPurchased(){
 }
 function fnUpdateSales(){
     global $con;
+    // echo $_POST['userid'].$_POST['pdi'].$_POST['pQuantity'].$_POST['pOldPrice'].$_POST['status'];
     $id = $_POST['userid'];
-    $pid = $_POST['product_id'];
-    $quantity = $_POST['quantity'];
-    $price = $_POST['tprice'];
+    $pid = $_POST['pdi'];
+    $quantity = $_POST['pQuantity'];
+    $price = $_POST['pOldPrice'];
     $status = $_POST['status'];
 
     $query = $con->prepare('CALL sp_updateSales(?,?,?,?,?)');

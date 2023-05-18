@@ -165,7 +165,8 @@ createApp({
                             product_newPrice: e.product_newPrice,
                             product_category: e.product_category,
                             product_images: e.product_img,
-                            product_id: e.product_id
+                            product_id: e.product_id,
+                            userid: e.userid
                         })
                     })
                 }
@@ -189,11 +190,15 @@ createApp({
         },
         fnUpdateSales:function(e)
         {
-            e.preventDefault();
+            this.purchasedItems.forEach(pItems => {
+                e.preventDefault();
             var form = e.currentTarget;
             const data = new FormData(form);
             data.append('method','fnUpdateSales');
-            data.append('userid',this.userid);
+            data.append('userid',pItems.userid);
+            data.append('pdi',pItems.product_id);
+            data.append('pQuantity',pItems.quantity);
+            data.append('pOldPrice',pItems.product_oldPrice);
             axios.post('model/adminModel.php',data)
             .then(function(r){
                 console.log(r);
@@ -217,6 +222,7 @@ createApp({
                 //     location.reload();
                 // }, 2000);
             })
+            });
         },
         fnGetDisableUser:function(){
             const vm = this;
