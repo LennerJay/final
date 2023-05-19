@@ -43,7 +43,44 @@ header .main-container .right {
 	display: flex;
 	justify-content: center;
 	align-content: center;
+	position: relative;
 }
+header .cart{
+	position: relative;
+}
+header .shoppingList{
+	position: relative;
+}
+header .shoppingList ul{
+	list-style: none;
+	position: absolute;
+	z-index: 3;
+	right: 5px;
+    padding: 3px;
+    width: 250px;
+    padding-top: 5px;
+    background: rgba(245,245,245,0.8);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+header .cartNum{
+	position: absolute;
+	top: 0;
+	right: 7px;
+	background-color: red;
+	font-size: 12px;
+	font-weight: bold;
+	border-radius: 10px;
+	padding: 4px;
+}
+header #shoppingCart,header #userIcon{
+	font-size: 1.5vw;
+	color: #e6e6e6;
+	background-color: #0079C1;
+	padding: 6px;
+	border-radius: 5px;
+}
+/* header .shoppingList{} */
 header .main-container .right .signin {
 	display: flex;
 	justify-content: center;
@@ -66,10 +103,8 @@ header .main-container .right img{
 	border-radius: 15px;
 	object-fit: cover;
 }
-header .main-container .right i {
-	margin: 0 5px;
-	font-size: 1.2vw;
-	color: #0079C1;
+#shoppingCart{
+	font-size: 1.5vw;
 }
 header .main-container .right a {
 	text-decoration: none;
@@ -119,7 +154,7 @@ header .main-container .left input[type="search"]:active{
 	list-style: none;
 	padding: 7px;
 }
-.searchBar ul li:hover,.selected{
+.searchBar ul li:hover,.selected, .shoppingList ul li:hover{
 	cursor: pointer;
 	background: rgba(220, 220, 220, 0.9);
 	font-weight: 600;
