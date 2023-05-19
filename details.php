@@ -5,30 +5,42 @@
 	$app = "<script src='js/details.js'></script>";
 ?>
 <div id="details-app">
-<header>
+	<header>
         <div class="main-container">
             <div class="left">
-				<h1><a @click="fnHome()">TacticalMinds</a></h1>
+                <h1><a @click="fnHome()">TacticalMinds</a></h1>
                 <div  class="searchBar">
                     <input type="search" v-model="searhInput" name="search" placeholder="search..."  @keyup="searchInput($event)" @keydown.down="selectNextAutocomplete" @keydown.up="selectPreviousAutocomplete" >
                     <ul v-if="searhInput.length > 0">
-                        <li v-for="(item,index) in data" :key ="index" :class="{'selected': index === selectedIndex }" @click.prevent="fnViewDetail(item.id)"><a >{{item.name}}</a></li>
+                        <li v-for="(item,index) in data" :key ="index" :class="{'selected': index === selectedIndex }" @click.prevent="fnViewDetail(item.id)"><a>{{item.name}}</a></li>
                     </ul>
                     <i  id="searchIcon"class="fa-solid fa-solid fa-magnifying-glass"></i>
                 </div>
             </div>
             <div v-if="isLoggedIn" class="right">
-                    <div class="cart" @click="showShoppingCart()" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
-                        <i class="fa-sharp fa-solid fa-cart-shopping"> 
-                        <span v-if="cartLength() > 0">{{cartLength()}}</span></i>
-                        <div v-if="showShoppingCart" >
-                            <p v-for="item in cart" @click="shoppingCart(item.id)" >{{item.name.slice(0,13) + '...'}}</p>
-                            <p>Buy All</p>
+                    <div class="cart" @click="" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
+                        <i class="fa-sharp fa-solid fa-cart-shopping" id="shoppingCart"> 
+                            <span v-if="cartLength() > 0" class="cartNum">{{cartLength()}}</span>
+                        </i>
+                        <!-- v-if="showShoppingCart"  -->
+                        <div v-if="showShoppingCart" class="shoppingList">
+                            <ul>
+                                <li v-for="item in cart" @click="shoppingCart(item.id)">{{item.name.slice(0,13) + '...'}}</li>
+                                    <li v-if="cartLength() > 0">
+                                    Buy All
+                                    </li>
+                            </ul>
                         </div>
                     </div>
-                    <i class="fa-solid fa-user"></i>
-                <!-- <img src="icons/profile-icon.png" alt="profile-icon"> -->
-                <button @click.prevent="logout()">logout</button>
+                    <div class='userIcon'>
+                    <i class="fa-solid fa-user" id="userIcon" @click ="" @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
+                    <ul v-if="showProfile">
+                        <li>
+                            Settings
+                        </li>
+                        <li>Log Out</li>
+                    </ul>
+                    </div>
             </div>
             <div v-else class="right">
                 <div class="signin">
@@ -46,20 +58,8 @@
 
 <div class="navigations">
 	<div class="links">
-		<i class="home fa-solid fa-shop"></i>
-		<a href="index.php">Home</a>
-		<i class="computer fa-solid fa-computer"></i>
-		<a href="computer.php">Computer</a>
-		<i class="mobile fa-solid fa-mobile"></i>
-		<a href="mobile.php">Mobile</a>
-		<i class="television fa-solid fa-tv"></i>
-		<a href="television.php">Television</a>
-		<i class="hardware fa-solid fa-memory"></i>
-		<a href="hardware.php">Hardware</a>
-		<i class="software fa-brands fa-uncharted"></i>
-		<a href="software.php">Software</a>
-		<i class="electronics fa-sharp fa-solid fa-microchip"></i>
-		<a href="electronics.php">Electronics</a>
+		<i class="fa-solid fa-arrow-left"></i>
+		<a href="index.php">Back</a>
 	</div>
 </div><!-- End of class navigations -->
 
