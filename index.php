@@ -10,13 +10,13 @@
                 <div  class="searchBar">
                     <input type="search" v-model="searhInput" name="search" placeholder="search..."  @keyup="searchInput($event)" @keydown.down="selectNextAutocomplete" @keydown.up="selectPreviousAutocomplete" >
                     <ul v-if="searhInput.length > 0">
-                        <li v-for="(item,index) in data" :key ="index" :class="{'selected': index === selectedIndex }" @click.prevent="fnViewDetail(item.id)"><a >{{item.name}}</a></li>
+                        <li v-for="(item,index) in data" :key ="index" :class="{'selected': index === selectedIndex }" @click.prevent="fnViewDetail(item.id)"><a>{{item.name}}</a></li>
                     </ul>
                     <i  id="searchIcon"class="fa-solid fa-solid fa-magnifying-glass"></i>
                 </div>
             </div>
             <div v-if="isLoggedIn" class="right">
-                    <div class="cart" @click="showShoppingCart()" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
+                    <div class="cart" @click="" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
                         <i class="fa-sharp fa-solid fa-cart-shopping" id="shoppingCart"> 
                             <span v-if="cartLength() > 0" class="cartNum">{{cartLength()}}</span>
                         </i>
@@ -31,10 +31,10 @@
                         </div>
                     </div>
                     <div class='userIcon'>
-                    <i class="fa-solid fa-user" id="userIcon"  @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
+                    <i class="fa-solid fa-user" id="userIcon" @click ="" @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
                     <ul v-if="showProfile">
                         <li>
-                            Setting
+                            Settings
                         </li>
                         <li>Log Out</li>
                     </ul>

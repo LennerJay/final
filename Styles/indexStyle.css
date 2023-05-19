@@ -51,6 +51,11 @@ header .cart{
 header .shoppingList{
 	position: relative;
 }
+header .shoppingList ul,header .right ul{
+    background: rgba(245,245,245,0.8);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 header .shoppingList ul{
 	list-style: none;
 	position: absolute;
@@ -59,9 +64,7 @@ header .shoppingList ul{
     padding: 3px;
     width: 250px;
     padding-top: 5px;
-    background: rgba(245,245,245,0.8);
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+
 }
 header .cartNum{
 	position: absolute;
@@ -80,7 +83,21 @@ header #shoppingCart,header #userIcon{
 	padding: 6px;
 	border-radius: 5px;
 }
-/* header .shoppingList{} */
+header .right .userIcon{
+	position: relative;
+}
+header .right .userIcon ul{
+	position: absolute;
+	top: 35px;
+	left: -20px;
+	list-style: none;
+	margin-top: 5px;
+	z-index: 3;
+	/* width: 100px; */
+}
+header .right .userIcon ul li{
+	padding: 0 10px 5px ;
+}
 header .main-container .right .signin {
 	display: flex;
 	justify-content: center;
@@ -154,7 +171,7 @@ header .main-container .left input[type="search"]:active{
 	list-style: none;
 	padding: 7px;
 }
-.searchBar ul li:hover,.selected, .shoppingList ul li:hover{
+.searchBar ul li:hover,.selected, .shoppingList ul li:hover,header .right .userIcon ul li:hover{
 	cursor: pointer;
 	background: rgba(220, 220, 220, 0.9);
 	font-weight: 600;

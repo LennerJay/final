@@ -10,107 +10,183 @@ body {
 	font-weight: 400;
 }
 
-.container {
-	background-color: #e6e6e6;
-	padding: 20px;
-	width: 100%;
-	margin: auto;
+header{
+    background-color: #e6e6e6;
+    padding: 20px;
+    width: 100%;
 }
-
-.container .main-header {
+header .main-container{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 100%;
+    margin: auto;
+}
+header .main-container .left{
 	display: flex;
-	justify-content: space-between;
-	align-content: center;
-	width: 100%;
-	margin: auto;
+	align-items: center;
 }
-
-.container .main-header .left h1 {
+header .main-container .left h1 {
 	display: inline-block;
 	font-size: 1.1vw;
 	font-family: Verdana;
 	font-weight: 700;
+    margin-right: 5px;
+}
+header .main-container .left h1 a{
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
 }
 
-.container .main-header .left input[type="search"] {
-	padding: 6px;
-	border: 1px solid #cccccc;
-	width: 200px;
+header .main-container .right {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	position: relative;
 }
-
-.container .main-header .left input[type="search"]:hover {
-	border: 1px solid #FFB916;
-	transition: all 0.3s ease 0s;
+header .cart{
+	position: relative;
 }
+header .shoppingList{
+	position: relative;
+}
+header .shoppingList ul,header .right ul{
+    background: rgba(245,245,245,0.8);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+header .shoppingList ul{
+	list-style: none;
+	position: absolute;
+	z-index: 3;
+	right: 5px;
+    padding: 3px;
+    width: 250px;
+    padding-top: 5px;
 
-.container .main-header .left input[type="search"]::placeholder {
+}
+header .cartNum{
+	position: absolute;
+	top: 0;
+	right: 7px;
+	background-color: red;
 	font-size: 12px;
-	font-style: Verdana;
+	font-weight: bold;
+	border-radius: 10px;
+	padding: 4px;
 }
-
-.container .main-header .right {
-	display: flex;
-	justify-content: center;
-	align-content: center;
+header #shoppingCart,header #userIcon{
+	font-size: 1.5vw;
+	color: #e6e6e6;
+	background-color: #0079C1;
+	padding: 6px;
+	border-radius: 5px;
 }
-
-.container .main-header .right .signin {
+header .right .userIcon{
+	position: relative;
+}
+header .right .userIcon ul{
+	position: absolute;
+	top: 35px;
+	left: -20px;
+	list-style: none;
+	margin-top: 5px;
+	z-index: 3;
+	/* width: 100px; */
+}
+header .right .userIcon ul li{
+	padding: 0 10px 5px ;
+}
+header .main-container .right .signin {
 	display: flex;
 	justify-content: center;
 	align-content: center;
 	margin: 8px 10px 0 0;
 }
-
-.container .main-header .right .signup {
+header .main-container .right .signup {
 	display: flex;
 	justify-content: center;
 	align-content: center;
 	margin: 8px 10px 0 0;
 }
-
-.container .main-header .right i {
-	margin: 0 5px;
-	font-size: 1.2vw;
-	color: #0079C1;
+.cart-shopping{
+	display: flex;
+	justify-content: center;
 }
-
-.container .main-header .right a {
+header .main-container .right img{
+	width: 25px;
+	height: 25px;
+	border-radius: 15px;
+	object-fit: cover;
+}
+#shoppingCart{
+	font-size: 1.5vw;
+}
+header .main-container .right a {
 	text-decoration: none;
 	color: #000000;
 	font-size: 0.9vw;
 	font-family: Verdana;
 }
-
-.container .main-header .right a:hover {
+header .main-container .right a:hover {
 	cursor: pointer;
 	text-decoration: underline;
 	transition: all 0.3s ease 0s;
 }
-
-.container .main-header .right .profile {
-	margin: 5px 10px 0 0;
-}
-
-.container .main-header .right .logout {
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	margin-right: 10px;
-}
-
-.container .main-header .right .logout button {
+header .main-container .left input[type="search"] {
+	padding: 6px 20px 6px 10px;
 	border: none;
-	padding: 8px 15px;
-	font-size: 0.9vw;
-	background-color: #FFB916;
-	color: #ffffff;
+	width: 250px;
 }
-
-.container .main-header .right .logout button:hover {
+.left input[type="search"] ,header .main-container .left input[type="search"]::placeholder {
+	font-size: 12px;
+	font-style: Verdana;
+}
+header .main-container .left input[type="search"]:focus,
+header .main-container .left input[type="search"]:active{
+	outline: none;
+	border-color: transparent;
+	border-bottom: 1px solid #1c87c9;
+}
+.searchBar {
+	position: relative;
+	margin-left: 10px;
+}
+#searchIcon{
+	position: absolute;
+	right: 5px;
+	top: 6px;
+}
+.searchBar ul{
+	position: absolute;
+	z-index: 3;
+	width: 100%;
+	padding-top: 5px;
+	background: rgba(245,245,245,0.8);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.searchBar ul li{
+	list-style: none;
+	padding: 7px;
+}
+.searchBar ul li:hover,.selected, .shoppingList ul li:hover,header .right .userIcon ul li:hover{
 	cursor: pointer;
-	background-color: #FF0021;
-	color: #ffffff;
-	transition: all 0.3s ease 0s;
+	background: rgba(220, 220, 220, 0.9);
+	font-weight: 600;
+}
+.searchBar ul li a{
+	color: black;
+
+	font-size: 15px;
+}
+.searchBar input[type="search"]{
+	border-color: transparent;
+	border-bottom: 2px solid #1c87c9;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance:none;
 }
 
 .navigations {
@@ -369,8 +445,7 @@ body {
 
 .product-details .row-1 {
 	display: flex;
-	justify-content: space-around;
-	margin-top: 40px;
+	margin-top: 100px;
 }
 
 .product-details .row-1 ul {

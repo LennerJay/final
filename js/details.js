@@ -14,6 +14,7 @@ createApp({
             purchasedProduct:[],
             showShoppingCart:false,
             selectedIndex: -1,
+            showProfile:false,
         }
     },
     methods:{
