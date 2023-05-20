@@ -18,29 +18,27 @@
                 </div>
             </div>
             <div v-if="isLoggedIn" class="right">
-                    <div class="cart" @click="" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
-                        <i class="fa-sharp fa-solid fa-cart-shopping" id="shoppingCart"> 
-                            <span v-if="cartLength() > 0" class="cartNum">{{cartLength()}}</span>
-                        </i>
-                        <!-- v-if="showShoppingCart"  -->
-                        <div v-if="showShoppingCart" class="shoppingList">
-                            <ul>
-                                <li v-for="item in cart" @click="shoppingCart(item.id)">{{item.name.slice(0,13) + '...'}}</li>
-                                    <li v-if="cartLength() > 0">
-                                    Buy All
-                                    </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class='userIcon'>
-                    <i class="fa-solid fa-user" id="userIcon" @click ="" @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
-                    <ul v-if="showProfile">
-                        <li>
-                            Settings
-                        </li>
-                        <li>Log Out</li>
-                    </ul>
-                    </div>
+				<div class="cart" @click="" @mouseover="showShoppingCart = true" @mouseleave="showShoppingCart = false">
+					<i class="fa-sharp fa-solid fa-cart-shopping" id="shoppingCart"> 
+						<span v-if="cartLength() > 0" class="cartNum">{{cartLength()}}</span>
+					</i>
+					<!-- v-if="showShoppingCart"  -->
+					<div v-if="showShoppingCart" class="shoppingList">
+						<ul>
+							<li v-for="item in cart" @click="shoppingCart(item.id)">{{item.name.slice(0,13) + '...'}}</li>
+								<li v-if="cartLength() > 0">
+								Buy All
+								</li>
+						</ul>
+					</div>
+				</div>
+				<div class="dropdown">
+					<i class="fa-solid fa-user dropdown " id="userIcon" @click ="" @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
+					<div class="dropdown-content">
+						<a href="userprofile.php">Settings</a>
+						<a @click="logout()">Log Out</a>
+					</div>
+				</div>
             </div>
             <div v-else class="right">
                 <div class="signin">
