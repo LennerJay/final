@@ -122,6 +122,7 @@ createApp({
                             zipcode: e.zipcode,
                             gender: e.gender,
                             email: e.email,
+                            status: e.status,
                             userid: e.userid
                         })
                     })
@@ -133,6 +134,7 @@ createApp({
                             vm.zipcode = e.zipcode,
                             vm.gender = e.gender,
                             vm.email = e.email,
+                            vm.status = e.status,
                             vm.userid = e.userid
                         })
                 }
@@ -143,55 +145,40 @@ createApp({
                 }, 100);
             })
         },
-        fnGetCustomerPurchased:function(id){
+        fnGetCustomerPurchased:function(){
+            this.customers.forEach(customer => {
             const vm = this;
             const data = new FormData();
             data.append("method","fnGetCustomerPurchased");
-            data.append("id",id);
+            data.append("userid",customer.userid);
             axios.post('model/adminModel.php',data)
             .then(function(f){
-                if(id == 0){
-                    vm.purchasedItems = [];
-                    f.data.forEach(function(e){
-                        vm.purchasedItems.push({
-                            product_brand: e.product_brand,
-                            product_name: e.product_name,
-                            product_description: e.product_description,
-                            product_variant: e.product_variant,
-                            product_specification: e.product_specification,
-                            quantity: e.quantity,
-                            product_stock: e.product_stock,
-                            product_oldPrice: e.product_oldPrice,
-                            product_newPrice: e.product_newPrice,
-                            product_category: e.product_category,
-                            product_images: e.product_img,
-                            product_id: e.product_id,
-                            userid: e.userid
-                        })
+                console.log(f);
+                vm.purchasedItems = [];
+                f.data.forEach(function(e){
+                    vm.purchasedItems.push({
+                        product_brand: e.product_brand,
+                        product_name: e.product_name,
+                        product_description: e.product_description,
+                        product_variant: e.product_variant,
+                        product_specification: e.product_specification,
+                        quantity: e.quantity,
+                        product_stock: e.product_stock,
+                        product_oldPrice: e.product_oldPrice,
+                        product_newPrice: e.product_newPrice,
+                        product_category: e.product_category,
+                        product_images: e.product_img,
+                        product_id: e.product_id,
+                        userid: e.userid
                     })
-                }
-                else{
-                    f.data.forEach(function(e){
-                            vm.product_brand = e.product_brand,
-                            vm.product_name = e.product_name,
-                            vm.product_description = e.product_description,
-                            vm.product_variant = e.product_variant,
-                            vm.product_specification = e.product_specification,
-                            vm.quantity = e.quantity,
-                            vm.product_stock = e.product_stock,
-                            vm.product_oldPrice = e.product_oldPrice,
-                            vm.product_newPrice = e.product_newPrice,
-                            vm.product_category = e.product_category,
-                            vm.product_images = e.product_img,
-                            vm.product_id = e.product_id
-                        })
-                }
+                })
             })
+        });
         },
         fnUpdateSales:function(e)
         {
             this.purchasedItems.forEach(pItems => {
-                e.preventDefault();
+            e.preventDefault();
             var form = e.currentTarget;
             const data = new FormData(form);
             data.append('method','fnUpdateSales');
@@ -218,9 +205,9 @@ createApp({
                         'error'
                     )
                 }
-                // setTimeout(function(){
-                //     location.reload();
-                // }, 2000);
+                setTimeout(function(){
+                    location.reload();
+                }, 2000);
             })
             });
         },
@@ -366,6 +353,6 @@ createApp({
         this.fnGetItems(0);
         this.fnGetUser(0);
         this.fnGetCustomer(0);
-        this.fnGetCustomerPurchased(0);
+        this.fnGetCustomerPurchased();
     }
 }).mount('#dashboard-app')

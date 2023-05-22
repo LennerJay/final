@@ -35,7 +35,7 @@ require "database.php";
         public function updateQuantity($user_id,$product_id,$quantity){
             $db = new Database;
             if($db->getStatus()){
-                $stmt = $db->getCon()->prepare("UPDATE `tbl_purchase` SET quantity = ?  WHERE (user_id = ? && product_id = ?)");
+                $stmt = $db->getCon()->prepare("UPDATE `tbl_purchase` SET quantity = ?  WHERE (userid = ? && product_id = ?)");
                 $stmt->execute(array($quantity,$user_id,$product_id));
                 $db->closeConnection();
                 return 1;

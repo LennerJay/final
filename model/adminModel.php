@@ -124,8 +124,8 @@ function fnGetCustomer(){
 }
 function fnGetCustomerPurchased(){
     global $con;
-    $userid = $_POST['id'];
-    
+    $userid = $_POST['userid'];
+
     $query = $con->prepare('CALL sp_getCustomerPurchased(?)');
     $query->bind_param('i',$userid);
 
@@ -135,7 +135,7 @@ function fnGetCustomerPurchased(){
     while($row = $result->fetch_array()){
         $data[] = $row;
     }
-
+    // echo $_POST['userid'];
     echo json_encode($data);
 }
 function fnUpdateSales(){
