@@ -310,9 +310,11 @@ createApp({
             data.append('method','fnGetTotalSales');
             axios.post('model/adminModel.php',data)
             .then(response => {    
+            //  console.log(response);   
                     response.data.forEach((d) => { 
                         vm.totalSales = d.total_sales
-                    });                                                
+                    });   
+
             }).catch(error => {
                 console.error(error);
             });
