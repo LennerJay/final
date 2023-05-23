@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2023 at 02:29 AM
+-- Generation Time: May 23, 2023 at 10:30 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -158,8 +158,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getShoppingCart` (IN `p_user_id`
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getTotalSales` (IN `sp_id` INT)   BEGIN
-if sp_id = 0 THEN
-	SELECT SUM(total_sales) FROM tbl_products;
+	if sp_id = 0 THEN
+		SELECT SUM(total_sales) as total_sales FROM tbl_products;
     end if;
 END$$
 
@@ -237,7 +237,8 @@ INSERT INTO `tbl_cart` (`cart_id`, `userid`, `product_id`, `status`, `date_added
 (116, 11, 39, 0, '2023-05-12 12:46:55'),
 (117, 11, 23, 0, '2023-05-12 12:46:59'),
 (118, 11, 25, 0, '2023-05-12 12:47:06'),
-(119, 11, 21, 0, '2023-05-12 12:47:18');
+(119, 11, 21, 0, '2023-05-12 12:47:18'),
+(120, 12, 22, 0, '2023-05-22 18:18:10');
 
 -- --------------------------------------------------------
 
@@ -280,7 +281,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (29, 'Logitech', 'Logitech G102 Gaming Mouse Black', 'Logitech G102 Gaming Mouse Black', '', 'LIGHTSYNC RGB lighting, 6 programmable buttons, Resolution: 200 – 8,000 DPI, Height: 116.6 mm, Width: 62.15 mm, Depth: 38.2 mm, Weight: 85 g, (mouse only), Cable Length: 2.1 m', '1495.00', '945.00', '0.00', 50, 0, 'mouse1.webp', 'computer', 0, '2023-05-01 17:04:26'),
 (30, 'Samsung', 'Samsung Galaxy S22 ', 'Samsung Galaxy S22 cellphone sale 12GB + 512GB original phone mobile phone 5G smartphone COD', '', 'Model No.Galaxy S22 Ultra+, Platform MTK6889, Standby Dual sim dual standby(Dual SIM+Dedicated micro SD Card Slot), Screen 6.8 HD+ Full Display 1440*3200, Speaker 1511 Box Speaker, FrequencyGSM85090018001900MHz,3GWCDMA85019002100MHz，4G LTE 5G\r\n,Vibration Support, Memory 12/16GB RAM + /256GB/512GB ROM\r\n,Multi Media MP3 MP4 3GPFM RadioBluetooth, Camera 24MP+58MP, 11.Battery 6800 mAh Lithium-ion battery', '3399.00', '2999.00', '13596.00', 26, 4, 'cp.jpg', 'mobile', 0, '2023-05-01 17:10:53'),
 (31, 'Asus', 'Asus ROG Phone 7 Ultimate', 'Asus ROG Phone 7 Ultimate mobile was launched on 13th April 2023. The phone comes with a 165 Hz refresh rate 6.78-inch touchscreen display offering a resolution of 2448x1080 pixels (FHD+) at a pixel density of 395 pixels per inch (ppi).', '', 'Display: 6.78-inch (2448x1080), Processor: Snapdragon 8 Gen 2, Front Camera: 32MP, Rear Camera :50MP + 13MP + 8MP, RAM: 16GB, Storage: 512GB, Battery Capacity: 6000mAh, \r\nOS: Android 13', '63450.00', '60999.00', '0.00', 50, 0, 'asus.avif', 'mobile', 0, '2023-05-01 17:15:30'),
-(32, 'Apple ', 'Apple iPhone 14 Pro Max ', 'The iPhone 14 Pro Max redefines what a smartphone can be. The gorgeous 6.7 inches 460ppi Super Retina always-on display is fitted with the new Dynamic Island Notch.', '', 'Capture incredible detail with a 48MP Main camera, Experience iPhone in a whole new way with Dynamic Island and Always-On display, 6.7 inches Super Retina XDR display: featuring Always-On and ProMotion,Dynamic Island: a magical new way to interact with iPhone,48MP Main camera: for up to 4x greater resolution,Cinematic mode: now in 4K Dolby Vision up to 30 fps,\r\nAction mode: for smooth, steady, hand-held videos, A vital safety feature: Crash Detection, System: iOS 16,Processor: A16 Bionic chip & 6-core CPU with 2 performance and 4 efficiency cores, 5-core GPU, 16-core Neural Engine\r\nMemory: Internal: 128GB / 256GB / 512GB / 1TB (See Version Above)', '115890.00', '110890.00', '0.00', 50, 0, 'iphone14.jpg', 'mobile', 0, '2023-05-01 17:26:31'),
+(32, 'Apple ', 'Apple iPhone 14 Pro Max ', 'The iPhone 14 Pro Max redefines what a smartphone can be. The gorgeous 6.7 inches 460ppi Super Retina always-on display is fitted with the new Dynamic Island Notch.', '', 'Capture incredible detail with a 48MP Main camera, Experience iPhone in a whole new way with Dynamic Island and Always-On display, 6.7 inches Super Retina XDR display: featuring Always-On and ProMotion,Dynamic Island: a magical new way to interact with iPhone,48MP Main camera: for up to 4x greater resolution,Cinematic mode: now in 4K Dolby Vision up to 30 fps,\r\nAction mode: for smooth, steady, hand-held videos, A vital safety feature: Crash Detection, System: iOS 16,Processor: A16 Bionic chip & 6-core CPU with 2 performance and 4 efficiency cores, 5-core GPU, 16-core Neural Engine\r\nMemory: Internal: 128GB / 256GB / 512GB / 1TB (See Version Above)', '115890.00', '110890.00', '115890.00', 45, 5, 'iphone14.jpg', 'mobile', 0, '2023-05-01 17:26:31'),
 (33, 'LG ', 'LG G6 - Ice Platinum', 'FullVision display with narrow bezel in premium metal and glass body elevates LG G6 into the next generation of smartphone design.', '', 'Full Vision Display, Dual Wide Angle Camera, Square Camera ,IP68 Water & Dust Resistant, Qualcomm Snapdragon,Display: FullVision 5.7” Quad HD+ (1440x2880), 18:9 ratio, screen to body ratio: 80.7%, HDR10 & Dolby Vision™, Size: 148.9 x 71.9 x 7.9 mm, Memory	4GB RAM / 64GB eMMC / micro SD slot (up to 2TB), Battery: 3,300mAh (embedded) / Qualcomm® Quick Charge 3.0', '13036.00', '11036.00', '0.00', 50, 0, 'lg.avif', 'mobile', 0, '2023-05-01 17:37:43'),
 (34, 'Samsung', 'Olixar Tempered Glass Screen Protector - For Samsung Galaxy A14', 'This ultra-thin tempered glass screen protector for the Samsung Galaxy A14 4G and 5G from Olixar offers toughness, high visibility, & sensitivity all in one package. Keep your device well-protected from drops, bumps, & scratches with Olixar!', '', 'High-tension 9H tempered glass for enhanced shock protection, Ultra clear protector with a 95% light penetration ratio, 0.26mm thickness, Compatible with the Samsung Galaxy A14\'s in-screen fingerprint reader, Easy installation with no risk of bubbles, Compatible with both Samsung Galaxy A14 4G and 5G variants', '500.00', '450.00', '0.00', 100, 0, 'tempered.jpg', 'mobile', 0, '2023-05-01 17:42:08'),
 (35, 'Android HTC ', 'Android HTC Desire 820', 'Android HTC Desire 820 5.5\" Touchscreen 4G LTE 2gb Ram 16gb Rom 13.0mp Cellphone. Phone need google bypass. I dont have the time to fix it. Good buy if you can fix it. Uses usb type b charger which doesnt come with phone. Crack on screen, only visible when phone is off. ', '', 'Condition: Used, Memory Card Type: MicroSD, Storage Capacity: 16GB, Camera Resolution: 13.0MP, RAM: 2GB, Features: Bluetooth Enabled / GPS /  Touch Screen / Wi-Fi Capable / 3G Data Capable / 4G Data Capable', '2999.00', '1999.00', '0.00', 5, 0, '1233.jpg', 'mobile', 0, '2023-05-01 17:47:55'),
@@ -330,7 +331,8 @@ INSERT INTO `tbl_purchase` (`purchase_id`, `userid`, `product_id`, `quantity`, `
 (8, 9, 23, 2, 'Approve', '2023-05-15 06:43:14'),
 (10, 16, 40, 1, 'Approve', '2023-05-22 04:05:10'),
 (11, 16, 40, 1, 'Approve', '2023-05-22 04:05:15'),
-(13, 12, 38, 1, 'Approve', '2023-05-22 17:24:34');
+(13, 12, 38, 1, 'Approve', '2023-05-22 17:24:34'),
+(14, 13, 32, 5, 'Approve', '2023-05-23 01:01:23');
 
 -- --------------------------------------------------------
 
@@ -410,7 +412,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
@@ -422,7 +424,7 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchase`
 --
 ALTER TABLE `tbl_purchase`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`

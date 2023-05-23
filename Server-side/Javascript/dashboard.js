@@ -153,7 +153,6 @@ createApp({
             data.append("userid",userid);
             axios.post('model/adminModel.php',data)
             .then(function(f){
-                console.log(f);
                 vm.purchasedItems = [];
                 f.data.forEach(function(e){
                     vm.purchasedItems.push({
@@ -310,21 +309,10 @@ createApp({
             const data = new FormData();
             data.append('method','fnGetTotalSales');
             axios.post('model/adminModel.php',data)
-            .then(response => {
-                console.log(response.data);
-                    // vm.totalSales = response.data[0]
-                    // JSON.total_sales;
+            .then(response => {    
                     response.data.forEach((d) => { 
                         vm.totalSales = d.total_sales
-                    });
-                    // vm.totalSales = response.data.filter((e,index) => {
-                    //     console.log(index)
-                    //     if(index == 0){
-                    //         return  response.data[index]
-                    //     }
-                    // })
-                    // console.log(vm.totalSales);
-                    // response.data.forEach(item =>  vm.totalSales = item['0'])                             
+                    });                                                
             }).catch(error => {
                 console.error(error);
             });
