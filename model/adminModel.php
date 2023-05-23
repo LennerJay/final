@@ -159,15 +159,13 @@ function fnUpdateSales(){
 }
 function fnGetTotalSales(){
     global $con;
-    $id = $_POST['id'];
 
-    $query = $con->prepare('CALL sp_getTotalSales(?)');
-    $query->bind_param('i',$id);
+    $query = $con->prepare('CALL sp_getTotalSales(0)');
 
     $query->execute();
     $result = $query->get_result();
     $data = array();
-    while($row = $result->fetch_array()){
+    while($row = $result->fetch_assoc()){
         $data[] = $row;
     }
     echo json_encode($data);

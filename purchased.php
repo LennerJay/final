@@ -134,7 +134,7 @@
                             </div>
                             <div class="data type">
                                 <th class="data-title">Email</th></span>
-                            </div>
+                            </div>  
                             <div class="data status">
                                 <th class="data-title">View Purchased</th></span>
                             </div>

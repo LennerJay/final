@@ -7,7 +7,7 @@ createApp({
             customers: [],
             items: [],
             purchasedItems: [],
-            totalSales: [],
+            totalSales: '',
             username: '',
             email: '',
             userid: 0,
@@ -153,7 +153,6 @@ createApp({
             data.append("userid",userid);
             axios.post('model/adminModel.php',data)
             .then(function(f){
-                console.log(f);
                 vm.purchasedItems = [];
                 f.data.forEach(function(e){
                     vm.purchasedItems.push({
@@ -304,29 +303,19 @@ createApp({
                     }
             })
         },
-        fnGetTotalSales:function(id)
+        fnGetTotalSales:function()
         {
             const vm = this;
             const data = new FormData();
             data.append('method','fnGetTotalSales');
-            data.append('id',id);
             axios.post('model/adminModel.php',data)
-            .then(function(f){
-                console.log(f);
-                if(id == 0){
-                    vm.totalSales = [];
-                    f.data.forEach(function(e){
-                        vm.totalSales.push({
-                            total_sales : e.total_sales
-                        })
-                    })
-                }
-                else{
-                    f.data.forEach(function(e){
-                        vm.total_sales = e.total_sales
-                    })
-                }
-            })
+            .then(response => {    
+                    response.data.forEach((d) => { 
+                        vm.totalSales = d.total_sales
+                    });                                                
+            }).catch(error => {
+                console.error(error);
+            });
         },
         fnDeleteItem:function(productid){
             Swal.fire({
@@ -372,11 +361,11 @@ createApp({
         }
     },
     mounted:function(){
+        this.fnGetTotalSales();
     },
     created:function(){
         this.fnGetItems(0);
         this.fnGetUser(0);
         this.fnGetCustomer(0);
-        this.fnGetTotalSales(0);
     }
 }).mount('#dashboard-app')
