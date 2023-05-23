@@ -303,8 +303,7 @@ createApp({
                     }
             })
         },
-        fnGetTotalSales:function()
-        {
+        fnGetTotalSales:function(){
             const vm = this;
             const data = new FormData();
             data.append('method','fnGetTotalSales');
@@ -316,7 +315,7 @@ createApp({
             }).catch(error => {
                 console.error(error);
             });
-        },
+         },
         fnDeleteItem:function(productid){
             Swal.fire({
                 title: 'Are you sure?',
