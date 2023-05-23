@@ -159,10 +159,8 @@ function fnUpdateSales(){
 }
 function fnGetTotalSales(){
     global $con;
-    $id = $_POST['id'];
 
-    $query = $con->prepare('CALL sp_getTotalSales(?)');
-    $query->bind_param('i',$id);
+    $query = $con->prepare('CALL sp_getTotalSales(0)');
 
     $query->execute();
     $result = $query->get_result();

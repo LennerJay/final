@@ -75,12 +75,10 @@
             <span class="number">{{ users.length }}</span>
           </div>
 
-          <div class="box box2" >
-            <div v-for="total in totalSales">
+          <div class="box box2">
               <i class="fa-solid fa-cart-shopping"></i>
               <span class="text">Total Sales</span>
-              <span class="number">{{ total.total_sales }}</span>
-            </div>
+              <span class="number">{{ totalSales }}</span>
           </div>
 
           <div class="box box3">
