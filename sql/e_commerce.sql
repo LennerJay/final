@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2023 at 11:23 AM
+-- Generation Time: May 23, 2023 at 11:32 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -386,9 +386,9 @@ INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`,
 
 CREATE TABLE `tbl_variant` (
   `id` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_variant` text NOT NULL,
+  `product_quantity` int(11) NOT NULL,
   `product_img` text NOT NULL,
   `date_created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -397,8 +397,8 @@ CREATE TABLE `tbl_variant` (
 -- Dumping data for table `tbl_variant`
 --
 
-INSERT INTO `tbl_variant` (`id`, `userid`, `product_id`, `product_variant`, `product_img`, `date_created`) VALUES
-(1, 0, 0, 'green', 'hard.jpg', '2023-05-23 02:12:38');
+INSERT INTO `tbl_variant` (`id`, `product_id`, `product_variant`, `product_quantity`, `product_img`, `date_created`) VALUES
+(1, 0, 'green', 0, 'hard.jpg', '2023-05-23 02:12:38');
 
 --
 -- Indexes for dumped tables
