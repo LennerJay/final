@@ -27,7 +27,7 @@
                 <input type="hidden" name="quantity" v-model="purchased.quantity">
                 <p>Total Price: {{  purchased.product_oldPrice }}</p>
                 <input type="hidden" name="tprice" v-model="purchased.product_oldPrice">
-                <p>Product Variant: {{  purchased.product_variant }}</p>
+                <!-- <p>Product Variant: {{  purchased.product_variant }}</p> -->
                 <!-- <p>Product New Price: {{  purchased.product_newPrice }}</p> -->
                 <p>Product Category: {{  purchased.product_category }}</p>
                 <div class="input-field" style="padding-bottom: 20px;">
