@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2023 at 02:41 PM
+-- Generation Time: May 23, 2023 at 02:29 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -121,7 +121,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerPurchased` (IN `sp_id
 	if sp_id = 0 THEN
     SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
     else 
-    SELECT 	tpr.product_id,
+    SELECT  tpr.product_id,
     		tpr.product_brand,
             tpr.product_name,
             tpr.product_description,
@@ -133,6 +133,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerPurchased` (IN `sp_id
             tpr.product_img,
             tp.quantity,
             tpr.product_stock,
+            tp.status,
             tp.userid
             
     FROM tbl_purchase as tp left JOIN tbl_products as tpr on tp.product_id = tpr.product_id WHERE tp.userid = sp_id;
@@ -156,6 +157,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getShoppingCart` (IN `p_user_id`
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getTotalSales` (IN `sp_id` INT)   BEGIN
+if sp_id = 0 THEN
+	SELECT SUM(total_sales) FROM tbl_products;
+    end if;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   BEGIN
 	if sp_userid = 0 THEN
     SELECT * FROM tbl_user;
@@ -164,7 +171,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   
      end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_savePurchase` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_quantity` INT, IN `p_status` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_savePurchase` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_quantity` INT, IN `p_status` TEXT)   BEGIN
 	INSERT INTO `tbl_purchase`(userid,product_id,quantity,status,date_purchased) 
     VALUES(p_user_id,p_product_id,p_quantity,p_status,now());
 
@@ -177,7 +184,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_saveUser` (IN `sp_username` TEXT
   end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateSales` (IN `sp_id` INT, IN `sp_pid` INT, IN `sp_quantity` INT, IN `sp_price` INT, IN `sp_status` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateSales` (IN `sp_id` INT, IN `sp_pid` INT, IN `sp_quantity` INT, IN `sp_price` INT, IN `sp_status` TEXT)   BEGIN
 	if sp_id = 0 THEN
         SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
     else
@@ -279,9 +286,9 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (35, 'Android HTC ', 'Android HTC Desire 820', 'Android HTC Desire 820 5.5\" Touchscreen 4G LTE 2gb Ram 16gb Rom 13.0mp Cellphone. Phone need google bypass. I dont have the time to fix it. Good buy if you can fix it. Uses usb type b charger which doesnt come with phone. Crack on screen, only visible when phone is off. ', '', 'Condition: Used, Memory Card Type: MicroSD, Storage Capacity: 16GB, Camera Resolution: 13.0MP, RAM: 2GB, Features: Bluetooth Enabled / GPS /  Touch Screen / Wi-Fi Capable / 3G Data Capable / 4G Data Capable', '2999.00', '1999.00', '0.00', 5, 0, '1233.jpg', 'mobile', 0, '2023-05-01 17:47:55'),
 (36, 'Nokia ', 'Nokia C12 Pro', 'Nokia C12 Pro mobile was launched on 21st March 2023. The phone comes with a 60 Hz refresh rate 6.30-inch touchscreen display (HD+).', '', 'Display:6.30-inch, Processor: Unisoc SC9863A, Front Camera: 5MP, Rear Camera: 8MP, RAM: 2GB, Storage: 64GB, OS: Android 12 (Go Edition)', '2500.00', '1999.00', '0.00', 40, 0, '32131.avif', 'mobile', 0, '2023-05-01 17:59:31'),
 (37, 'Samsung', '50\" Crystal UHD 4K AU7002 Smart TV', 'Real 4K Resolution: 4x higher than Full HD · Upscale FHD content to 4K Picture Quality · Cinematic surround sound experience with Q-Symphony', '', 'Get your new Samsung product delivered to your door with our free delivery in selected areas nationwide, Real 4K Resolution: 4x Higher than Full HD, Upscale FHD Content to 4K Picture Quality, Cinematic surround sound experience with Q-Symphony\r\n3-side Bezel Less Design', '45999.00', '39999.00', '0.00', 200, 0, 'tv.avif', 'television', 0, '2023-05-01 18:06:21'),
-(38, 'ACE', 'ACE 32\" SMART LED TV DN2', 'ACE 32\" SMART LED TV DN2 - 808 HD Glass Frameless Flat screen Yotube Television Slim Wifi Screen Mirroring Cast', '', 'Display Size :32 inches, TV ResolutionHD : 720p, TV Features: Netflix / Wireless Connectivity / Web Browser / Mobile Screen Mirroring / Youtube, Model: LED-808 Glass-DN2', '5599.00', '5000.00', '0.00', 50, 0, 'tv1.webp', 'television', 0, '2023-05-01 18:12:39'),
+(38, 'ACE', 'ACE 32\" SMART LED TV DN2', 'ACE 32\" SMART LED TV DN2 - 808 HD Glass Frameless Flat screen Yotube Television Slim Wifi Screen Mirroring Cast', '', 'Display Size :32 inches, TV ResolutionHD : 720p, TV Features: Netflix / Wireless Connectivity / Web Browser / Mobile Screen Mirroring / Youtube, Model: LED-808 Glass-DN2', '5599.00', '5000.00', '5599.00', 49, 1, 'tv1.webp', 'television', 0, '2023-05-01 18:12:39'),
 (39, 'JMS ', 'JMS 22 Inch Full HD LED TV+', 'JMS 22 Inch Full HD LED TV+ Smart tv box & Free Wall Bracket LED-2468S', '', 'Brand: JMS, Warranty Duration: 12 Months,Warranty Type:Supplier Warranty, TV Screen Size: 33 Inches, TV Screen Type: LCD/ LED, TV Type: Digital TV/  Smart TV, Smart TV: Yes, Smart TV OS: Android OS\r\n', '4599.45', '3903.45', '0.00', 100, 100, 'tv312.jpg', 'television', 0, '2023-05-01 18:20:34'),
-(40, 'GELL', 'GELL smart tv 55', 'GELL smart tv 55 inches/43inches/50inches/32inches on sale tv flat screen tv plus remote android tv', '', 'TV INCH: 32 inch,Screen ratio: 16:9, Screen resolution: 1366(H)×768(V), Viewing angle: 178°\r\nBrightness: 250cd/m2, Contrast ratio: 1900/3/23 8:01:00, Response time: 4ms, Network cable port (RJ45): one set, Composite video (CVBS) port: one set, Computer video input (VGA) port: one set, Computer audio input (PC　AUDIO) port: one set, High-definition video input (HDMI) port: one set, Analog signal input (RF) port: one set, Audio output (EARPHONE OUT) port: one set, Multimedia (USB.2.0) port: one set, Speaker power: 10W×2, Input voltage: AC: 100～240V 50/60Hz, Backlight parameters: 85V / 360ma*2, Operating environment: Relative humidity ≤80% /  Storage humidity -10～60℃ /  Operating humidity 0～40℃', '6999.00', '5199.00', '0.00', 60, 0, 'tv23.webp', 'television', 0, '2023-05-01 18:26:09'),
+(40, 'GELL', 'GELL smart tv 55', 'GELL smart tv 55 inches/43inches/50inches/32inches on sale tv flat screen tv plus remote android tv', '', 'TV INCH: 32 inch,Screen ratio: 16:9, Screen resolution: 1366(H)×768(V), Viewing angle: 178°\r\nBrightness: 250cd/m2, Contrast ratio: 1900/3/23 8:01:00, Response time: 4ms, Network cable port (RJ45): one set, Composite video (CVBS) port: one set, Computer video input (VGA) port: one set, Computer audio input (PC　AUDIO) port: one set, High-definition video input (HDMI) port: one set, Analog signal input (RF) port: one set, Audio output (EARPHONE OUT) port: one set, Multimedia (USB.2.0) port: one set, Speaker power: 10W×2, Input voltage: AC: 100～240V 50/60Hz, Backlight parameters: 85V / 360ma*2, Operating environment: Relative humidity ≤80% /  Storage humidity -10～60℃ /  Operating humidity 0～40℃', '6999.00', '5199.00', '13998.00', 58, 2, 'tv23.webp', 'television', 0, '2023-05-01 18:26:09'),
 (41, 'Xiaomi Mi', 'Xiaomi Mi TV ', 'Xiaomi Mi TV P1 32\" 32iches Pseries Android TV with Built in chromecast|60Hz W/ FREE CHARGING CABLE', '', 'Warranty Duration: 12 Months,  Warranty Type: Manufacturer Warranty, TV Screen Size: < 33 Inches, TV Screen Type: Others, Smart TV: Yes, Smart TV OS: Android OS, Resolution: 1,366 x 768', '8999.00', '7999.00', '0.00', 70, 0, 'tv131.jpg', 'television', 0, '2023-05-01 18:29:33'),
 (42, 'ACE', 'Grip-Rite 0.02 in. D Black Annealed Steel 16 Ga. Tie Wire', 'Grip-Rite is preferred by professionals nationwide and is the brand you turn to when you need to get a job done right. Whether that job is residential or commercial, spanning days or months, we know reputations are built on quality, value and trust.', '', 'Brand Name: Grip-Rite, Product Type: Tie Wire, Brand Name: Grip-Rite, Coated: Yes, Diameter: 0.02 inch, Finish: Black Annealed, Gauge: 16 Gauge, Material: Steel, Stranded or Solid: Solid', '680.00', '599.00', '0.00', 600, 0, 'q.jpg', 'hardware', 0, '2023-05-01 18:33:33'),
 (43, 'ACE', 'Master Lock Python ', 'Master Lock Python 5/16 in. D X 72 in. L Vinyl Coated Steel Adjustable Locking Cable', '', 'Brand Name: Master Lock, Sub Brand: Python, Product Type: Adjustable Locking Cable, Brand Name: Master Lock, Color: GRAY, Diameter: 5/16 inch, Length: 72 inch, Loop Size: 5/16 inch\r\nMaterial: Steel, Sub Brand: Python, Vinyl Coated: Yes', '2599.00', '1999.00', '0.00', 100, 0, 'ewq.jpg', 'hardware', 0, '2023-05-01 18:36:19'),
@@ -289,7 +296,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (45, 'STANLEY', 'Stanley 2000W Heat Gun STEL670', 'For over 170 years, STANLEY® has developed and delivered hand tools that have helped to build this great nation of ours. ', '', '2 speed heat gun with variable heat control giving maximum control in all heat gun applications, Both hands can be free for soldering or bending operations, Ergonomic handle design for comfortable use even over extended periods of time, Lock-on switch for continuous use applications, Standing facility allows using both hands for soldering or bending operations, Variable heat setting for material appropriate working and a large variety of applications', '4599.00', '3999.00', '0.00', 60, 0, 'www.webp', 'hardware', 0, '2023-05-01 18:43:02'),
 (47, 'Tactix Digital', 'Tactix Digital Multimeter ME403001', 'Tactix Digital Multimeter ME403001', '', 'Continuity tester with buzzer,Measures characteristics of electric signal,Diode test DC voltage: 200mV / 2V / 20V / 200V / 600V', '1099.80', '879.80', '0.00', 200, 0, 'ewqq.webp', 'hardware', 0, '2023-05-01 18:46:24'),
 (48, 'Arduino Uno', 'Arduino Uno - R3', 'The Arduino Uno is a microcontroller board based on the Atmel\'s ATmega328 ', '', 'A Mini MP3 Player Speaker, DFPlayer module support to to 3WSD card, 2GB ~ 32GB formatted with FAT or FAT32MP3 / WAV', '884.82', '599.88', '0.00', 100, 0, 'arduino1.webp', 'electronic', 0, '2023-05-01 18:58:27'),
-(49, '	 Panasonic', 'SERVOMOTOR 3000 RPM 200VAC', 'SERVOMOTOR 3000 RPM 200VAC', '', 'Manufacturer: Panasonic, Lead / RoHS Status: Lead free / RoHS Compliant,Weight: 6.8 lbs (3.1kg), Voltage - Rated: 200VAC, Type: AC Motor,Torque - Rated (oz-in / mNm): 339.87 / 2400, Termination Style: Connector, Size / Dimension, Square – 3.150\" x 3.150\" (80.00mm x 80.00mm), Series: MINAS A5,RPM: 3000 RPM, Power - Rated	: 750W, Operating Temperature: 0°C ~ 40°C, Mounting Hole Spacing: 3.543\" (90.00mm)\r\n\r\n', '1299.00', '999.00', '0.00', 5548, 0, 'qeew.jpg', 'electronic', 0, '2023-05-01 19:03:49'),
+(49, '	 Panasonic', 'SERVOMOTOR 3000 RPM 200VAC', 'SERVOMOTOR 3000 RPM 200VAC', '', 'Manufacturer: Panasonic, Lead / RoHS Status: Lead free / RoHS Compliant,Weight: 6.8 lbs (3.1kg), Voltage - Rated: 200VAC, Type: AC Motor,Torque - Rated (oz-in / mNm): 339.87 / 2400, Termination Style: Connector, Size / Dimension, Square – 3.150\" x 3.150\" (80.00mm x 80.00mm), Series: MINAS A5,RPM: 3000 RPM, Power - Rated	: 750W, Operating Temperature: 0°C ~ 40°C, Mounting Hole Spacing: 3.543\" (90.00mm)\r\n\r\n', '1299.00', '999.00', '1299.00', 5547, 1, 'qeew.jpg', 'electronic', 0, '2023-05-01 19:03:49'),
 (50, 'No Brand', 'JAVA (for beginners guide)', 'Introduction to Java Programming l Pomperada l 2018', '', '\r\nClassification: Computer, Language: English, Type of Copy: Physical Copy, Preferences: Local, Category: Textbook, Subject: Computer, Level: College', '699.00', '499.00', '0.00', 100, 0, 'img1.jpg', 'software', 0, '2023-05-01 19:07:46'),
 (51, 'No Brand', 'C Programming Language', 'Fundamentals in Programming Using C Language l College l 2011 l Niguidila', '', 'The authors present the complete guide to ANSI standard C language programming. Written by the developers of C, this new version helps readers keep up with the finalized ANSI standard for C while showing how to take advantage of C\'s rich set of operators,', '1999.00', '999.00', '0.00', 200, 0, 'img2.jpg', 'software', 0, '2023-05-01 19:10:11'),
 (52, 'No Brand', 'C# Programming Language', 'Understanding Programming for Beginners Using C#', '', 'The book in your hands is a different kind of programming book. Like an entertaining video game, programming is an often challenging but always rewarding experience. ', '1299.00', '999.00', '0.00', 300, 0, 'img3.jpg', 'software', 0, '2023-05-01 19:11:52'),
@@ -310,7 +317,7 @@ CREATE TABLE `tbl_purchase` (
   `userid` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` text NOT NULL,
   `date_purchased` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -319,10 +326,11 @@ CREATE TABLE `tbl_purchase` (
 --
 
 INSERT INTO `tbl_purchase` (`purchase_id`, `userid`, `product_id`, `quantity`, `status`, `date_purchased`) VALUES
-(7, 9, 30, 1, 2, '2023-05-15 06:32:25'),
-(8, 9, 23, 2, 2, '2023-05-15 06:43:14'),
-(10, 16, 40, 1, 1, '2023-05-22 04:05:10'),
-(11, 16, 40, 1, 1, '2023-05-22 04:05:15');
+(7, 9, 30, 1, 'Approve', '2023-05-15 06:32:25'),
+(8, 9, 23, 2, 'Approve', '2023-05-15 06:43:14'),
+(10, 16, 40, 1, 'Approve', '2023-05-22 04:05:10'),
+(11, 16, 40, 1, 'Approve', '2023-05-22 04:05:15'),
+(13, 12, 38, 1, 'Approve', '2023-05-22 17:24:34');
 
 -- --------------------------------------------------------
 
@@ -414,7 +422,7 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchase`
 --
 ALTER TABLE `tbl_purchase`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`

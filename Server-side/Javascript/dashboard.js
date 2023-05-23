@@ -7,6 +7,7 @@ createApp({
             customers: [],
             items: [],
             purchasedItems: [],
+            totalSales: [],
             username: '',
             email: '',
             userid: 0,
@@ -145,12 +146,11 @@ createApp({
                 }, 100);
             })
         },
-        fnGetCustomerPurchased:function(){
-            this.customers.forEach(customer => {
+        fnGetCustomerPurchased:function(userid){
             const vm = this;
             const data = new FormData();
             data.append("method","fnGetCustomerPurchased");
-            data.append("userid",customer.userid);
+            data.append("userid",userid);
             axios.post('model/adminModel.php',data)
             .then(function(f){
                 console.log(f);
@@ -169,11 +169,11 @@ createApp({
                         product_category: e.product_category,
                         product_images: e.product_img,
                         product_id: e.product_id,
+                        status: e.status,
                         userid: e.userid
                     })
                 })
             })
-        });
         },
         fnUpdateSales:function(e)
         {
@@ -304,6 +304,30 @@ createApp({
                     }
             })
         },
+        fnGetTotalSales:function(id)
+        {
+            const vm = this;
+            const data = new FormData();
+            data.append('method','fnGetTotalSales');
+            data.append('id',id);
+            axios.post('model/adminModel.php',data)
+            .then(function(f){
+                console.log(f);
+                if(id == 0){
+                    vm.totalSales = [];
+                    f.data.forEach(function(e){
+                        vm.totalSales.push({
+                            total_sales : e.total_sales
+                        })
+                    })
+                }
+                else{
+                    f.data.forEach(function(e){
+                        vm.total_sales = e.total_sales
+                    })
+                }
+            })
+        },
         fnDeleteItem:function(productid){
             Swal.fire({
                 title: 'Are you sure?',
@@ -353,6 +377,6 @@ createApp({
         this.fnGetItems(0);
         this.fnGetUser(0);
         this.fnGetCustomer(0);
-        this.fnGetCustomerPurchased();
+        this.fnGetTotalSales(0);
     }
 }).mount('#dashboard-app')
