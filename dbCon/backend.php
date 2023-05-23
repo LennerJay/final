@@ -5,7 +5,7 @@ require "database.php";
             try{
                 $db = new Database;
                 if($db->getStatus()){
-                    $stmt = $db->getCon()->prepare('SELECT `userid`,`email`,`password`,`role`,`isactive` FROM `tbl_user` ');
+                    $stmt = $db->getCon()->prepare('SELECT `userid`,`email`,`password`,`role`,`log_attempts` FROM `tbl_user` ');
                     $stmt->execute();
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $db->closeConnection();
