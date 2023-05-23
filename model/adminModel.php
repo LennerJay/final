@@ -165,7 +165,7 @@ function fnGetTotalSales(){
     $query->execute();
     $result = $query->get_result();
     $data = array();
-    while($row = $result->fetch_array()){
+    while($row = $result->fetch_assoc()){
         $data[] = $row;
     }
     echo json_encode($data);

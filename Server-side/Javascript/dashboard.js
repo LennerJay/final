@@ -7,7 +7,7 @@ createApp({
             customers: [],
             items: [],
             purchasedItems: [],
-            totalSales: [],
+            totalSales: '',
             username: '',
             email: '',
             userid: 0,
@@ -311,13 +311,20 @@ createApp({
             data.append('method','fnGetTotalSales');
             axios.post('model/adminModel.php',data)
             .then(response => {
-                console.log(response);
-                    vm.totalSales = [];
-                    response.data.forEach(function(e){
-                        vm.totalSales.push({
-                            total_sales : e.total_sales
-                        })
-                    })                             
+                console.log(response.data);
+                    // vm.totalSales = response.data[0]
+                    // JSON.total_sales;
+                    response.data.forEach((d) => { 
+                        vm.totalSales = d.total_sales
+                    });
+                    // vm.totalSales = response.data.filter((e,index) => {
+                    //     console.log(index)
+                    //     if(index == 0){
+                    //         return  response.data[index]
+                    //     }
+                    // })
+                    // console.log(vm.totalSales);
+                    // response.data.forEach(item =>  vm.totalSales = item['0'])                             
             }).catch(error => {
                 console.error(error);
             });
