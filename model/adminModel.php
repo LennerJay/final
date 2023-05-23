@@ -124,8 +124,8 @@ function fnGetCustomer(){
 }
 function fnGetCustomerPurchased(){
     global $con;
-    $userid = $_POST['id'];
-    
+    $userid = $_POST['userid'];
+
     $query = $con->prepare('CALL sp_getCustomerPurchased(?)');
     $query->bind_param('i',$userid);
 
@@ -140,7 +140,7 @@ function fnGetCustomerPurchased(){
 }
 function fnUpdateSales(){
     global $con;
-    // echo $_POST['userid'].$_POST['pdi'].$_POST['pQuantity'].$_POST['pOldPrice'].$_POST['status'];
+
     $id = $_POST['userid'];
     $pid = $_POST['pdi'];
     $quantity = $_POST['pQuantity'];
@@ -156,5 +156,20 @@ function fnUpdateSales(){
     else{
         echo json_encode(mysqli_error($con));
     }
+}
+function fnGetTotalSales(){
+    global $con;
+    $id = $_POST['id'];
+
+    $query = $con->prepare('CALL sp_getTotalSales(?)');
+    $query->bind_param('i',$id);
+
+    $query->execute();
+    $result = $query->get_result();
+    $data = array();
+    while($row = $result->fetch_array()){
+        $data[] = $row;
+    }
+    echo json_encode($data);
 }
 ?>

@@ -33,8 +33,8 @@
                 <div class="input-field" style="padding-bottom: 20px;">
                   <label for="Status">Status</label>
                   <select name="status" id="status" class="form-control btn btn-default">
-                    <option value="1">Pending</option>
-                    <option value="2">Approve</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approve">Approve</option>
                   </select>
                 </div>
               </div>
@@ -141,7 +141,7 @@
                         </tr>
                       </thead>
                         <tbody id="tbl_Data">
-                            <tr v-for="costumer in customers">
+                            <tr v-for="costumer in customers">            
                                 <td>{{ costumer.fullname }}</td>
                                 <td>{{ costumer.address }}</td>
                                 <td>{{ costumer.zipcode }}</td>

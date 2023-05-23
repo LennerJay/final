@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 05:37 AM
+-- Generation Time: May 23, 2023 at 02:29 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -26,7 +26,7 @@ DELIMITER $$
 -- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addToCart` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_status` INT)   BEGIN
-	INSERT INTO `tbl_cart`(user_id,product_id,status,date_added) VALUES(p_user_id,p_product_id,p_status,now());
+	INSERT INTO `tbl_cart`(userid,product_id,status,date_added) VALUES(p_user_id,p_product_id,p_status,now());
 
 END$$
 
@@ -106,13 +106,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deleteItem` (IN `sp_productid` I
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCart` (IN `p_user_id` INT)   BEGIN
-	 select * from tbl_cart where user_id = p_user_id;
+	 select * from tbl_cart where userid = p_user_id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomer` (IN `sp_id` INT)   BEGIN
 	if sp_id = 0 THEN
     SELECT DISTINCT tu.userid,concat(tu.firstname, ' ', tu.lastname) as Costumer_Name, 
-    concat(tu.street, ',', tu.city, ',', tu.state) as Address, tu.zipcode, tu.gender, tu.email
+    concat(tu.street, ',', tu.city, ',', tu.state) as Address, tu.zipcode, tu.gender, tu.email, tp.status
     FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid;
     end if;
 END$$
@@ -121,7 +121,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerPurchased` (IN `sp_id
 	if sp_id = 0 THEN
     SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
     else 
-    SELECT 	tpr.product_id,
+    SELECT  tpr.product_id,
     		tpr.product_brand,
             tpr.product_name,
             tpr.product_description,
@@ -133,6 +133,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerPurchased` (IN `sp_id
             tpr.product_img,
             tp.quantity,
             tpr.product_stock,
+            tp.status,
             tp.userid
             
     FROM tbl_purchase as tp left JOIN tbl_products as tpr on tp.product_id = tpr.product_id WHERE tp.userid = sp_id;
@@ -152,8 +153,14 @@ end if;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getShoppingCart` (IN `p_user_id` INT)   BEGIN
-  select * from tbl_cart where user_id = p_user_id;
+  select * from tbl_cart where userid = p_user_id;
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getTotalSales` (IN `sp_id` INT)   BEGIN
+if sp_id = 0 THEN
+	SELECT SUM(total_sales) FROM tbl_products;
+    end if;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   BEGIN
@@ -164,8 +171,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   
      end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_savePurchase` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_quantity` INT, IN `p_status` INT)   BEGIN
-	INSERT INTO `tbl_purchase`(user_id,product_id,quantity,status,date_purchased) 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_savePurchase` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_quantity` INT, IN `p_status` TEXT)   BEGIN
+	INSERT INTO `tbl_purchase`(userid,product_id,quantity,status,date_purchased) 
     VALUES(p_user_id,p_product_id,p_quantity,p_status,now());
 
 END$$
@@ -177,7 +184,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_saveUser` (IN `sp_username` TEXT
   end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateSales` (IN `sp_id` INT, IN `sp_pid` INT, IN `sp_quantity` INT, IN `sp_price` INT, IN `sp_status` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateSales` (IN `sp_id` INT, IN `sp_pid` INT, IN `sp_quantity` INT, IN `sp_price` INT, IN `sp_status` TEXT)   BEGIN
 	if sp_id = 0 THEN
         SELECT * FROM tbl_purchase as tp left join tbl_user tu on tp.userid = tu.userid left join tbl_products as tpr on tp.product_id = tpr.product_id;
     else
@@ -216,7 +223,7 @@ DELIMITER ;
 
 CREATE TABLE `tbl_cart` (
   `cart_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `date_added` datetime NOT NULL
@@ -226,7 +233,7 @@ CREATE TABLE `tbl_cart` (
 -- Dumping data for table `tbl_cart`
 --
 
-INSERT INTO `tbl_cart` (`cart_id`, `user_id`, `product_id`, `status`, `date_added`) VALUES
+INSERT INTO `tbl_cart` (`cart_id`, `userid`, `product_id`, `status`, `date_added`) VALUES
 (116, 11, 39, 0, '2023-05-12 12:46:55'),
 (117, 11, 23, 0, '2023-05-12 12:46:59'),
 (118, 11, 25, 0, '2023-05-12 12:47:06'),
@@ -264,14 +271,14 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (20, 'tesla', 'computer', 'asdada', 'blue', 'sdad', '200.00', '11999.99', '0.00', 20, 0, 'computer.jpg', 'computer', 0, '2023-05-01 15:20:52'),
 (21, 'Propermac', 'Work PC Bundle ', 'Refurbished Pc with the upgraded drive to  Solid State Drive – up to 10 times quicker than with a standard HDD, the system will start in seconds. Cleaned and resprayed if needed.', '', 'Intel i7 Quad Core 3.4 GHz i7-4770,  Integrated with CPU Intel HD 4600, 960GB SSD, 16GB RAM DDR3,\r\n2×24″ Full HD Monitor (brand and model depending on the stock – pictures for illustration purposes only),\r\nDVD RW, WiFi, Power cable, keyboard and mouse,Genuine Windows digitally activated,Windows 10 Home 64 bit', '25981.57', '22999.85', '0.00', 10, 0, 'computer-set2.webp', 'computer', 0, '2023-05-01 15:32:56'),
 (22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', '', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '110870.21', '100870.21', '0.00', 20, 250, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
-(23, 'Collinx Computer Technology', 'System Unit Intel I7 10th Gen Processor', 'Collinx Computer Technology offers high-tech, brand-new, and complete computer products at an affordable price. It also specializes in the repair and customized cool computer builds.', '', ' Processor:  Intel i7 10700 (10th Gen)\r\nIntel Core i7 10700 Core i7 10700 - desktop processor produced by Intel for socket BGA-1200 that has 8 cores and 16 threads, Motherboard: Msi / Asus / Gigabyte/ Colorful H410M (LGA1200), LGA1150 socket for Intel® 4th Generation Core™i7/ Core™i5/Core™i3 Processors, Dual-Channel DDR3 1333 / 1600 support, SATA 3Gb/s, GPU: Intel HD Graphics 630, RAM: 8GB DDR4 RAM, SSD: 240GB 2.5\" SATA SSD (10x Faster than Hard Disk), Case: Darkflash dk150  ATX, Fans: 4  FANS,PSU: 650w True rated 80+ PSU, gtx1050ti galax df ', '45160.00', '41160.00', '45160.00', 3, 108, 'systemUnit.jpg', 'computer', 0, '2023-05-01 16:24:36'),
+(23, 'Collinx Computer Technology', 'System Unit Intel I7 10th Gen Processor', 'Collinx Computer Technology offers high-tech, brand-new, and complete computer products at an affordable price. It also specializes in the repair and customized cool computer builds.', '', ' Processor:  Intel i7 10700 (10th Gen)\r\nIntel Core i7 10700 Core i7 10700 - desktop processor produced by Intel for socket BGA-1200 that has 8 cores and 16 threads, Motherboard: Msi / Asus / Gigabyte/ Colorful H410M (LGA1200), LGA1150 socket for Intel® 4th Generation Core™i7/ Core™i5/Core™i3 Processors, Dual-Channel DDR3 1333 / 1600 support, SATA 3Gb/s, GPU: Intel HD Graphics 630, RAM: 8GB DDR4 RAM, SSD: 240GB 2.5\" SATA SSD (10x Faster than Hard Disk), Case: Darkflash dk150  ATX, Fans: 4  FANS,PSU: 650w True rated 80+ PSU, gtx1050ti galax df ', '45160.00', '41160.00', '180640.00', -3, 114, 'systemUnit.jpg', 'computer', 0, '2023-05-01 16:24:36'),
 (24, '‎HP', 'HP ZBook Fury G9 16\" Mobile Workstation ', 'Tackle your most intense workflows with the ZBook Fury-now offering a desktop CPU in a laptop. With integrated or discrete graphics, a stunning display and collaboration features you can edit 8K videos, render in 3D or train machine learning models. Experience extreme pro performance-all on the move.\r\n\r\n', '', 'With 64 GB DDR5 SDRAM of memory, users can run many programs without losing execution, 16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity, 1 TB SSD for spacious storage with much faster data transfer speed than standard hard drives, NVIDIA RTX A5000 16 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '233078.31', '213078.31', '0.00', 25, 115, 'laptop1.webp', 'computer', 0, '2023-05-01 16:28:02'),
 (25, 'Asus', 'Asus Ga503qmbs94q ROG Zephyrus G15 15.6\" QHD Laptop - AMD Ryzen 9 -', 'Power meets portability in the versatile ROG Zephyrus G15, which puts premium gaming in an ultra-slim 1.9kg chassis. Performance is fast and smooth with a powerful CPU and advanced GPU. The WQHD gaming panel balances speed with rich detail to draw you deep into the action.', '', 'ROG Zephyrus G15 , Game & create & and beyond, Blaze through gaming.', '88696.06', '85696.06', '0.00', 5, 0, 'laptop2.webp', 'computer', 0, '2023-05-01 16:31:42'),
 (26, 'MSI', 'MSI All-in-One Computer PRO', 'MSI All-in-One Computer PRO 22XT 10M-459US Intel Core i3 10th Gen 10100 (3.60GHz) 8GB DDR4 256 GB M.2 NVMe SSD 21.5\" Touchscreen Windows 11 Home 64-bit', '', 'Intel Core i3 10th Gen 10100 (3.60GHz), 8GB DDR4 256 GB M.2 NVMe SSD, 21.5\" Touchscreen 1920 x 1080, Windows 11 Home 64-bit, Intel UHD Graphics 630', '52986.87', '50.00', '0.00', 2, 0, 'computer.jpg', 'computer', 0, '2023-05-01 16:36:13'),
 (27, 'Intel Core', 'Intel Core i3 i3-4160 Dual-Core (2 Core) 3.60 GHz Processor', 'The Intel Core i3 processor is the perfect entry point for a fast, responsive PC experience. Do not let too many open applications slow you and your PC down. Get smart performance now.\r\n\r\n', '', 'Intel Core i3-4160 CPU/Processor 3,60GHz Dual Core, your 1st choice for 2nd generation hardware', '699.45', '499.45', '0.00', 100, 0, 'corei3.webp', 'computer', 0, '2023-05-01 16:39:42'),
 (28, 'Tecware', 'Tecware Pulse Elite Wireless Gaming Mouse', 'Tecware Pulse Elite Wireless Gaming Mouse', '', '2.4GHz Wireless with Dongle, 5 Fully Programmable Buttons, PixArt 3370 Sensor, Up to 19000DPI Resolution, 400 / 800 / 1600 / 3200 / 6400 / 19000 DPI, 2x Huano Switch,2x Kailh Switch,Macro Support via Software, 400mAh, Up to 50 hours Battery Life,1.6m Paracord USB-C to USB2.0 Cable Included, 125 x 63.5 x 40mm / 70g ', '2500.00', '2195.35', '0.00', 300, 0, 'mouse.jpg', 'computer', 0, '2023-05-01 17:01:20'),
 (29, 'Logitech', 'Logitech G102 Gaming Mouse Black', 'Logitech G102 Gaming Mouse Black', '', 'LIGHTSYNC RGB lighting, 6 programmable buttons, Resolution: 200 – 8,000 DPI, Height: 116.6 mm, Width: 62.15 mm, Depth: 38.2 mm, Weight: 85 g, (mouse only), Cable Length: 2.1 m', '1495.00', '945.00', '0.00', 50, 0, 'mouse1.webp', 'computer', 0, '2023-05-01 17:04:26'),
-(30, 'Samsung', 'Samsung Galaxy S22 ', 'Samsung Galaxy S22 cellphone sale 12GB + 512GB original phone mobile phone 5G smartphone COD', '', 'Model No.Galaxy S22 Ultra+, Platform MTK6889, Standby Dual sim dual standby(Dual SIM+Dedicated micro SD Card Slot), Screen 6.8 HD+ Full Display 1440*3200, Speaker 1511 Box Speaker, FrequencyGSM85090018001900MHz,3GWCDMA85019002100MHz，4G LTE 5G\r\n,Vibration Support, Memory 12/16GB RAM + /256GB/512GB ROM\r\n,Multi Media MP3 MP4 3GPFM RadioBluetooth, Camera 24MP+58MP, 11.Battery 6800 mAh Lithium-ion battery', '3399.00', '2999.00', '3399.00', 29, 1, 'cp.jpg', 'mobile', 0, '2023-05-01 17:10:53'),
+(30, 'Samsung', 'Samsung Galaxy S22 ', 'Samsung Galaxy S22 cellphone sale 12GB + 512GB original phone mobile phone 5G smartphone COD', '', 'Model No.Galaxy S22 Ultra+, Platform MTK6889, Standby Dual sim dual standby(Dual SIM+Dedicated micro SD Card Slot), Screen 6.8 HD+ Full Display 1440*3200, Speaker 1511 Box Speaker, FrequencyGSM85090018001900MHz,3GWCDMA85019002100MHz，4G LTE 5G\r\n,Vibration Support, Memory 12/16GB RAM + /256GB/512GB ROM\r\n,Multi Media MP3 MP4 3GPFM RadioBluetooth, Camera 24MP+58MP, 11.Battery 6800 mAh Lithium-ion battery', '3399.00', '2999.00', '13596.00', 26, 4, 'cp.jpg', 'mobile', 0, '2023-05-01 17:10:53'),
 (31, 'Asus', 'Asus ROG Phone 7 Ultimate', 'Asus ROG Phone 7 Ultimate mobile was launched on 13th April 2023. The phone comes with a 165 Hz refresh rate 6.78-inch touchscreen display offering a resolution of 2448x1080 pixels (FHD+) at a pixel density of 395 pixels per inch (ppi).', '', 'Display: 6.78-inch (2448x1080), Processor: Snapdragon 8 Gen 2, Front Camera: 32MP, Rear Camera :50MP + 13MP + 8MP, RAM: 16GB, Storage: 512GB, Battery Capacity: 6000mAh, \r\nOS: Android 13', '63450.00', '60999.00', '0.00', 50, 0, 'asus.avif', 'mobile', 0, '2023-05-01 17:15:30'),
 (32, 'Apple ', 'Apple iPhone 14 Pro Max ', 'The iPhone 14 Pro Max redefines what a smartphone can be. The gorgeous 6.7 inches 460ppi Super Retina always-on display is fitted with the new Dynamic Island Notch.', '', 'Capture incredible detail with a 48MP Main camera, Experience iPhone in a whole new way with Dynamic Island and Always-On display, 6.7 inches Super Retina XDR display: featuring Always-On and ProMotion,Dynamic Island: a magical new way to interact with iPhone,48MP Main camera: for up to 4x greater resolution,Cinematic mode: now in 4K Dolby Vision up to 30 fps,\r\nAction mode: for smooth, steady, hand-held videos, A vital safety feature: Crash Detection, System: iOS 16,Processor: A16 Bionic chip & 6-core CPU with 2 performance and 4 efficiency cores, 5-core GPU, 16-core Neural Engine\r\nMemory: Internal: 128GB / 256GB / 512GB / 1TB (See Version Above)', '115890.00', '110890.00', '0.00', 50, 0, 'iphone14.jpg', 'mobile', 0, '2023-05-01 17:26:31'),
 (33, 'LG ', 'LG G6 - Ice Platinum', 'FullVision display with narrow bezel in premium metal and glass body elevates LG G6 into the next generation of smartphone design.', '', 'Full Vision Display, Dual Wide Angle Camera, Square Camera ,IP68 Water & Dust Resistant, Qualcomm Snapdragon,Display: FullVision 5.7” Quad HD+ (1440x2880), 18:9 ratio, screen to body ratio: 80.7%, HDR10 & Dolby Vision™, Size: 148.9 x 71.9 x 7.9 mm, Memory	4GB RAM / 64GB eMMC / micro SD slot (up to 2TB), Battery: 3,300mAh (embedded) / Qualcomm® Quick Charge 3.0', '13036.00', '11036.00', '0.00', 50, 0, 'lg.avif', 'mobile', 0, '2023-05-01 17:37:43'),
@@ -279,9 +286,9 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (35, 'Android HTC ', 'Android HTC Desire 820', 'Android HTC Desire 820 5.5\" Touchscreen 4G LTE 2gb Ram 16gb Rom 13.0mp Cellphone. Phone need google bypass. I dont have the time to fix it. Good buy if you can fix it. Uses usb type b charger which doesnt come with phone. Crack on screen, only visible when phone is off. ', '', 'Condition: Used, Memory Card Type: MicroSD, Storage Capacity: 16GB, Camera Resolution: 13.0MP, RAM: 2GB, Features: Bluetooth Enabled / GPS /  Touch Screen / Wi-Fi Capable / 3G Data Capable / 4G Data Capable', '2999.00', '1999.00', '0.00', 5, 0, '1233.jpg', 'mobile', 0, '2023-05-01 17:47:55'),
 (36, 'Nokia ', 'Nokia C12 Pro', 'Nokia C12 Pro mobile was launched on 21st March 2023. The phone comes with a 60 Hz refresh rate 6.30-inch touchscreen display (HD+).', '', 'Display:6.30-inch, Processor: Unisoc SC9863A, Front Camera: 5MP, Rear Camera: 8MP, RAM: 2GB, Storage: 64GB, OS: Android 12 (Go Edition)', '2500.00', '1999.00', '0.00', 40, 0, '32131.avif', 'mobile', 0, '2023-05-01 17:59:31'),
 (37, 'Samsung', '50\" Crystal UHD 4K AU7002 Smart TV', 'Real 4K Resolution: 4x higher than Full HD · Upscale FHD content to 4K Picture Quality · Cinematic surround sound experience with Q-Symphony', '', 'Get your new Samsung product delivered to your door with our free delivery in selected areas nationwide, Real 4K Resolution: 4x Higher than Full HD, Upscale FHD Content to 4K Picture Quality, Cinematic surround sound experience with Q-Symphony\r\n3-side Bezel Less Design', '45999.00', '39999.00', '0.00', 200, 0, 'tv.avif', 'television', 0, '2023-05-01 18:06:21'),
-(38, 'ACE', 'ACE 32\" SMART LED TV DN2', 'ACE 32\" SMART LED TV DN2 - 808 HD Glass Frameless Flat screen Yotube Television Slim Wifi Screen Mirroring Cast', '', 'Display Size :32 inches, TV ResolutionHD : 720p, TV Features: Netflix / Wireless Connectivity / Web Browser / Mobile Screen Mirroring / Youtube, Model: LED-808 Glass-DN2', '5599.00', '5000.00', '0.00', 50, 0, 'tv1.webp', 'television', 0, '2023-05-01 18:12:39'),
+(38, 'ACE', 'ACE 32\" SMART LED TV DN2', 'ACE 32\" SMART LED TV DN2 - 808 HD Glass Frameless Flat screen Yotube Television Slim Wifi Screen Mirroring Cast', '', 'Display Size :32 inches, TV ResolutionHD : 720p, TV Features: Netflix / Wireless Connectivity / Web Browser / Mobile Screen Mirroring / Youtube, Model: LED-808 Glass-DN2', '5599.00', '5000.00', '5599.00', 49, 1, 'tv1.webp', 'television', 0, '2023-05-01 18:12:39'),
 (39, 'JMS ', 'JMS 22 Inch Full HD LED TV+', 'JMS 22 Inch Full HD LED TV+ Smart tv box & Free Wall Bracket LED-2468S', '', 'Brand: JMS, Warranty Duration: 12 Months,Warranty Type:Supplier Warranty, TV Screen Size: 33 Inches, TV Screen Type: LCD/ LED, TV Type: Digital TV/  Smart TV, Smart TV: Yes, Smart TV OS: Android OS\r\n', '4599.45', '3903.45', '0.00', 100, 100, 'tv312.jpg', 'television', 0, '2023-05-01 18:20:34'),
-(40, 'GELL', 'GELL smart tv 55', 'GELL smart tv 55 inches/43inches/50inches/32inches on sale tv flat screen tv plus remote android tv', '', 'TV INCH: 32 inch,Screen ratio: 16:9, Screen resolution: 1366(H)×768(V), Viewing angle: 178°\r\nBrightness: 250cd/m2, Contrast ratio: 1900/3/23 8:01:00, Response time: 4ms, Network cable port (RJ45): one set, Composite video (CVBS) port: one set, Computer video input (VGA) port: one set, Computer audio input (PC　AUDIO) port: one set, High-definition video input (HDMI) port: one set, Analog signal input (RF) port: one set, Audio output (EARPHONE OUT) port: one set, Multimedia (USB.2.0) port: one set, Speaker power: 10W×2, Input voltage: AC: 100～240V 50/60Hz, Backlight parameters: 85V / 360ma*2, Operating environment: Relative humidity ≤80% /  Storage humidity -10～60℃ /  Operating humidity 0～40℃', '6999.00', '5199.00', '0.00', 60, 0, 'tv23.webp', 'television', 0, '2023-05-01 18:26:09'),
+(40, 'GELL', 'GELL smart tv 55', 'GELL smart tv 55 inches/43inches/50inches/32inches on sale tv flat screen tv plus remote android tv', '', 'TV INCH: 32 inch,Screen ratio: 16:9, Screen resolution: 1366(H)×768(V), Viewing angle: 178°\r\nBrightness: 250cd/m2, Contrast ratio: 1900/3/23 8:01:00, Response time: 4ms, Network cable port (RJ45): one set, Composite video (CVBS) port: one set, Computer video input (VGA) port: one set, Computer audio input (PC　AUDIO) port: one set, High-definition video input (HDMI) port: one set, Analog signal input (RF) port: one set, Audio output (EARPHONE OUT) port: one set, Multimedia (USB.2.0) port: one set, Speaker power: 10W×2, Input voltage: AC: 100～240V 50/60Hz, Backlight parameters: 85V / 360ma*2, Operating environment: Relative humidity ≤80% /  Storage humidity -10～60℃ /  Operating humidity 0～40℃', '6999.00', '5199.00', '13998.00', 58, 2, 'tv23.webp', 'television', 0, '2023-05-01 18:26:09'),
 (41, 'Xiaomi Mi', 'Xiaomi Mi TV ', 'Xiaomi Mi TV P1 32\" 32iches Pseries Android TV with Built in chromecast|60Hz W/ FREE CHARGING CABLE', '', 'Warranty Duration: 12 Months,  Warranty Type: Manufacturer Warranty, TV Screen Size: < 33 Inches, TV Screen Type: Others, Smart TV: Yes, Smart TV OS: Android OS, Resolution: 1,366 x 768', '8999.00', '7999.00', '0.00', 70, 0, 'tv131.jpg', 'television', 0, '2023-05-01 18:29:33'),
 (42, 'ACE', 'Grip-Rite 0.02 in. D Black Annealed Steel 16 Ga. Tie Wire', 'Grip-Rite is preferred by professionals nationwide and is the brand you turn to when you need to get a job done right. Whether that job is residential or commercial, spanning days or months, we know reputations are built on quality, value and trust.', '', 'Brand Name: Grip-Rite, Product Type: Tie Wire, Brand Name: Grip-Rite, Coated: Yes, Diameter: 0.02 inch, Finish: Black Annealed, Gauge: 16 Gauge, Material: Steel, Stranded or Solid: Solid', '680.00', '599.00', '0.00', 600, 0, 'q.jpg', 'hardware', 0, '2023-05-01 18:33:33'),
 (43, 'ACE', 'Master Lock Python ', 'Master Lock Python 5/16 in. D X 72 in. L Vinyl Coated Steel Adjustable Locking Cable', '', 'Brand Name: Master Lock, Sub Brand: Python, Product Type: Adjustable Locking Cable, Brand Name: Master Lock, Color: GRAY, Diameter: 5/16 inch, Length: 72 inch, Loop Size: 5/16 inch\r\nMaterial: Steel, Sub Brand: Python, Vinyl Coated: Yes', '2599.00', '1999.00', '0.00', 100, 0, 'ewq.jpg', 'hardware', 0, '2023-05-01 18:36:19'),
@@ -289,7 +296,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (45, 'STANLEY', 'Stanley 2000W Heat Gun STEL670', 'For over 170 years, STANLEY® has developed and delivered hand tools that have helped to build this great nation of ours. ', '', '2 speed heat gun with variable heat control giving maximum control in all heat gun applications, Both hands can be free for soldering or bending operations, Ergonomic handle design for comfortable use even over extended periods of time, Lock-on switch for continuous use applications, Standing facility allows using both hands for soldering or bending operations, Variable heat setting for material appropriate working and a large variety of applications', '4599.00', '3999.00', '0.00', 60, 0, 'www.webp', 'hardware', 0, '2023-05-01 18:43:02'),
 (47, 'Tactix Digital', 'Tactix Digital Multimeter ME403001', 'Tactix Digital Multimeter ME403001', '', 'Continuity tester with buzzer,Measures characteristics of electric signal,Diode test DC voltage: 200mV / 2V / 20V / 200V / 600V', '1099.80', '879.80', '0.00', 200, 0, 'ewqq.webp', 'hardware', 0, '2023-05-01 18:46:24'),
 (48, 'Arduino Uno', 'Arduino Uno - R3', 'The Arduino Uno is a microcontroller board based on the Atmel\'s ATmega328 ', '', 'A Mini MP3 Player Speaker, DFPlayer module support to to 3WSD card, 2GB ~ 32GB formatted with FAT or FAT32MP3 / WAV', '884.82', '599.88', '0.00', 100, 0, 'arduino1.webp', 'electronic', 0, '2023-05-01 18:58:27'),
-(49, '	 Panasonic', 'SERVOMOTOR 3000 RPM 200VAC', 'SERVOMOTOR 3000 RPM 200VAC', '', 'Manufacturer: Panasonic, Lead / RoHS Status: Lead free / RoHS Compliant,Weight: 6.8 lbs (3.1kg), Voltage - Rated: 200VAC, Type: AC Motor,Torque - Rated (oz-in / mNm): 339.87 / 2400, Termination Style: Connector, Size / Dimension, Square – 3.150\" x 3.150\" (80.00mm x 80.00mm), Series: MINAS A5,RPM: 3000 RPM, Power - Rated	: 750W, Operating Temperature: 0°C ~ 40°C, Mounting Hole Spacing: 3.543\" (90.00mm)\r\n\r\n', '1299.00', '999.00', '0.00', 5548, 0, 'qeew.jpg', 'electronic', 0, '2023-05-01 19:03:49'),
+(49, '	 Panasonic', 'SERVOMOTOR 3000 RPM 200VAC', 'SERVOMOTOR 3000 RPM 200VAC', '', 'Manufacturer: Panasonic, Lead / RoHS Status: Lead free / RoHS Compliant,Weight: 6.8 lbs (3.1kg), Voltage - Rated: 200VAC, Type: AC Motor,Torque - Rated (oz-in / mNm): 339.87 / 2400, Termination Style: Connector, Size / Dimension, Square – 3.150\" x 3.150\" (80.00mm x 80.00mm), Series: MINAS A5,RPM: 3000 RPM, Power - Rated	: 750W, Operating Temperature: 0°C ~ 40°C, Mounting Hole Spacing: 3.543\" (90.00mm)\r\n\r\n', '1299.00', '999.00', '1299.00', 5547, 1, 'qeew.jpg', 'electronic', 0, '2023-05-01 19:03:49'),
 (50, 'No Brand', 'JAVA (for beginners guide)', 'Introduction to Java Programming l Pomperada l 2018', '', '\r\nClassification: Computer, Language: English, Type of Copy: Physical Copy, Preferences: Local, Category: Textbook, Subject: Computer, Level: College', '699.00', '499.00', '0.00', 100, 0, 'img1.jpg', 'software', 0, '2023-05-01 19:07:46'),
 (51, 'No Brand', 'C Programming Language', 'Fundamentals in Programming Using C Language l College l 2011 l Niguidila', '', 'The authors present the complete guide to ANSI standard C language programming. Written by the developers of C, this new version helps readers keep up with the finalized ANSI standard for C while showing how to take advantage of C\'s rich set of operators,', '1999.00', '999.00', '0.00', 200, 0, 'img2.jpg', 'software', 0, '2023-05-01 19:10:11'),
 (52, 'No Brand', 'C# Programming Language', 'Understanding Programming for Beginners Using C#', '', 'The book in your hands is a different kind of programming book. Like an entertaining video game, programming is an often challenging but always rewarding experience. ', '1299.00', '999.00', '0.00', 300, 0, 'img3.jpg', 'software', 0, '2023-05-01 19:11:52'),
@@ -310,7 +317,7 @@ CREATE TABLE `tbl_purchase` (
   `userid` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` text NOT NULL,
   `date_purchased` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -319,8 +326,11 @@ CREATE TABLE `tbl_purchase` (
 --
 
 INSERT INTO `tbl_purchase` (`purchase_id`, `userid`, `product_id`, `quantity`, `status`, `date_purchased`) VALUES
-(7, 9, 30, 1, 2, '2023-05-15 06:32:25'),
-(8, 9, 23, 2, 2, '2023-05-15 06:43:14');
+(7, 9, 30, 1, 'Approve', '2023-05-15 06:32:25'),
+(8, 9, 23, 2, 'Approve', '2023-05-15 06:43:14'),
+(10, 16, 40, 1, 'Approve', '2023-05-22 04:05:10'),
+(11, 16, 40, 1, 'Approve', '2023-05-22 04:05:15'),
+(13, 12, 38, 1, 'Approve', '2023-05-22 17:24:34');
 
 -- --------------------------------------------------------
 
@@ -412,7 +422,7 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchase`
 --
 ALTER TABLE `tbl_purchase`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
