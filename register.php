@@ -1,4 +1,8 @@
 <?php
+    session_start();
+    if(isset($_SESSION['user_id'])){
+        header("location:index.php");
+    }
     include "client/registerHeader.php";
     $app = "<script src='js/login-reg-form.js'></script>";
 
@@ -100,7 +104,7 @@
                         <label for="password">Password</label>
                         <div class="col-1">
                             <i class="uil uil-lock icon"></i>
-                            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                            <input type="password" name="password" id="password" placeholder="Enter your password" required v-model="pass1">
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
                     </div>
@@ -109,7 +113,7 @@
                         <label for="confirm-pass">Confirm Password</label>
                         <div class="col-2">
                             <i class="uil uil-lock icon"></i>
-                            <input type="password" name="cpassword" id="confirm-pass" placeholder="Confirm password" required>
+                            <input type="password" name="cpassword" id="confirm-pass" placeholder="Confirm password" required v-model="pass2">
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
                     </div>
