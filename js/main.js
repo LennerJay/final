@@ -152,6 +152,8 @@ createApp({
                 })
             }else{
                 const item = this.purchasedProduct.filter(e => e.id == product_id)
+                console.log(item)
+                console.log(this.purchasedProduct)
                 if(item.length > 0){
                     swal.fire({
                         icon:'question',
@@ -271,7 +273,7 @@ createApp({
             data.append('method','getPurchasedProduct')
             axios.post('dbCon/router.php',data).then(respond =>{
                 if(respond.data.length > 0){
-                    respond.data.filter(item => item.status == 0).forEach(product=>{
+                    respond.data.filter(item => item.status == 'Pending').forEach(product=>{
                         vm.purchasedProduct.push({
                             id: product.product_id,
                             quantity: product.quantity

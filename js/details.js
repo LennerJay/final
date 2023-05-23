@@ -279,7 +279,7 @@ createApp({
             const data = new FormData;
             data.append('method','getPurchasedProduct')
             axios.post('dbCon/router.php',data).then(respond =>{
-                respond.data.filter(item => item.status == 0).forEach(product=>{
+                respond.data.filter(item => item.status == 'Pending').forEach(product=>{
                     vm.purchasedProduct.push({
                         id: product.product_id,
                         quantity: product.quantity

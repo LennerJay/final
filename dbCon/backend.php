@@ -49,7 +49,7 @@ require "database.php";
                 if($db->getStatus()){
                     $stmt = $db->getCon()->prepare("SELECT * FROM `tbl_purchase` WHERE userid = ?");
                     $stmt->execute(array($user_id));
-                    $result = $stmt->fetchAll();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $db->closeConnection();
                     return json_encode($result);
                 }else{
@@ -95,7 +95,7 @@ require "database.php";
                 if($db->getStatus()){
                     $stmt = $db->getCon()->prepare('call sp_getShoppingCart(?)');
                     $stmt->execute(array($user_id));
-                    $result = $stmt->fetchAll();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     return json_encode($result);
                 }else{
                     return "Database Connection Error";
@@ -110,7 +110,7 @@ require "database.php";
                 if($db->getStatus()){
                     $stmt = $db->getCon()->prepare('call sp_getProduct(?)');
                     $stmt->execute(array($productId));
-                    $result = $stmt->fetchAll();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     return json_encode($result);
                 }else{
                     return "Database Connection Error";
