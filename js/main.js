@@ -152,8 +152,6 @@ createApp({
                 })
             }else{
                 const item = this.purchasedProduct.filter(e => e.id == product_id)
-                console.log(item)
-                console.log(this.purchasedProduct)
                 if(item.length > 0){
                     swal.fire({
                         icon:'question',
