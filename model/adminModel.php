@@ -93,11 +93,10 @@ function fnUpdateUser(){
     $gender = $_POST['gender'];
     $roles = $_POST['roles'];
     $status = $_POST['status'];
-    $isactive = $_POST['isactive'];
     $userid = $_POST['userid'];
  
-    $query = $con->prepare('CALL sp_updateUser(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-    $query->bind_param('sssssssisiiii',$username,$email,$firstname,$lastname,$street,$city,$state,$zipcode,$gender,$roles,$status,$isactive,$userid);
+    $query = $con->prepare('CALL sp_updateUser(?,?,?,?,?,?,?,?,?,?,?,?)');
+    $query->bind_param('sssssssisiii',$username,$email,$firstname,$lastname,$street,$city,$state,$zipcode,$gender,$roles,$status,$userid);
     
     if($query->execute()){
         echo 1;
@@ -169,5 +168,49 @@ function fnGetTotalSales(){
         $data[] = $row;
     }
     echo json_encode($data);
+}
+function fnGetDisableUser(){
+    global $con;
+    $id = $_POST['id'];
+
+    $query = $con->prepare('CALL sp_getDisableUser(?)');
+    $query->bind_param('i',$id);
+
+    $query->execute();
+    $result = $query->get_result();
+    $data = array();
+    while($row = $result->fetch_array()){
+        $data[] = $row;
+    }
+
+    echo json_encode($data);
+}
+function fnUpdateBlockUser(){
+    global $con;
+    $id = $_POST['id'];
+
+    $query = $con->prepare('CALL sp_updateBlockUser(?)');
+    $query->bind_param('i',$id);
+
+    if($query->execute()){
+        echo 1;
+    }
+    else{
+        echo json_encode(mysqli_error($con));
+    }
+}
+function fnDeleteBlockUser(){
+    global $con;
+    $id = $_POST['id'];
+
+    $query = $con->prepare('CALL sp_deleteBlockUser(?)');
+    $query->bind_param('i',$id);
+
+    if($query->execute()){
+        echo 1;
+    }
+    else{
+        echo json_encode(mysqli_error($con));
+    }
 }
 ?>

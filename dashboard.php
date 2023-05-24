@@ -84,7 +84,7 @@
           <div class="box box3">
             <i class="fa fa-user-times" aria-hidden="true"></i>
             <span class="text">Disabled User</span>
-            <span class="number">{{  }}</span>
+            <span class="number">{{ disuser.length }}</span>
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@
                   <td>{{  user.email }}</td>
                   <td>{{  user.date_created }}</td>
                   <td>{{  user.role }}</td>
-                  <td>{{  String(user.status) }}</td>
+                  <td>{{  user.status }}</td>
                 </tr>
               </tbody>
             </div>

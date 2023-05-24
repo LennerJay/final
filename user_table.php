@@ -60,10 +60,6 @@
             <div class="input-field">
               <label for="brand">Status</label>
               <input type="text" class="form-control" name="status" id="status" v-model="status">
-            </div>
-            <div class="input-field">
-              <label for="brand">isActive</label>
-              <input type="text" class="form-control" name="isactive" id="isactive" v-model="isactive">
             </div><br>
             <div class="input-field">
               <button type="submit" class="form-control btn btn-default">Submit</button>
