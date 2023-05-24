@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2023 at 03:08 AM
+-- Generation Time: May 24, 2023 at 07:24 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -30,14 +30,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addToCart` (IN `p_user_id` INT, 
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_product_brand` TEXT, IN `sp_product_name` TEXT, IN `sp_product_description` TEXT, IN `sp_product_spec` TEXT, IN `sp_product_price` DECIMAL(11,2), IN `sp_product_newPrice` DECIMAL, IN `sp_product_variant` TEXT, IN `sp_product_stock` INT, IN `sp_product_category` TEXT, IN `sp_product_image` TEXT, IN `sp_product_id` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_product_brand` TEXT, IN `sp_product_name` TEXT, IN `sp_product_description` TEXT, IN `sp_product_spec` TEXT, IN `sp_product_price` DECIMAL(11,2), IN `sp_product_newPrice` DECIMAL, IN `sp_product_stock` INT, IN `sp_product_category` TEXT, IN `sp_product_image` TEXT, IN `sp_product_id` INT)   BEGIN
 	if sp_product_id = 0 THEN
     INSERT INTO tbl_products(product_brand,
                             product_name,
                             product_description,
                             product_specification,
                             product_oldPrice,
-                            product_variant,
                             product_stock,
                             product_img,
                             product_category,
@@ -47,13 +46,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_produc
                                   sp_product_description,
                                   sp_product_spec,
                                   sp_product_price,
-                                  sp_product_variant,
                                   sp_product_stock,
                                   sp_product_image,
                                   sp_product_category,
                                   now());
-     INSERT INTO tbl_variant(product_variant,product_img,date_created) 
-     VALUES(sp_product_variant,sp_product_image,now());
+     VALUES(sp_product_id,sp_product_image);
      else 
      	if sp_product_image != "" THEN
      		update tbl_products SET 
@@ -62,7 +59,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_produc
             	product_description = sp_product_description,
             	product_specification = sp_product_spec,
             	product_newPrice = sp_product_newPrice,
-            	product_variant = sp_product_variant,
             	product_stock = sp_product_stock,
             	product_img = sp_product_image,
             	product_category = sp_product_category WHERE product_id = sp_product_id;
@@ -73,11 +69,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_produc
             	product_description = sp_product_description,
             	product_specification = sp_product_spec,
             	product_newPrice = sp_product_newPrice,
-            	product_variant = sp_product_variant,
             	product_stock = sp_product_stock,
             	product_category = sp_product_category WHERE product_id = sp_product_id;
          end if;
       end if;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addVariant` (IN `sp_pid` INT, IN `sp_variant` TEXT, IN `sp_vstock` INT, IN `sp_img` TEXT)   BEGIN
+INSERT INTO tbl_variant(product_id,product_variant,product_quantity,product_img,date_created) 
+VALUES(sp_pid,sp_variant,sp_vstock,sp_img,now());
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_checkUser` (IN `sp_email` TEXT, IN `sp_password` TEXT)   BEGIN
@@ -112,6 +112,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deleteItem` (IN `sp_productid` I
     SELECT * FROM tbl_products;
     else 
     	DELETE FROM tbl_products WHERE product_id = sp_productid;
+        DELETE FROM tbl_variant WHERE product_id = sp_productid;
     end if;
 END$$
 
@@ -325,7 +326,6 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (53, 'No Brand', 'Javascript Programming Language', 'Understanding Programming for Beginners Using Javascript', 'This book is written for beginners to JavaScript, but also very useful for experienced developers who want to sharpen their skills. It has all the core fundamentals of JavaScript and some advanced concepts such as constructors and prototypes.', '500.00', '399.00', '0.00', 150, 0, 'img4.jpg', 'software', 0, '2023-05-01 19:13:13'),
 (54, 'No Brand', 'Python (for beginners guide)', 'Understanding Programming for Beginners Using Python', 'The book is designed to be a practical and straightforward tutorial of essential Python Programming concepts and techniques that will transform self-learners from beginners to experts. It provides useful and practical examples of the programming concepts presented and makes learning an enjoyable and interesting experience. ', '799.00', '699.00', '0.00', 160, 0, 'img5.jpg', 'software', 0, '2023-05-01 19:15:00'),
 (58, 'tesla', 'ssd', 'jjbhbjhbhj', ' hgvv', '500.00', '1100.00', '0.00', 10, 0, 'ssd.jpg', 'hardware', 0, '2023-05-15 02:05:29'),
-(59, 'tesla', 'resistor', 'dasdasd', 'asdadas', '600.00', '1200.00', '0.00', 141, 0, 'resistor.jpg', 'electronic', 0, '2023-05-15 02:29:30'),
 (60, 'tesla', 'hard disk', 'asdasd', 'asdasd', '500.00', '0.00', '0.00', 100, 0, 'hard.jpg', 'hardware', 0, '2023-05-23 02:12:37');
 
 -- --------------------------------------------------------
@@ -414,13 +414,6 @@ CREATE TABLE `tbl_variant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_variant`
---
-
-INSERT INTO `tbl_variant` (`id`, `product_id`, `product_variant`, `product_quantity`, `product_img`, `date_created`) VALUES
-(1, 0, 'green', 0, 'hard.jpg', '2023-05-23 02:12:38');
-
---
 -- Indexes for dumped tables
 --
 
@@ -469,7 +462,7 @@ ALTER TABLE `tbl_cart`
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase`
@@ -487,7 +480,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_variant`
 --
 ALTER TABLE `tbl_variant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
