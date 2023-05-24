@@ -78,14 +78,17 @@
                             <div class="data names">
                                 <th class="data-title">Username</th></span>
                             </div>
+                            <div class="data names">
+                                <th class="data-title">Full Name</th></span>
+                            </div>
                             <div class="data email">
                                 <th class="data-title">Email</th></span>
                             </div>
-                            <div class="data joined">
-                                <th class="data-title">Date Joined</th>
+                            <div class="data names">
+                                <th class="data-title">Address</th></span>
                             </div>
                             <div class="data type">
-                                <th class="data-title">isDisable</th></span>
+                                <th class="data-title">Gender</th></span>
                             </div>
                             <div class="data type">
                                 <th class="data-title">Date Disabled</th></span>
@@ -98,13 +101,14 @@
                         <tbody id="tbl_Data">
                           <tr v-for="duser in disuser">
                             <td>{{  duser.username }}</td>
+                            <td>{{  duser.Fullname }}</td>
                             <td>{{  duser.email }}</td>
-                            <td>{{  duser.date_created }}</td>
-                            <td>{{  duser.isactive }}</td>
-                            <td>{{  duser.date_disabled }}</td>
+                            <td>{{  duser.address }}</td>
+                            <td>{{  duser.gender }}</td>
+                            <td>{{  duser.date_disable }}</td>
                             <td>
-                              <button class="form-control btn btn-default">Edit</button>
-                              <button class="form-control btn btn-default">Delete</button>
+                              <button class="form-control btn btn-default" @click="fnUpdateBlockUser(duser.userid)">Update</button>
+                              <button class="form-control btn btn-default" @click="fnDeleteBlockUser(duser.userid)">Delete</button>
                             </td>
                           </tr>
                         </tbody>

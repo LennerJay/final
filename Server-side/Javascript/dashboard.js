@@ -7,6 +7,7 @@ createApp({
             customers: [],
             items: [],
             purchasedItems: [],
+            disuser: [],
             totalSales: '',
             username: '',
             email: '',
@@ -48,7 +49,6 @@ createApp({
                             date_created: e.date_created,
                             role: e.role,
                             status: e.status,
-                            isactive: e.isactive,
                             userid: e.userid
                         })
                     })
@@ -60,14 +60,13 @@ createApp({
                             vm.firstname = e.firstname,
                             vm.lastname = e.lastname,
                             vm.street = e.street,
-                            vm. city = e.city,
+                            vm.city = e.city,
                             vm.state = e.state,
                             vm.zipcode = e.zipcode,
                             vm.gender = e.gender,
                             vm.date_created = e.date_created,
                             vm.role = e.role,
                             vm.status = e.status,
-                            vm.isactive = e.isactive,
                             vm.userid = e.userid;
                         })
                 }
@@ -210,24 +209,6 @@ createApp({
             })
             });
         },
-        fnGetDisableUser:function(){
-            const vm = this;
-            const data = new FormData();
-            data.append('method','fnGetUser')
-            axios.post('model/adminModel.php',data)
-            .then(function(f){
-                vm.disuser = [];
-                f.data.forEach(function(e){
-                    vm.disuser.push({
-                        username: e.username,
-                        email: e.email,
-                        date_created: e.date_created,
-                        isactive: e.isactive,
-                        date_disabled: e.date_disabled
-                    })
-                })
-            })
-        },
         fnAddProduct:function(e){
             e.preventDefault();
             var form = e.currentTarget;
@@ -359,6 +340,98 @@ createApp({
                     })
                 }
             })
+        },
+        fnGetDisableUser:function(id){
+            const vm = this;
+            const data = new FormData();
+            data.append('method','fnGetDisableUser');
+            data.append('id',id);
+            axios.post('model/adminModel.php',data)
+            .then(function(f){
+                if(id == 0){
+                    vm.disuser = [];
+                    f.data.forEach(function(e){
+                        vm.disuser.push({
+                            username: e.username,
+                            email: e.email,
+                            Fullname: e.Fullname,
+                            address: e.Address,
+                            email: e.email,
+                            gender: e.gender,
+                            attempt: e.attempt,
+                            date_disable: e.date_disable,
+                            userid: e.userid
+                        })
+                    })
+                }
+                else{
+                    f.data.forEach(function(e){
+                        vm.username = e.username,
+                        vm.email = e.email,
+                        vm.fullname = e.Fullname,
+                        vm.address = e.Address,
+                        vm.email = e.email,
+                        vm.gender = e.gender,
+                        vm.attempt = e.attempt,
+                        vm.date_disable = e.date_disable,
+                        vm.userid = e.userid
+                    })
+                }
+            })
+        },
+        fnUpdateBlockUser:function(id){
+            const data = new FormData();
+            data.append('method','fnUpdateBlockUser');
+            data.append('id',id);
+            axios.post('model/adminModel.php',data)
+            .then(function(r){
+                if(r.data == 1)
+                {
+                    Swal.fire(
+                        'Updated!',
+                        'User has been Updated.',
+                        'success'
+                    )
+                }
+                else
+                {
+                    Swal.fire(
+                        'Error!',
+                        'There is an error upon Updating.',
+                        'error'
+                    )
+                }
+                setTimeout(function(){
+                    location.reload();
+                }, 5000);
+            })
+        },
+        fnDeleteBlockUser:function(id){
+            const data = new FormData();
+            data.append('method','fnDeleteBlockUser');
+            data.append('id',id);
+            axios.post('model/adminModel.php',data)
+            .then(function(r){
+                if(r.data == 1)
+                {
+                    Swal.fire(
+                        'Deleted!',
+                        'User has been Deleted.',
+                        'success'
+                    )
+                }
+                else
+                {
+                    Swal.fire(
+                        'Error!',
+                        'There is an error upon Deleting.',
+                        'error'
+                    )
+                }
+                setTimeout(function(){
+                    location.reload();
+                }, 5000);
+            })
         }
     },
     mounted:function(){
@@ -368,5 +441,6 @@ createApp({
         this.fnGetItems(0);
         this.fnGetUser(0);
         this.fnGetCustomer(0);
+        this.fnGetDisableUser(0);
     }
 }).mount('#dashboard-app')
