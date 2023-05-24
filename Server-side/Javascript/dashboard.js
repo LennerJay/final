@@ -246,25 +246,25 @@ createApp({
             axios.post('model/adminModel.php',data)
             .then(function(r){
                 console.log(r);
-                // if(r.data == 1)
-                // {
-                //     Swal.fire(
-                //         'Added!',
-                //         'Product has been Added.',
-                //         'success'
-                //     )
-                // }
-                // else
-                // {
-                //     Swal.fire(
-                //         'Error!',
-                //         'There is an error upon uploading.',
-                //         'error'
-                //     )
-                // }
-                // setTimeout(function(){
-                //     location.reload();
-                // }, 2000);
+                if(r.data == 1)
+                {
+                    Swal.fire(
+                        'Added!',
+                        'Variant has been Added.',
+                        'success'
+                    )
+                }
+                else
+                {
+                    Swal.fire(
+                        'Error!',
+                        'There is an error upon Adding.',
+                        'error'
+                    )
+                }
+                setTimeout(function(){
+                    location.reload();
+                }, 2000);
             })
         },
         fnGetItems:function(productid){
@@ -432,7 +432,7 @@ createApp({
                 }
                 setTimeout(function(){
                     location.reload();
-                }, 5000);
+                }, 3000);
             })
         },
         fnDeleteBlockUser:function(id){
@@ -459,7 +459,7 @@ createApp({
                 }
                 setTimeout(function(){
                     location.reload();
-                }, 5000);
+                }, 3000);
             })
         }
     },
