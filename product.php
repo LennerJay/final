@@ -4,7 +4,7 @@
 ?>
 <div id="dashboard-app">
   <div class="modal fade" id="add" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog ">
       <!--Add Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -28,12 +28,18 @@
               <input type="text" class="form-control" name="brand" id="brand">
             </div>
             <div class="input-field">
-              <label for="brand">Product Variant</label>
-              <input type="text" class="form-control" name="color" id="color">
+              <label for="brand">Product Picture <span id="default">(default)</span></label>
+              <input type="file" class="form-control-file" name="product_picture" id="product_picture" style="text-align: center; width: 50%;">
+            </div>
+            <div class="form-row">
+              <div v-for="(input, index) in inputVariants" :key="input.key" class="form-group input-field" :class="input.divClass">
+                  <span>{{input.key}}</span>
+                  <label :for="input.name">{{input.name}}</label>
+                  <input :type="input.type":class="input.class" :name="'variants['+ input.key +']['+input.name+']'" :id="input.name">
+              </div>
             </div>
             <div class="input-field">
-              <label for="brand">Variant Stock</label>
-              <input type="text" class="form-control" name="vstock" id="vstock">
+              <button type="button" class="form-control btn btn-default " @click ="addInputField()">Add another Variant</button>
             </div>
             <div class="input-field">
               <label for="brand">Product Specification</label>
@@ -53,10 +59,6 @@
                 <option value="software">Software</option>
                 <option value="electronic">Electronic</option>
               </select>
-            </div>
-            <div class="input-field">
-              <label for="brand">Product Picture</label>
-              <input type="file" class="form-control" name="product_picture" id="product_picture" style="text-align: center; width: 50%;">
             </div><br>
             <div class="input-field">
               <button type="submit" class="form-control btn btn-default">Submit</button>
@@ -88,7 +90,7 @@
             </div>
             <div class="input-field">
               <label for="new_price">Product New Price</label>
-              <input type="text" class="form-control" name="new_price" id="new_price">
+              <input type="text" class="form-control" name="new_price" id="new_price" v-model="product_newPrice">
             </div>
             <div class="input-field">
               <label for="brand">Product Brand</label>
@@ -96,7 +98,7 @@
             </div>
             <div class="input-field">
               <label for="brand">Product Variant</label>
-              <input type="text" class="form-control" name="color" id="color" v-model="product_variant">
+              <input type="text" class="form-control" name="variant" id="variant" v-model="product_variant">
             </div>
             <div class="input-field">
               <label for="brand">Variant Stock</label>
