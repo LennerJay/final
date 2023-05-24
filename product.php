@@ -14,38 +14,38 @@
           <form @submit="fnAddProduct($event)">
           	<div class="input-field">
               <label for="name">Product Name</label>
-              <input type="text" class="form-control" name="product_name" id="product_name">
+              <input type="text" class="form-control" name="product_name" id="product_name" required>
             </div>
             <div class="input-field">
               <label for="price">Product Price</label>
-              <input type="text" class="form-control" name="price" id="price" >
+              <input type="text" class="form-control" name="price" id="price" required>
             </div>
             <div class="input-field">
-              <input type="hidden" class="form-control" name="new_price" id="new_price" >
+              <input type="hidden" class="form-control" name="new_price" id="new_price" required>
             </div>
             <div class="input-field">
               <label for="brand">Product Brand</label>
-              <input type="text" class="form-control" name="brand" id="brand">
+              <input type="text" class="form-control" name="brand" id="brand" required>
             </div>
-            <div class="input-field">
+            <!-- <div class="input-field">
               <label for="brand">Product Variant</label>
               <input type="text" class="form-control" name="color" id="color">
-            </div>
+            </div> -->
             <div class="input-field">
               <label for="brand">Variant Stock</label>
-              <input type="text" class="form-control" name="vstock" id="vstock">
+              <input type="text" class="form-control" name="vstock" id="vstock" required>
             </div>
             <div class="input-field">
               <label for="brand">Product Specification</label>
-              <textarea class="form-control" name="product_spec" id="product_spec"></textarea>
+              <textarea class="form-control" name="product_spec" id="product_spec" required></textarea>
             </div>
             <div class="input-field">
               <label for="description">Product Description</label>
-              <textarea class="form-control" name="product_description" id="product_description"></textarea>
+              <textarea class="form-control" name="product_description" id="product_description" required></textarea>
             </div>
             <div class="input-field">
               <label for="brand">Product Category</label>
-              <select name="product_category" class="form-control" style="text-align: center; width: 50%;">
+              <select name="product_category" class="form-control" style="text-align: center; width: 50%;" required>
                 <option value="computer">Computer</option>
                 <option value="mobile">Mobile</option>
                 <option value="television">Television</option>
@@ -56,7 +56,7 @@
             </div>
             <div class="input-field">
               <label for="brand">Product Picture</label>
-              <input type="file" class="form-control" name="product_picture" id="product_picture" style="text-align: center; width: 50%;">
+              <input type="file" class="form-control" name="product_picture" id="product_picture" style="text-align: center; width: 50%;" required>
             </div><br>
             <div class="input-field">
               <button type="submit" class="form-control btn btn-default">Submit</button>
@@ -94,10 +94,10 @@
               <label for="brand">Product Brand</label>
               <input type="text" class="form-control" name="brand" id="brand" v-model="product_brand">
             </div>
-            <div class="input-field">
+            <!-- <div class="input-field">
               <label for="brand">Product Variant</label>
               <input type="text" class="form-control" name="color" id="color" v-model="product_variant">
-            </div>
+            </div> -->
             <div class="input-field">
               <label for="brand">Variant Stock</label>
               <input type="text" class="form-control" name="vstock" id="vstock" v-model="product_stock">
@@ -132,6 +132,39 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="addVariant" role="dialog">
+    <div class="modal-dialog">
+      <!--Add Variant Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Product Variant</h4>
+        </div>
+        <div class="modal-body">
+        <form @submit="fnAddVariant($event)">
+            <div class="input-field">
+              <!-- <label for="variant">Product ID</label> -->
+              <input type="hidden" class="form-control" name="product_id" id="product_id" required v-model="product_id">
+            </div>
+            <div class="input-field">
+              <label for="product_variant">Product Variant</label>
+              <input type="text" class="form-control" name="product_variant" id="product_variant" required>
+            </div>
+            <div class="input-field">
+              <label for="var_stock">Variant Stock</label>
+              <input type="text" class="form-control" name="var_stock" id="var_stock" required>
+            </div>
+            <div class="input-field">
+              <!-- <label for="product_img">Product Image</label> -->
+              <input type="hidden" class="form-control" name="product_img" id="product_img" v-model="product_images">
+            </div><br>
+            <div class="input-field">
+              <button type="submit" class="form-control btn btn-default">Submit</button>
+            </div>
+        </form>
         </div>
       </div>
     </div>
@@ -213,7 +246,7 @@
                 <p>Product Description: {{  item.product_description }}</p>
                 <p>Product Specification: {{  item.product_spec }}</p>
                 <p>Product Price: {{  item.product_price }}</p>
-                <p>Product Variant: {{  item.product_variant }}</p>
+                <!-- <p>Product Variant: {{  item.product_variant }}</p> -->
                 <p>Product New Price: {{  item.product_newPrice }}</p>
                 <p>Product Stock: {{  item.product_stock }}</p>
                 <p>Product Sold: {{  item.product_sold }}</p>
@@ -221,6 +254,7 @@
               </div>
               <div class="col-md-1">
                 <div class="input-field">
+                  <button type="submit" class="form-control btn btn-default" data-toggle="modal" data-target="#addVariant" @click="fnGetItems(item.product_id)">Add Variant</button>
                   <button type="submit" class="form-control btn btn-default" data-toggle="modal" data-target="#edit" @click="fnGetItems(item.product_id)">Edit</button>
                   <button type="submit" class="form-control btn btn-default"  @click="fnDeleteItem(item.product_id)">Delete</button>
                 </div>

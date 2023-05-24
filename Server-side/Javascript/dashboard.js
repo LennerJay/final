@@ -238,6 +238,35 @@ createApp({
                 }, 2000);
             })
         },
+        fnAddVariant:function(e){
+            e.preventDefault();
+            var form = e.currentTarget;
+            const data = new FormData(form);
+            data.append('method','fnAddVariant');
+            axios.post('model/adminModel.php',data)
+            .then(function(r){
+                console.log(r);
+                // if(r.data == 1)
+                // {
+                //     Swal.fire(
+                //         'Added!',
+                //         'Product has been Added.',
+                //         'success'
+                //     )
+                // }
+                // else
+                // {
+                //     Swal.fire(
+                //         'Error!',
+                //         'There is an error upon uploading.',
+                //         'error'
+                //     )
+                // }
+                // setTimeout(function(){
+                //     location.reload();
+                // }, 2000);
+            })
+        },
         fnGetItems:function(productid){
             const vm = this;
             const data = new FormData();
