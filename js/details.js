@@ -199,6 +199,7 @@ createApp({
                         })
                         vm.specs.push(e.product_specification.split(","))
                     })
+                    console.log(vm.product);
                 }
             })
         },
