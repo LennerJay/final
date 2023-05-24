@@ -1,5 +1,5 @@
 <?php include "include/header.php";
-    $app = '<script src="js/main.js"></script>'
+    $app = '<script src="js/main.js"></script>';
 
 ?>
 <div id="app">

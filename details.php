@@ -78,14 +78,22 @@
 				<i class="fa-regular fa-star"></i>
 			</div>
 			<h4>Brand | {{item.brand}}</h4>
-			<h4><span class="discount">&#8369;{{Intl.NumberFormat().format(item.oldPrice)}}</span> &nbsp; <span class="price">&#8369;{{Intl.NumberFormat().format(item.newPrice)}}</span></h4>
-			<div class="color-selections">
+			<h4><span v-if="item.oldPrice > 0" class="discount">&#8369;{{Intl.NumberFormat().format(item.oldPrice)}}</span> &nbsp; <span class="price">&#8369;{{Intl.NumberFormat().format(item.newPrice)}}</span></h4>
+			<div class="variant">
 				<button id="click-black" type="button" >Black</button>
 				<button id="click-yellow" type="button" >Yellow</button>
 				<button id="click-blue" type="button" >Blue</button>
 			</div>
-			<button class="purchase" @click="fnPurchase(item.brand,item.id,item.newPrice,item.category,item.img)">Purchase</button>
-			<button class="cart" @click="fnAddToCart(item.id)">Add to Cart</button>
+			<div class="stock-sold">
+				<span >Stock : {{item.stock}}</span >
+				<span >Sold : {{item.sold}}</span >
+			</div>
+
+			<div class="pur-add">
+				<button v-if="item.stock > 0" class="purchase" @click="fnPurchase(item.brand,item.id,item.newPrice,item.category,item.img)">Purchase</button>
+				<button v-else class="purchase" disabled>Purchase</button>
+				<button class="cart" @click="fnAddToCart(item.id)">Add to Cart</button>
+			</div>
 		</div>
 		<div class="options">
 			<h4>Delivery Option</h4>

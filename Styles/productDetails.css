@@ -273,12 +273,29 @@ input[type="search"]::-webkit-search-cancel-button {
 	color: #EE4D2D;
 }
 
-.main-section .color-selections button {
+.main-section .variant{
+	margin-bottom: 5px;
+}
+.main-section .variant button {
 	padding: 8px 25px;
 	border: 1px solid #C9C9C9;
 	margin-right: 5px;
+	margin-bottom: 5px;
 }
-
+.main-section .stock-sold{
+	font-family: Verdana;
+	font-size: 0.9vw;
+	display: inline-block;
+}
+.stock-sold span{
+	margin-right: 10px;
+}
+.pur-add{
+	display: inline-block;
+}
+.pur-add button {
+	margin-right: 10px;
+}
 .main-section .purchase {
 	background-color: #FFB916;
 	padding: 12px 30px;
@@ -294,13 +311,19 @@ input[type="search"]::-webkit-search-cancel-button {
 	color: #000000;
 	transition: all 0.3s ease 0s;
 }
-
+.main-section .purchase:disabled{
+	border: 1px solid #999999;
+	background-color: #cccccc;
+	color: #666666;
+	cursor: no-drop
+}
 .main-section .cart {
 	background-color: #F57224;
 	padding: 12px 30px;
 	border: none;
 	color: #ffffff;
 	display: inline-block;
+	margin-right: 10px;
 }
 
 .main-section .cart:hover {

@@ -1,4 +1,8 @@
 <?php
+    session_start();
+    if($_SESSION['role'] != 2){
+      header("location:index.php");
+    }
     include "admin/header.php";
     $app = "<script src='Server-side/Javascript/dashboard.js'></script>";
 ?>
