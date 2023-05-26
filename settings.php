@@ -47,6 +47,13 @@
                     <span class="tool-tip">User</span>
                 </li>
                 <li>
+                    <a href="settings.php">
+                        <i class="fa-solid fa-user user"></i>
+                        <span class="nav-item">User</span>
+                    </a>
+                    <span class="tool-tip">User</span>
+                </li>
+                <li>
                     <a href="userCart.php">
                         <i class='bx bxs-cart'></i>
                         <span class="nav-item">shopping Cart</span>
