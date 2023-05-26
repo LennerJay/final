@@ -33,6 +33,20 @@
             </div>
             <ul class="nav-list">
                 <li>
+                    <a href="index.php">
+                    <i class="fa-solid fa-cart-shopping user"></i>
+                        <span class="nav-item">Shopping</span>
+                    </a>
+                    <span class="tool-tip">Shopping</span>
+                </li>
+                <li>
+                    <a href="settings.php">
+                        <i class="fa-solid fa-user user"></i>
+                        <span class="nav-item">User</span>
+                    </a>
+                    <span class="tool-tip">User</span>
+                </li>
+                <li>
                     <a href="settings.php">
                         <i class="fa-solid fa-user user"></i>
                         <span class="nav-item">User</span>
