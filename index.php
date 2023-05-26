@@ -33,7 +33,7 @@
                 <div class="dropdown">
                     <i class="fa-solid fa-user dropdown " id="userIcon" @click ="" @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
                     <div class="dropdown-content">
-                        <a href="userprofile.php">Settings</a>
+                        <a href="settings.php">Profile</a>
                         <a @click="logout()">Log Out</a>
                     </div>
                 </div>

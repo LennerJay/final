@@ -6,24 +6,24 @@
 <!DOCTYPE html>
 
 <html lang="en-PH">
-    <head>
-        <meta charset="UTF-8">
-        <title>E-Commerce | User Profile Settings</title>
+	<head>
+		<meta charset="UTF-8">
+		<title>E-Commerce | User Profile Settings</title>
 
-        <meta name="author" content="Group Tactical Minds">
-        <meta name="description" content="E-Commerce User Profile Settings">
-        <meta name="keywords" content="E-Commerce, User Profile, Settings">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="Group Tactical Minds">
+		<meta name="description" content="E-Commerce User Profile Settings">
+		<meta name="keywords" content="E-Commerce, User Profile, Settings">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="Styles/profile.css">
-        <link rel="icon" type="image/x-icon" href="Icons/ecommercelogo.ico">
-        <link rel="stylesheet" href="Font-awesome/css/all.min.css">
+		<link rel="stylesheet" href="Styles/profile.css">
+		<link rel="icon" type="image/x-icon" href="Icons/ecommercelogo.ico">
+		<link rel="stylesheet" href="Font-awesome/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    </head>
-    <body>
+	</head>
+	<body>
 
     <div id="profile-app">
-        <div class="sidebar">
+		<div class="sidebar">
             <div class="menu">
                 <i class='bx bx-menu' id="btn"></i>
             </div>
@@ -47,7 +47,7 @@
                     <span class="tool-tip">shopping Cart</span>
                 </li>
                 <li>
-                    <a href="user_purchased.php">
+                    <a href="">
                         <i class='bx bxs-purchase-tag' ></i>
                         <span class="nav-item">my purchase</span>
                     </a>
@@ -68,7 +68,7 @@
                     <span class="tool-tip">Reset password</span>
                 </li>
                 <li>
-                    <a href="logout.php">
+                    <a href="">
                     <i class="fa-solid fa-right-from-bracket logout"></i>
                         <span class="nav-item">Logout</span>
                     </a>
@@ -80,80 +80,32 @@
 
         <div class="main-container">
             <div class="main-heading">
-                <h1>Account Settings</h1>
+                <h1>Reset Email</h1>
             </div>
             <div class="settings-wrapper">
-                <form id="fill-form" @submit="updateUserInformation($event)">
+                <form id="fill-form" @submit="updateUserEmail($event)">
                     <div class="form-content">
                         <div class="row-1-content">
-                            <h2>Personal Details</h2>
+                            <h2>Reset email address</h2>
                             <div class="row-1">
                                 <div class="col-1">
                                     <input type="hidden" id="userid" name="userid" value="<?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '' ?>">
-                                    <label for="usern">Username</label>
-                                    <input type="text" id="usern" name="username" value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : '' ?>" disabled>
+                                    <label for="usern">Email address</label>
+                                    <input type="email" id="email" name="email" disabled>
                                 </div>
 
                                 <div class="col-2">
-                                    <label for="firstname">First Name</label>
-                                    <input type="text" id="firstname" name="firstname" value="<?php echo isset($_SESSION['firstname']) ? $_SESSION['firstname'] : '' ?>" disabled>
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password" value="" disabled>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row-2-content">
+                        <div class="row-4-content">
                             <div class="row-2">
-                                <div class="col-1">
-                                    <label for="street">Last Name</label>
-                                    <input type="text" id="lastname" name="lastname" value="<?php echo isset($_SESSION['lastname']) ? $_SESSION['lastname'] : '' ?>" disabled>
-                                </div>
-
-                                <div class="col-2">
-                                    <label for="age">Age</label>
-                                    <input type="number" id="age" name="age" value="<?php echo isset($_SESSION['age']) ? $_SESSION['age'] : '' ?>" disabled>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-3-content">
-                            <div class="row-2">
-                                <div class="col-1">
-                                    <label for="gender">Gender</label>
-                                    <select id="gender" name="gender" disabled>
-                                        <option value="" selected disabled hidden>Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Others">Others</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-5-content">
-                            <h2>Address</h2>
-                            <div class="row-2">
-                                <div class="col-1">
-                                    <label for="street">Street</label>
-                                    <input type="text" id="street" name="street" value="<?php echo isset($_SESSION['street']) ? $_SESSION['street'] : '' ?>" disabled>
-                                </div>
-
-                                <div class="col-2">
-                                    <label for="city">City</label>
-                                    <input type="text" id="city" name="city" value="<?php echo isset($_SESSION['city']) ? $_SESSION['city'] : '' ?>" disabled>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-6-content">
-                            <div class="row-3">
-                                <div class="col-1">
-                                    <label for="state">State</label>
-                                    <input type="text" id="state" name="state" value="<?php echo isset($_SESSION['state']) ? $_SESSION['state'] : '' ?>" disabled>
-                                </div>
-
-                                <div class="col-2">
-                                    <label for="zip-code">Zip Code</label>
-                                    <input type="text" id="zip-code" name="zip-code" value="<?php echo isset($_SESSION['zipcode']) ? $_SESSION['zipcode'] : '' ?>" disabled>
+                            <div class="col-2">
+                                    <label for="password">New email address</label>
+                                    <input type="email" id="new-email" name="new_email" value="" disabled>
                                 </div>
                             </div>
                         </div>
@@ -179,15 +131,9 @@
         <script src="Server-side/Javascript/vue.v3.js"></script>
         <script src="Server-side/Javascript/axios.js"></script>
         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script src="Server-side/Javascript/profile.js"></script>
 
         <script>
-            let sidebar = document.querySelector('.sidebar');
-            let btn = document.querySelector('#btn');
-
-            btn.addEventListener("click", function(){
-                sidebar.classList.toggle('active');
-            });
-
             document.getElementById("update").style.display = "none";
 
             let edit = document.getElementById("edit");
@@ -197,8 +143,6 @@
             edit.addEventListener("click", function(){
                 edit.style.display = "none";
                 update.style.display = "inline";
-                
-                let select = document.getElementsByTagName("select")[0].disabled = false;
 
                 let inputs = document.getElementsByTagName("input"); 
                 for (let x = 0; x < inputs.length; x++) { 
@@ -209,8 +153,6 @@
             cancel.addEventListener("click", function(){
                 edit.style.display = "inline";
                 update.style.display = "none";
-                
-                let select = document.getElementsByTagName("select")[0].disabled = true;
 
                 let inputs = document.getElementsByTagName("input"); 
                 for (let x = 0; x < inputs.length; x++) { 
@@ -219,5 +161,5 @@
             });
         </script>
 
-    </body>
+	</body>
 </html>
