@@ -151,6 +151,7 @@ createApp({
                 })
             }else{
                 const item = this.purchasedProduct.filter(e => e.id == product_id)
+                console.log(item)
                 if(item.length > 0){
                     swal.fire({
                         icon:'question',
@@ -203,6 +204,7 @@ createApp({
                             }
                             data.append('product_id',product_id)
                             axios.post('dbCon/router.php',data).then(respond=>{
+                                console.log(respond.data)
                                 if(respond.data == 1){
                                     swal.fire(
                                         'Purchased Success',
@@ -244,6 +246,9 @@ createApp({
      
             })
         },
+        goToCart(){
+            window.location.href = "userCart.php";
+        },
         getCurrentItems() {
             return this.products.slice(this.firstItemIndex, this.lastItemIndex + 1);
         },
@@ -268,6 +273,7 @@ createApp({
             const data = new FormData;
             data.append('method','getPurchasedProduct')
             axios.post('dbCon/router.php',data).then(respond =>{
+                console.log(respond.data)
                 if(respond.data.length > 0){
                     respond.data.filter(item => item.status == 'Pending').forEach(product=>{
                         vm.purchasedProduct.push({

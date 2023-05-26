@@ -23,8 +23,8 @@
                     <!-- v-if="showShoppingCart"  -->
                     <div v-if="showShoppingCart" class="shoppingList">
                         <ul>
-                            <li v-for="item in cart" @click="shoppingCart(item.id)">{{item.name.slice(0,13) + '...'}}</li>
-                                <li v-if="cartLength() > 0">
+                            <li v-for="item in cart" @click="goToCart()">{{item.name.slice(0,13) + '...'}}</li>
+                                <li v-if="cartLength() > 0" @click="goToCart()">
                                 Buy All
                             </li>
                         </ul>

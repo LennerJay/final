@@ -182,6 +182,9 @@ createApp({
                 })
             })
         },
+        goToCart(){
+            window.location.href = "userCart.php";
+        },
         getProduct:function(id){
             const vm = this;
             const data = new FormData;

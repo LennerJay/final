@@ -25,8 +25,8 @@
 					<!-- v-if="showShoppingCart"  -->
 					<div v-if="showShoppingCart" class="shoppingList">
 						<ul>
-							<li v-for="item in cart" @click="shoppingCart(item.id)">{{item.name.slice(0,13) + '...'}}</li>
-								<li v-if="cartLength() > 0">
+							<li v-for="item in cart" @click="goToCart()">{{item.name.slice(0,13) + '...'}}</li>
+								<li v-if="cartLength() > 0" @click="goToCart()">
 								Buy All
 								</li>
 						</ul>
@@ -35,7 +35,7 @@
 				<div class="dropdown">
 					<i class="fa-solid fa-user dropdown " id="userIcon" @click ="" @mouseover="showProfile = true" @mouseleave="showProfile = false"></i>
 					<div class="dropdown-content">
-						<a href="userprofile.php">Settings</a>
+						<a href="settings.php">Settings</a>
 						<a @click="logout()">Log Out</a>
 					</div>
 				</div>

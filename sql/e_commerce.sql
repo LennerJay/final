@@ -1,17 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-
--- Generation Time: May 25, 2023 at 01:37 AM
+-- Generation Time: May 26, 2023 at 04:36 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
-
--- Generation Time: May 24, 2023 at 07:24 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
-
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -96,46 +90,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_produc
             
             end if;
     end if;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateVariant` (IN `p_product_id` INT, IN `p_product_variant` TEXT, IN `p_product_stock` INT, IN `p_product_img` TEXT)   BEGIN
-	if p_product_id = 0 THEN
-    	INSERT INTO tbl_variant(product_variant,product_stock,product_img,date_created)
-        VALUES(p_product_variant,p_product_stock,p_product_img,now());
-    
-   	else
-    	UPDATE tbl_variant SET
-        	product_variant = p_product_variant,
-            product_stock = p_product_stock,
-            product_img = p_product_img 
-         	WHERE product_id = p_product_id;
-    end if;
-
-
-     VALUES(sp_product_id,sp_product_image);
-     else 
-     	if sp_product_image != "" THEN
-     		update tbl_products SET 
-        		product_brand = sp_product_brand,
-            	product_name = sp_product_name,
-            	product_description = sp_product_description,
-            	product_specification = sp_product_spec,
-            	product_newPrice = sp_product_newPrice,
-            	product_stock = sp_product_stock,
-            	product_img = sp_product_image,
-            	product_category = sp_product_category WHERE product_id = sp_product_id;
-         else 
-         	update tbl_products SET
-            	product_brand = sp_product_brand,
-            	product_name = sp_product_name,
-            	product_description = sp_product_description,
-            	product_specification = sp_product_spec,
-            	product_newPrice = sp_product_newPrice,
-            	product_stock = sp_product_stock,
-            	product_category = sp_product_category WHERE product_id = sp_product_id;
-         end if;
-      end if;
-
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addVariant` (IN `sp_pid` INT, IN `sp_variant` TEXT, IN `sp_vstock` INT, IN `sp_img` TEXT)   BEGIN
@@ -383,7 +337,13 @@ INSERT INTO `tbl_cart` (`cart_id`, `userid`, `product_id`, `status`, `date_added
 (118, 11, 25, 0, '2023-05-12 12:47:06'),
 (119, 11, 21, 0, '2023-05-12 12:47:18'),
 (120, 12, 22, 0, '2023-05-22 18:18:10'),
-(121, 17, 22, 0, '2023-05-23 19:05:36');
+(121, 17, 22, 0, '2023-05-23 19:05:36'),
+(124, 0, 30, 0, '2023-05-26 21:05:30'),
+(125, 0, 47, 0, '2023-05-26 21:31:57'),
+(126, 0, 23, 0, '2023-05-26 21:33:42'),
+(129, 18, 22, 0, '2023-05-26 22:00:28'),
+(130, 18, 39, 0, '2023-05-26 22:00:30'),
+(131, 18, 59, 0, '2023-05-26 22:11:03');
 
 -- --------------------------------------------------------
 
@@ -452,6 +412,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (60, 'tesla', 'hard disk', 'asdasd', 'asdasd', 500.00, 0.00, 0.00, 100, 0, 'hard.jpg', 'hardware', 0, '2023-05-23 02:12:37'),
 (61, 'test', 'test', 'asadasdasdasd', 'asdasds', 2001111.00, 99.00, 0.00, 20, 0, 'phone123.png', 'mobile', 0, '2023-05-24 21:50:56'),
 (64, 'test2', 'test2', 'asdasdasd', 'asdasda', 100.00, 99.00, 0.00, 20, 0, 'test2.avif', 'mobile', 0, '2023-05-24 23:03:23');
+
 -- --------------------------------------------------------
 
 --
@@ -472,11 +433,16 @@ CREATE TABLE `tbl_purchase` (
 --
 
 INSERT INTO `tbl_purchase` (`purchase_id`, `userid`, `product_id`, `quantity`, `status`, `date_purchased`) VALUES
+(1, 18, 39, 1, 'Pending', '2023-05-26 21:59:09'),
 (36, 12, 23, 1, '0', '2023-05-26 15:51:18'),
 (37, 12, 24, 1, '0', '2023-05-26 15:51:30'),
 (38, 12, 39, 1, 'Approve', '2023-05-26 15:51:57'),
 (39, 12, 22, 1, 'Approve', '2023-05-26 15:56:18'),
-(40, 12, 39, 2, 'Approve', '2023-05-26 15:59:15');
+(40, 12, 39, 2, 'Approve', '2023-05-26 15:59:15'),
+(41, 18, 22, 2, 'Pending', '2023-05-26 21:59:55'),
+(42, 18, 59, 2, 'Pending', '2023-05-26 22:10:56'),
+(43, 18, 24, 1, 'Pending', '2023-05-26 22:22:25'),
+(44, 18, 23, 1, 'Pending', '2023-05-26 22:22:32');
 
 -- --------------------------------------------------------
 
@@ -510,6 +476,7 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`, `city`, `state`, `zipcode`, `age`, `gender`, `email`, `password`, `images`, `date_created`, `role`, `status`, `log_attempts`, `date_disable`) VALUES
+(0, 'test1', 'test3', 'test3', 'test3', 'qwe', 'qwe', 123, 123, 'Female', 'test@321', '202cb962ac59075b964b07152d234b70', '', '2023-05-26 22:32:37', 1, 1, 0, '0000-00-00 00:00:00'),
 (7, 'admin', 'ranel', 'soliano', 'atabay', 'lapu lapu city', 'philippines', 6016, 23, 'Male', 'admin@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'test.jpg', '2023-05-04 14:13:02', 2, 1, 1, '2023-05-26 10:46:56'),
 (9, 'soulyaknow', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 24, '0', 'ranel.soliano@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:50:46', 1, 1, 1, '0000-00-00 00:00:00'),
 (10, 'sweetie', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 23, '0', 'rere@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:52:12', 1, 1, 1, '0000-00-00 00:00:00'),
@@ -537,14 +504,6 @@ CREATE TABLE `tbl_variant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_variant`
---
-
-INSERT INTO `tbl_variant` (`id`, `product_id`, `product_variant`, `product_stock`, `product_img`, `date_created`) VALUES
-(1, 0, 'green', 0, 'hard.jpg', '2023-05-23 02:12:38');
-
---
-
 -- Indexes for dumped tables
 --
 
@@ -587,32 +546,13 @@ ALTER TABLE `tbl_variant`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
-
---
--- AUTO_INCREMENT for table `tbl_products`
---
-ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase`
 --
 ALTER TABLE `tbl_purchase`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
---
--- AUTO_INCREMENT for table `tbl_user`
---
-ALTER TABLE `tbl_user`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
-
---
--- AUTO_INCREMENT for table `tbl_variant`
---
-ALTER TABLE `tbl_variant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

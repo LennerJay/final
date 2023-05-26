@@ -54,6 +54,7 @@
     function fnPurchase(){
         if(isset($_SESSION['email']) && isset( $_SESSION['password'])){
             $backend = new Backend();
+            // echo $_SESSION['user_id'];
             echo $backend->fnPurchase($_SESSION['user_id'],$_POST['product_id'],$_POST['quantity'],"Pending");
         }else{
             echo 2;

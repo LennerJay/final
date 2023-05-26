@@ -1,6 +1,10 @@
 <?php
     include "admin/header.php";
     $app = "<script src='Server-side/Javascript/dashboard.js'></script>";
+    session_start(); 
+    if(!isset($_SESSION['user_id'])){
+        header("location:index.php");
+    }
 ?>
 <div id="dashboard-app">
   <div class="modal fade" id="edit" role="dialog">

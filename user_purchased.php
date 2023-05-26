@@ -1,7 +1,11 @@
 <?php 
     require("./dbCon/backend.php");
-    session_start(); 
+
     // echo json_encode($_SESSION['user_id']);exit;
+    session_start(); 
+    if(!isset($_SESSION['user_id'])){
+        header("location:index.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +112,7 @@
                                     </div>
                                 </div>
                             </div>   
-                        <hr>
+                             <hr>
                         </div> 
                     </div>
 

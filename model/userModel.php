@@ -254,7 +254,6 @@ function checkStatus(){
 
     function fetchUserPurchased() {
         $db = new Database(); 
-
         try{
             if($db->getStatus()) {
                 $id = $_SESSION['user_id']; 
