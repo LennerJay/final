@@ -213,7 +213,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   
 	if sp_userid = 0 THEN
     SELECT * FROM tbl_user where log_attempts = 1;
     else
-    SELECT * FROM tbl_user;
+    SELECT * FROM tbl_user where userid = sp_userid;
      end if;
 END$$
 

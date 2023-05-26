@@ -61,7 +61,6 @@
   </nav>
 
   <section class="dashboard">
-    <div class="container">
         <div class="top">
         <i class="uil uil-bars sidebar-toggle" id="toggle-btn"></i>
       </div>
@@ -136,7 +135,6 @@
           </div>
         </div>
       </div>
-    </div>
   </section>
 </div>
 
