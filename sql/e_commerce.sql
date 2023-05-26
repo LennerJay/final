@@ -3,12 +3,16 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 
 -- Generation Time: May 25, 2023 at 01:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
 -- Generation Time: May 24, 2023 at 07:24 AM
+=======
+-- Generation Time: May 26, 2023 at 10:22 AM
+>>>>>>> a5e9e7f63822c4e7c26f433c3f5c15f52a805db2
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -31,6 +35,13 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_accountChecker` (IN `sp_email` TEXT, IN `sp_password` TEXT)   BEGIN
+
+	SELECT * FROM tbl_user 
+	WHERE email = sp_email AND password = sp_password;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addToCart` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_status` INT)   BEGIN
 	INSERT INTO `tbl_cart`(userid,product_id,status,date_added) VALUES(p_user_id,p_product_id,p_status,now());
 
@@ -177,6 +188,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deleteItem` (IN `sp_productid` I
     end if;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deleteProducts` (IN `sp_cartId` INT)   BEGIN
+
+	DELETE FROM tbl_cart
+	WHERE cart_id = sp_cartId;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_existChecker` (IN `sp_email` TEXT)   BEGIN
+
+	SELECT email FROM tbl_user
+	WHERE email = sp_email;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCart` (IN `p_user_id` INT)   BEGIN
 	 select * from tbl_cart where userid = p_user_id;
 END$$
@@ -231,6 +256,13 @@ end if;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getPurchasedProducts` (IN `sp_cartId` INT)   BEGIN
+
+	SELECT * FROM tbl_cart
+	WHERE cart_id = sp_cartId;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getShoppingCart` (IN `p_user_id` INT)   BEGIN
   select * from tbl_cart where userid = p_user_id;
 
@@ -248,6 +280,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   
     else
     SELECT * FROM tbl_user where userid = sp_userid;
      end if;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_saveProducts` (IN `sp_userId` INT, IN `sp_productId` INT, IN `sp_quantity` INT, IN `sp_status` TEXT)   BEGIN
+
+	INSERT INTO tbl_purchase(userid, product_id, quantity, status, date_purchased)
+	VALUES(sp_userId, sp_productId, sp_quantity, sp_status, now());
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_savePurchase` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_quantity` INT, IN `p_status` TEXT)   BEGIN
@@ -296,6 +335,44 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateUser` (IN `sp_username` TE
         `status` = sp_status WHERE userid = sp_userid;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateUserEmail` (IN `sp_email` TEXT, IN `sp_userId` TEXT)   BEGIN
+
+	UPDATE tbl_user
+	SET email = sp_email WHERE userid = sp_userId;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateUserInformation` (IN `sp_username` TEXT, IN `sp_firstname` TEXT, IN `sp_lastname` TEXT, IN `sp_street` TEXT, IN `sp_city` TEXT, IN `sp_state` TEXT, IN `sp_zipCode` INT, IN `sp_age` INT, IN `sp_userid` INT)   BEGIN
+
+	UPDATE tbl_user
+	SET username = sp_username, firstname = sp_firstname, lastname = sp_lastname, street = sp_street,
+	city = sp_city, state = sp_state, zipcode = sp_zipCode, age = sp_age 
+    WHERE userid = sp_userid;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateUserPassword` (IN `sp_password` TEXT, IN `sp_userId` INT)   BEGIN
+
+	UPDATE tbl_user SET password = sp_password
+	WHERE userid = sp_userId;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_userPurchased` (IN `sp_uid` INT)   BEGIN
+	SELECT 
+                    tpr.product_name,
+                    tpr.product_brand,
+                    tpr.product_oldPrice,
+                    tpr.product_description,
+                    tpr.product_specification,
+                    tpr.product_img,  
+                    tpr.product_category 
+                    
+                    FROM tbl_purchase as tp
+                    LEFT JOIN tbl_products tpr ON tpr.product_id = tp.product_id
+                    WHERE tp.userid = sp_uid AND tp.status = 'Approve';
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -317,12 +394,7 @@ CREATE TABLE `tbl_cart` (
 --
 
 INSERT INTO `tbl_cart` (`cart_id`, `userid`, `product_id`, `status`, `date_added`) VALUES
-(116, 11, 39, 0, '2023-05-12 12:46:55'),
-(117, 11, 23, 0, '2023-05-12 12:46:59'),
-(118, 11, 25, 0, '2023-05-12 12:47:06'),
-(119, 11, 21, 0, '2023-05-12 12:47:18'),
-(120, 12, 22, 0, '2023-05-22 18:18:10'),
-(121, 17, 22, 0, '2023-05-23 19:05:36');
+(158, 18, 50, 0, '2023-05-26 15:35:38');
 
 -- --------------------------------------------------------
 
@@ -395,7 +467,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 =======
 (20, 'tesla', 'computer', 'asdada', 'sdad', '200.00', '11999.99', '0.00', 20, 0, 'computer.jpg', 'computer', 0, '2023-05-01 15:20:52'),
 (21, 'Propermac', 'Work PC Bundle ', 'Refurbished Pc with the upgraded drive to  Solid State Drive – up to 10 times quicker than with a standard HDD, the system will start in seconds. Cleaned and resprayed if needed.', 'Intel i7 Quad Core 3.4 GHz i7-4770,  Integrated with CPU Intel HD 4600, 960GB SSD, 16GB RAM DDR3,\r\n2×24″ Full HD Monitor (brand and model depending on the stock – pictures for illustration purposes only),\r\nDVD RW, WiFi, Power cable, keyboard and mouse,Genuine Windows digitally activated,Windows 10 Home 64 bit', '25981.57', '22999.85', '0.00', 10, 0, 'computer-set2.webp', 'computer', 0, '2023-05-01 15:32:56'),
-(22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '110870.21', '100870.21', '0.00', 20, 250, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
+(22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '110870.21', '100870.21', '110870.00', 19, 251, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
 (23, 'Collinx Computer Technology', 'System Unit Intel I7 10th Gen Processor', 'Collinx Computer Technology offers high-tech, brand-new, and complete computer products at an affordable price. It also specializes in the repair and customized cool computer builds.', ' Processor:  Intel i7 10700 (10th Gen)\r\nIntel Core i7 10700 Core i7 10700 - desktop processor produced by Intel for socket BGA-1200 that has 8 cores and 16 threads, Motherboard: Msi / Asus / Gigabyte/ Colorful H410M (LGA1200), LGA1150 socket for Intel® 4th Generation Core™i7/ Core™i5/Core™i3 Processors, Dual-Channel DDR3 1333 / 1600 support, SATA 3Gb/s, GPU: Intel HD Graphics 630, RAM: 8GB DDR4 RAM, SSD: 240GB 2.5\" SATA SSD (10x Faster than Hard Disk), Case: Darkflash dk150  ATX, Fans: 4  FANS,PSU: 650w True rated 80+ PSU, gtx1050ti galax df ', '45160.00', '41160.00', '270960.00', -6, 117, 'systemUnit.jpg', 'computer', 0, '2023-05-01 16:24:36'),
 (24, '‎HP', 'HP ZBook Fury G9 16\" Mobile Workstation ', 'Tackle your most intense workflows with the ZBook Fury-now offering a desktop CPU in a laptop. With integrated or discrete graphics, a stunning display and collaboration features you can edit 8K videos, render in 3D or train machine learning models. Experience extreme pro performance-all on the move.\r\n\r\n', 'With 64 GB DDR5 SDRAM of memory, users can run many programs without losing execution, 16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity, 1 TB SSD for spacious storage with much faster data transfer speed than standard hard drives, NVIDIA RTX A5000 16 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '233078.31', '213078.31', '233078.00', 24, 116, 'laptop1.webp', 'computer', 0, '2023-05-01 16:28:02'),
 (25, 'Asus', 'Asus Ga503qmbs94q ROG Zephyrus G15 15.6\" QHD Laptop - AMD Ryzen 9 -', 'Power meets portability in the versatile ROG Zephyrus G15, which puts premium gaming in an ultra-slim 1.9kg chassis. Performance is fast and smooth with a powerful CPU and advanced GPU. The WQHD gaming panel balances speed with rich detail to draw you deep into the action.', 'ROG Zephyrus G15 , Game & create & and beyond, Blaze through gaming.', '88696.06', '85696.06', '0.00', 5, 0, 'laptop2.webp', 'computer', 0, '2023-05-01 16:31:42'),
@@ -412,7 +484,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (36, 'Nokia ', 'Nokia C12 Pro', 'Nokia C12 Pro mobile was launched on 21st March 2023. The phone comes with a 60 Hz refresh rate 6.30-inch touchscreen display (HD+).', 'Display:6.30-inch, Processor: Unisoc SC9863A, Front Camera: 5MP, Rear Camera: 8MP, RAM: 2GB, Storage: 64GB, OS: Android 12 (Go Edition)', '2500.00', '1999.00', '0.00', 40, 0, '32131.avif', 'mobile', 0, '2023-05-01 17:59:31'),
 (37, 'Samsung', '50\" Crystal UHD 4K AU7002 Smart TV', 'Real 4K Resolution: 4x higher than Full HD · Upscale FHD content to 4K Picture Quality · Cinematic surround sound experience with Q-Symphony', 'Get your new Samsung product delivered to your door with our free delivery in selected areas nationwide, Real 4K Resolution: 4x Higher than Full HD, Upscale FHD Content to 4K Picture Quality, Cinematic surround sound experience with Q-Symphony\r\n3-side Bezel Less Design', '45999.00', '39999.00', '0.00', 200, 0, 'tv.avif', 'television', 0, '2023-05-01 18:06:21'),
 (38, 'ACE', 'ACE 32\" SMART LED TV DN2', 'ACE 32\" SMART LED TV DN2 - 808 HD Glass Frameless Flat screen Yotube Television Slim Wifi Screen Mirroring Cast', 'Display Size :32 inches, TV ResolutionHD : 720p, TV Features: Netflix / Wireless Connectivity / Web Browser / Mobile Screen Mirroring / Youtube, Model: LED-808 Glass-DN2', '5599.00', '5000.00', '5599.00', 49, 1, 'tv1.webp', 'television', 0, '2023-05-01 18:12:39'),
-(39, 'JMS ', 'JMS 22 Inch Full HD LED TV+', 'JMS 22 Inch Full HD LED TV+ Smart tv box & Free Wall Bracket LED-2468S', 'Brand: JMS, Warranty Duration: 12 Months,Warranty Type:Supplier Warranty, TV Screen Size: 33 Inches, TV Screen Type: LCD/ LED, TV Type: Digital TV/  Smart TV, Smart TV: Yes, Smart TV OS: Android OS\r\n', '4599.45', '3903.45', '0.00', 100, 100, 'tv312.jpg', 'television', 0, '2023-05-01 18:20:34'),
+(39, 'JMS ', 'JMS 22 Inch Full HD LED TV+', 'JMS 22 Inch Full HD LED TV+ Smart tv box & Free Wall Bracket LED-2468S', 'Brand: JMS, Warranty Duration: 12 Months,Warranty Type:Supplier Warranty, TV Screen Size: 33 Inches, TV Screen Type: LCD/ LED, TV Type: Digital TV/  Smart TV, Smart TV: Yes, Smart TV OS: Android OS\r\n', '4599.45', '3903.45', '4599.00', 98, 102, 'tv312.jpg', 'television', 0, '2023-05-01 18:20:34'),
 (40, 'GELL', 'GELL smart tv 55', 'GELL smart tv 55 inches/43inches/50inches/32inches on sale tv flat screen tv plus remote android tv', 'TV INCH: 32 inch,Screen ratio: 16:9, Screen resolution: 1366(H)×768(V), Viewing angle: 178°\r\nBrightness: 250cd/m2, Contrast ratio: 1900/3/23 8:01:00, Response time: 4ms, Network cable port (RJ45): one set, Composite video (CVBS) port: one set, Computer video input (VGA) port: one set, Computer audio input (PC　AUDIO) port: one set, High-definition video input (HDMI) port: one set, Analog signal input (RF) port: one set, Audio output (EARPHONE OUT) port: one set, Multimedia (USB.2.0) port: one set, Speaker power: 10W×2, Input voltage: AC: 100～240V 50/60Hz, Backlight parameters: 85V / 360ma*2, Operating environment: Relative humidity ≤80% /  Storage humidity -10～60℃ /  Operating humidity 0～40℃', '6999.00', '5199.00', '13998.00', 58, 2, 'tv23.webp', 'television', 0, '2023-05-01 18:26:09'),
 (41, 'Xiaomi Mi', 'Xiaomi Mi TV ', 'Xiaomi Mi TV P1 32\" 32iches Pseries Android TV with Built in chromecast|60Hz W/ FREE CHARGING CABLE', 'Warranty Duration: 12 Months,  Warranty Type: Manufacturer Warranty, TV Screen Size: < 33 Inches, TV Screen Type: Others, Smart TV: Yes, Smart TV OS: Android OS, Resolution: 1,366 x 768', '8999.00', '7999.00', '0.00', 70, 0, 'tv131.jpg', 'television', 0, '2023-05-01 18:29:33'),
 (42, 'ACE', 'Grip-Rite 0.02 in. D Black Annealed Steel 16 Ga. Tie Wire', 'Grip-Rite is preferred by professionals nationwide and is the brand you turn to when you need to get a job done right. Whether that job is residential or commercial, spanning days or months, we know reputations are built on quality, value and trust.', 'Brand Name: Grip-Rite, Product Type: Tie Wire, Brand Name: Grip-Rite, Coated: Yes, Diameter: 0.02 inch, Finish: Black Annealed, Gauge: 16 Gauge, Material: Steel, Stranded or Solid: Solid', '680.00', '599.00', '0.00', 600, 0, 'q.jpg', 'hardware', 0, '2023-05-01 18:33:33'),
@@ -451,14 +523,11 @@ CREATE TABLE `tbl_purchase` (
 --
 
 INSERT INTO `tbl_purchase` (`purchase_id`, `userid`, `product_id`, `quantity`, `status`, `date_purchased`) VALUES
-(7, 9, 30, 1, 'Approve', '2023-05-15 06:32:25'),
-(8, 9, 23, 2, 'Approve', '2023-05-15 06:43:14'),
-(10, 16, 40, 1, 'Approve', '2023-05-22 04:05:10'),
-(11, 16, 40, 1, 'Approve', '2023-05-22 04:05:15'),
-(13, 12, 38, 1, 'Approve', '2023-05-22 17:24:34'),
-(14, 13, 32, 5, 'Approve', '2023-05-23 01:01:23'),
-(15, 13, 24, 1, 'Approve', '2023-05-23 01:58:29'),
-(16, 13, 23, 1, 'Approve', '2023-05-23 02:02:46');
+(36, 12, 23, 1, '0', '2023-05-26 15:51:18'),
+(37, 12, 24, 1, '0', '2023-05-26 15:51:30'),
+(38, 12, 39, 1, 'Approve', '2023-05-26 15:51:57'),
+(39, 12, 22, 1, 'Approve', '2023-05-26 15:56:18'),
+(40, 12, 39, 2, 'Approve', '2023-05-26 15:59:15');
 
 -- --------------------------------------------------------
 
@@ -492,7 +561,7 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`, `city`, `state`, `zipcode`, `age`, `gender`, `email`, `password`, `images`, `date_created`, `role`, `status`, `log_attempts`, `date_disable`) VALUES
-(7, 'admin', 'ranel', 'soliano', 'atabay', 'lapu lapu city', 'philippines', 6016, 23, 'Male', 'admin@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'test.jpg', '2023-05-04 14:13:02', 2, 1, 1, '0000-00-00 00:00:00'),
+(7, 'admin', 'ranel', 'soliano', 'atabay', 'lapu lapu city', 'philippines', 6016, 23, 'Male', 'admin@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'test.jpg', '2023-05-04 14:13:02', 2, 1, 1, '2023-05-26 10:46:56'),
 (9, 'soulyaknow', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 24, '0', 'ranel.soliano@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:50:46', 1, 1, 1, '0000-00-00 00:00:00'),
 (10, 'sweetie', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 23, '0', 'rere@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:52:12', 1, 1, 1, '0000-00-00 00:00:00'),
 (11, 'saranghae', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 23, '0', 'jenc@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:58:38', 1, 1, 1, '0000-00-00 00:00:00'),
@@ -500,7 +569,12 @@ INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`,
 (13, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 1234, 28, 'Female', 'jenc5@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:27:19', 1, 1, 5, '2023-05-23 16:42:41'),
 (14, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 0, 28, 'Female', 'jenc51@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:28:24', 1, 1, 1, '0000-00-00 00:00:00'),
 (16, 'soulyaknow', 'lenar', 'onailos', 'atabay', 'lapu lapu', 'philippines', 6016, 25, 'Female', 'lenar123@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '331106143_1364428367646657_658814879832039531_n.jpg', '2023-05-17 20:27:28', 1, 1, 1, '0000-00-00 00:00:00'),
+<<<<<<< HEAD
 (18, 'test', 'test', 'test', 'test', 'test', 'test', 123, 123, 'Female', 'test@123', '202cb962ac59075b964b07152d234b70', '', '2023-05-24 20:58:34', 2, 1, 0, '0000-00-00 00:00:00');
+=======
+(18, 'fide championship', 'f', 'f', 'f', 'f', 'f', 3, 3, 'Male', 'f@gmail.com', '2510c39011c5be704182423e3a695e91', '', '2023-05-26 10:59:48', 1, 1, 3, '2023-05-26 15:37:40'),
+(19, 'd', 'd', 'd', 'd', 'd', 'd', 3, 3, 'Male', 'd@gmail.com', '8277e0910d750195b448797616e091ad', '', '2023-05-26 14:40:18', 1, 1, 0, '0000-00-00 00:00:00');
+>>>>>>> a5e9e7f63822c4e7c26f433c3f5c15f52a805db2
 
 -- --------------------------------------------------------
 
@@ -569,7 +643,7 @@ ALTER TABLE `tbl_variant`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
@@ -581,13 +655,17 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchase`
 --
 ALTER TABLE `tbl_purchase`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
+<<<<<<< HEAD
   MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+=======
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+>>>>>>> a5e9e7f63822c4e7c26f433c3f5c15f52a805db2
 
 --
 -- AUTO_INCREMENT for table `tbl_variant`
