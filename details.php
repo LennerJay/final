@@ -65,7 +65,7 @@
 <section class="main-section">
 	<div class="content" v-for="item in product">
 		<div class="image">
-			<img id="prod-img" :src="'images/'+ item.category +'/' + item.img" alt="Ethernet Cable" width="330" height="200">
+			<img id="prod-img" :src="'images/'+ item.category +'/' + img" alt="Ethernet Cable" width="330" height="200">
 		</div>
 		<div class="image-description">
 			<h3>{{item.name}}</h3>
@@ -80,13 +80,12 @@
 			<h4>Brand | {{item.brand}}</h4>
 			<h4><span v-if="item.oldPrice > 0" class="discount">&#8369;{{Intl.NumberFormat().format(item.oldPrice)}}</span> &nbsp; <span class="price">&#8369;{{Intl.NumberFormat().format(item.newPrice)}}</span></h4>
 			<div class="variant">
-				<button id="click-black" type="button" >Black</button>
-				<button id="click-yellow" type="button" >Yellow</button>
-				<button id="click-blue" type="button" >Blue</button>
+				<button id="click-black" type="button" >Default</button>
+				<button v-if="variants.length > 0" type="button" v-for="variant in variants">{{variant.name}}</button>
 			</div>
 			<div class="stock-sold">
-				<span >Stock : {{item.stock}}</span >
-				<span >Sold : {{item.sold}}</span >
+				<span >Stock : {{stock}}</span >
+				<span >Sold : {{sold}}</span >
 			</div>
 
 			<div class="pur-add">
