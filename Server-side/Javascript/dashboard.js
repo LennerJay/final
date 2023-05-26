@@ -11,6 +11,16 @@ createApp({
             totalSales: '',
             username: '',
             email: '',
+            firstname: '',
+            lastname: '',
+            street: '',
+            city: '',
+            state: '',
+            zipcode: '',
+            gender: '',
+            date_created: '',
+            role: '',
+            status: '',
             userid: 0,
             product_id: 0,
             product_name: '',
@@ -53,7 +63,7 @@ createApp({
                         })
                     })
                 }
-                else{
+                else{                
                     f.data.forEach(function(e){
                             vm.username = e.username,
                             vm.email = e.email,
