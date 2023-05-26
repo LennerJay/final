@@ -3,16 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-<<<<<<< HEAD
 
 -- Generation Time: May 25, 2023 at 01:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
 -- Generation Time: May 24, 2023 at 07:24 AM
-=======
--- Generation Time: May 26, 2023 at 10:22 AM
->>>>>>> a5e9e7f63822c4e7c26f433c3f5c15f52a805db2
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -50,18 +46,12 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_product_brand` TEXT, IN `sp_product_name` TEXT, IN `sp_product_description` TEXT, IN `sp_product_spec` TEXT, IN `sp_product_price` DECIMAL(11,2), IN `sp_product_newPrice` DECIMAL, IN `sp_product_stock` INT, IN `sp_product_category` TEXT, IN `sp_product_image` TEXT, IN `sp_product_id` INT)   BEGIN
 
 	DECLARE oldPrice int;
-
-
 	if sp_product_id = 0 THEN
     	INSERT INTO tbl_products(product_brand,
                             product_name,
                             product_description,
                             product_specification,
-
                             product_newPrice,
-
-                            product_oldPrice,
-
                             product_stock,
                             product_img,
                             product_category,
@@ -107,49 +97,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateProduct` (IN `sp_produc
     end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addUpdateVariant` (IN `p_product_id` INT, IN `p_product_variant` TEXT, IN `p_product_stock` INT, IN `p_product_img` TEXT)   BEGIN
-	if p_product_id = 0 THEN
-    	INSERT INTO tbl_variant(product_variant,product_stock,product_img,date_created)
-        VALUES(p_product_variant,p_product_stock,p_product_img,now());
-    
-   	else
-    	UPDATE tbl_variant SET
-        	product_variant = p_product_variant,
-            product_stock = p_product_stock,
-            product_img = p_product_img 
-         	WHERE product_id = p_product_id;
-    end if;
-
-
-     VALUES(sp_product_id,sp_product_image);
-     else 
-     	if sp_product_image != "" THEN
-     		update tbl_products SET 
-        		product_brand = sp_product_brand,
-            	product_name = sp_product_name,
-            	product_description = sp_product_description,
-            	product_specification = sp_product_spec,
-            	product_newPrice = sp_product_newPrice,
-            	product_stock = sp_product_stock,
-            	product_img = sp_product_image,
-            	product_category = sp_product_category WHERE product_id = sp_product_id;
-         else 
-         	update tbl_products SET
-            	product_brand = sp_product_brand,
-            	product_name = sp_product_name,
-            	product_description = sp_product_description,
-            	product_specification = sp_product_spec,
-            	product_newPrice = sp_product_newPrice,
-            	product_stock = sp_product_stock,
-            	product_category = sp_product_category WHERE product_id = sp_product_id;
-         end if;
-      end if;
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addVariant` (IN `sp_pid` INT, IN `sp_variant` TEXT, IN `sp_vstock` INT, IN `sp_img` TEXT)   BEGIN
-INSERT INTO tbl_variant(product_id,product_variant,product_quantity,product_img,date_created) 
-VALUES(sp_pid,sp_variant,sp_vstock,sp_img,now());
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addVariant` (IN `sp_pid` INT, IN `sp_variant` TEXT, IN `sp_vstock` INT, IN `sp_img` TEXT, IN `sp_category` TEXT)   BEGIN
+INSERT INTO tbl_variant(product_id,product_variant,product_stock,product_img,category,date_created) 
+VALUES(sp_pid,sp_variant,sp_vstock,sp_img,sp_category,now());
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_checkUser` (IN `sp_email` TEXT, IN `sp_password` TEXT)   BEGIN
@@ -282,13 +232,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   
      end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_saveProducts` (IN `sp_userId` INT, IN `sp_productId` INT, IN `sp_quantity` INT, IN `sp_status` TEXT)   BEGIN
-
-	INSERT INTO tbl_purchase(userid, product_id, quantity, status, date_purchased)
-	VALUES(sp_userId, sp_productId, sp_quantity, sp_status, now());
-
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_savePurchase` (IN `p_user_id` INT, IN `p_product_id` INT, IN `p_quantity` INT, IN `p_status` TEXT)   BEGIN
 	INSERT INTO `tbl_purchase`(userid,product_id,quantity,status,date_purchased) 
     VALUES(p_user_id,p_product_id,p_quantity,p_status,now());
@@ -394,7 +337,12 @@ CREATE TABLE `tbl_cart` (
 --
 
 INSERT INTO `tbl_cart` (`cart_id`, `userid`, `product_id`, `status`, `date_added`) VALUES
-(158, 18, 50, 0, '2023-05-26 15:35:38');
+(116, 11, 39, 0, '2023-05-12 12:46:55'),
+(117, 11, 23, 0, '2023-05-12 12:46:59'),
+(118, 11, 25, 0, '2023-05-12 12:47:06'),
+(119, 11, 21, 0, '2023-05-12 12:47:18'),
+(120, 12, 22, 0, '2023-05-22 18:18:10'),
+(121, 17, 22, 0, '2023-05-23 19:05:36');
 
 -- --------------------------------------------------------
 
@@ -424,7 +372,6 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `product_description`, `product_specification`, `product_oldPrice`, `product_newPrice`, `total_sales`, `product_stock`, `product_sold`, `product_img`, `product_category`, `isDeleted`, `date_created`) VALUES
-
 (20, 'tesla', 'computer', 'asdada', 'sdad', 200.00, 11999.99, 0.00, 20, 0, 'computer.jpg', 'computer', 0, '2023-05-01 15:20:52'),
 (21, 'Propermac', 'Work PC Bundle ', 'Refurbished Pc with the upgraded drive to  Solid State Drive – up to 10 times quicker than with a standard HDD, the system will start in seconds. Cleaned and resprayed if needed.', 'Intel i7 Quad Core 3.4 GHz i7-4770,  Integrated with CPU Intel HD 4600, 960GB SSD, 16GB RAM DDR3,\r\n2×24″ Full HD Monitor (brand and model depending on the stock – pictures for illustration purposes only),\r\nDVD RW, WiFi, Power cable, keyboard and mouse,Genuine Windows digitally activated,Windows 10 Home 64 bit', 25981.57, 22999.85, 0.00, 10, 0, 'computer-set2.webp', 'computer', 0, '2023-05-01 15:32:56'),
 (22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', 110870.21, 100870.21, 0.00, 20, 250, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
@@ -467,7 +414,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 =======
 (20, 'tesla', 'computer', 'asdada', 'sdad', '200.00', '11999.99', '0.00', 20, 0, 'computer.jpg', 'computer', 0, '2023-05-01 15:20:52'),
 (21, 'Propermac', 'Work PC Bundle ', 'Refurbished Pc with the upgraded drive to  Solid State Drive – up to 10 times quicker than with a standard HDD, the system will start in seconds. Cleaned and resprayed if needed.', 'Intel i7 Quad Core 3.4 GHz i7-4770,  Integrated with CPU Intel HD 4600, 960GB SSD, 16GB RAM DDR3,\r\n2×24″ Full HD Monitor (brand and model depending on the stock – pictures for illustration purposes only),\r\nDVD RW, WiFi, Power cable, keyboard and mouse,Genuine Windows digitally activated,Windows 10 Home 64 bit', '25981.57', '22999.85', '0.00', 10, 0, 'computer-set2.webp', 'computer', 0, '2023-05-01 15:32:56'),
-(22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '110870.21', '100870.21', '110870.00', 19, 251, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
+(22, 'Lenovo', 'Lenovo ThinkPad P16s G1 21BT001PUS 16', 'Touchscreen · Windows OS · Quad Core · With Backlit Keyboard · USB-C · HDMI · Ethernet · 3.5-mm Jack · 1920 x 1200 · Intel CPU', 'Intel Core i7 3.40 GHz processor provides lightning fast speed and peak performance for the toughest of tasks and games,\r\nWith 16 GB of memory, runs as many programs as you want without losing the execution,\r\n16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity,\r\n512 GB SSD is enough to store your essential documents and files, favorite songs, movies and pictures,\r\nNVIDIA QN20-M1-R 6 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '110870.21', '100870.21', '0.00', 20, 250, 'laptop.webp', 'computer', 0, '2023-05-01 16:14:03'),
 (23, 'Collinx Computer Technology', 'System Unit Intel I7 10th Gen Processor', 'Collinx Computer Technology offers high-tech, brand-new, and complete computer products at an affordable price. It also specializes in the repair and customized cool computer builds.', ' Processor:  Intel i7 10700 (10th Gen)\r\nIntel Core i7 10700 Core i7 10700 - desktop processor produced by Intel for socket BGA-1200 that has 8 cores and 16 threads, Motherboard: Msi / Asus / Gigabyte/ Colorful H410M (LGA1200), LGA1150 socket for Intel® 4th Generation Core™i7/ Core™i5/Core™i3 Processors, Dual-Channel DDR3 1333 / 1600 support, SATA 3Gb/s, GPU: Intel HD Graphics 630, RAM: 8GB DDR4 RAM, SSD: 240GB 2.5\" SATA SSD (10x Faster than Hard Disk), Case: Darkflash dk150  ATX, Fans: 4  FANS,PSU: 650w True rated 80+ PSU, gtx1050ti galax df ', '45160.00', '41160.00', '270960.00', -6, 117, 'systemUnit.jpg', 'computer', 0, '2023-05-01 16:24:36'),
 (24, '‎HP', 'HP ZBook Fury G9 16\" Mobile Workstation ', 'Tackle your most intense workflows with the ZBook Fury-now offering a desktop CPU in a laptop. With integrated or discrete graphics, a stunning display and collaboration features you can edit 8K videos, render in 3D or train machine learning models. Experience extreme pro performance-all on the move.\r\n\r\n', 'With 64 GB DDR5 SDRAM of memory, users can run many programs without losing execution, 16\" display with 1920 x 1200 resolution showcases movies, games and photos with impressive clarity, 1 TB SSD for spacious storage with much faster data transfer speed than standard hard drives, NVIDIA RTX A5000 16 GB discrete graphic card provides excellent ability in a variety of multimedia applications and user experiences', '233078.31', '213078.31', '233078.00', 24, 116, 'laptop1.webp', 'computer', 0, '2023-05-01 16:28:02'),
 (25, 'Asus', 'Asus Ga503qmbs94q ROG Zephyrus G15 15.6\" QHD Laptop - AMD Ryzen 9 -', 'Power meets portability in the versatile ROG Zephyrus G15, which puts premium gaming in an ultra-slim 1.9kg chassis. Performance is fast and smooth with a powerful CPU and advanced GPU. The WQHD gaming panel balances speed with rich detail to draw you deep into the action.', 'ROG Zephyrus G15 , Game & create & and beyond, Blaze through gaming.', '88696.06', '85696.06', '0.00', 5, 0, 'laptop2.webp', 'computer', 0, '2023-05-01 16:31:42'),
@@ -484,7 +431,7 @@ INSERT INTO `tbl_products` (`product_id`, `product_brand`, `product_name`, `prod
 (36, 'Nokia ', 'Nokia C12 Pro', 'Nokia C12 Pro mobile was launched on 21st March 2023. The phone comes with a 60 Hz refresh rate 6.30-inch touchscreen display (HD+).', 'Display:6.30-inch, Processor: Unisoc SC9863A, Front Camera: 5MP, Rear Camera: 8MP, RAM: 2GB, Storage: 64GB, OS: Android 12 (Go Edition)', '2500.00', '1999.00', '0.00', 40, 0, '32131.avif', 'mobile', 0, '2023-05-01 17:59:31'),
 (37, 'Samsung', '50\" Crystal UHD 4K AU7002 Smart TV', 'Real 4K Resolution: 4x higher than Full HD · Upscale FHD content to 4K Picture Quality · Cinematic surround sound experience with Q-Symphony', 'Get your new Samsung product delivered to your door with our free delivery in selected areas nationwide, Real 4K Resolution: 4x Higher than Full HD, Upscale FHD Content to 4K Picture Quality, Cinematic surround sound experience with Q-Symphony\r\n3-side Bezel Less Design', '45999.00', '39999.00', '0.00', 200, 0, 'tv.avif', 'television', 0, '2023-05-01 18:06:21'),
 (38, 'ACE', 'ACE 32\" SMART LED TV DN2', 'ACE 32\" SMART LED TV DN2 - 808 HD Glass Frameless Flat screen Yotube Television Slim Wifi Screen Mirroring Cast', 'Display Size :32 inches, TV ResolutionHD : 720p, TV Features: Netflix / Wireless Connectivity / Web Browser / Mobile Screen Mirroring / Youtube, Model: LED-808 Glass-DN2', '5599.00', '5000.00', '5599.00', 49, 1, 'tv1.webp', 'television', 0, '2023-05-01 18:12:39'),
-(39, 'JMS ', 'JMS 22 Inch Full HD LED TV+', 'JMS 22 Inch Full HD LED TV+ Smart tv box & Free Wall Bracket LED-2468S', 'Brand: JMS, Warranty Duration: 12 Months,Warranty Type:Supplier Warranty, TV Screen Size: 33 Inches, TV Screen Type: LCD/ LED, TV Type: Digital TV/  Smart TV, Smart TV: Yes, Smart TV OS: Android OS\r\n', '4599.45', '3903.45', '4599.00', 98, 102, 'tv312.jpg', 'television', 0, '2023-05-01 18:20:34'),
+(39, 'JMS ', 'JMS 22 Inch Full HD LED TV+', 'JMS 22 Inch Full HD LED TV+ Smart tv box & Free Wall Bracket LED-2468S', 'Brand: JMS, Warranty Duration: 12 Months,Warranty Type:Supplier Warranty, TV Screen Size: 33 Inches, TV Screen Type: LCD/ LED, TV Type: Digital TV/  Smart TV, Smart TV: Yes, Smart TV OS: Android OS\r\n', '4599.45', '3903.45', '0.00', 100, 100, 'tv312.jpg', 'television', 0, '2023-05-01 18:20:34'),
 (40, 'GELL', 'GELL smart tv 55', 'GELL smart tv 55 inches/43inches/50inches/32inches on sale tv flat screen tv plus remote android tv', 'TV INCH: 32 inch,Screen ratio: 16:9, Screen resolution: 1366(H)×768(V), Viewing angle: 178°\r\nBrightness: 250cd/m2, Contrast ratio: 1900/3/23 8:01:00, Response time: 4ms, Network cable port (RJ45): one set, Composite video (CVBS) port: one set, Computer video input (VGA) port: one set, Computer audio input (PC　AUDIO) port: one set, High-definition video input (HDMI) port: one set, Analog signal input (RF) port: one set, Audio output (EARPHONE OUT) port: one set, Multimedia (USB.2.0) port: one set, Speaker power: 10W×2, Input voltage: AC: 100～240V 50/60Hz, Backlight parameters: 85V / 360ma*2, Operating environment: Relative humidity ≤80% /  Storage humidity -10～60℃ /  Operating humidity 0～40℃', '6999.00', '5199.00', '13998.00', 58, 2, 'tv23.webp', 'television', 0, '2023-05-01 18:26:09'),
 (41, 'Xiaomi Mi', 'Xiaomi Mi TV ', 'Xiaomi Mi TV P1 32\" 32iches Pseries Android TV with Built in chromecast|60Hz W/ FREE CHARGING CABLE', 'Warranty Duration: 12 Months,  Warranty Type: Manufacturer Warranty, TV Screen Size: < 33 Inches, TV Screen Type: Others, Smart TV: Yes, Smart TV OS: Android OS, Resolution: 1,366 x 768', '8999.00', '7999.00', '0.00', 70, 0, 'tv131.jpg', 'television', 0, '2023-05-01 18:29:33'),
 (42, 'ACE', 'Grip-Rite 0.02 in. D Black Annealed Steel 16 Ga. Tie Wire', 'Grip-Rite is preferred by professionals nationwide and is the brand you turn to when you need to get a job done right. Whether that job is residential or commercial, spanning days or months, we know reputations are built on quality, value and trust.', 'Brand Name: Grip-Rite, Product Type: Tie Wire, Brand Name: Grip-Rite, Coated: Yes, Diameter: 0.02 inch, Finish: Black Annealed, Gauge: 16 Gauge, Material: Steel, Stranded or Solid: Solid', '680.00', '599.00', '0.00', 600, 0, 'q.jpg', 'hardware', 0, '2023-05-01 18:33:33'),
@@ -569,12 +516,7 @@ INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`,
 (13, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 1234, 28, 'Female', 'jenc5@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:27:19', 1, 1, 5, '2023-05-23 16:42:41'),
 (14, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 0, 28, 'Female', 'jenc51@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:28:24', 1, 1, 1, '0000-00-00 00:00:00'),
 (16, 'soulyaknow', 'lenar', 'onailos', 'atabay', 'lapu lapu', 'philippines', 6016, 25, 'Female', 'lenar123@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '331106143_1364428367646657_658814879832039531_n.jpg', '2023-05-17 20:27:28', 1, 1, 1, '0000-00-00 00:00:00'),
-<<<<<<< HEAD
 (18, 'test', 'test', 'test', 'test', 'test', 'test', 123, 123, 'Female', 'test@123', '202cb962ac59075b964b07152d234b70', '', '2023-05-24 20:58:34', 2, 1, 0, '0000-00-00 00:00:00');
-=======
-(18, 'fide championship', 'f', 'f', 'f', 'f', 'f', 3, 3, 'Male', 'f@gmail.com', '2510c39011c5be704182423e3a695e91', '', '2023-05-26 10:59:48', 1, 1, 3, '2023-05-26 15:37:40'),
-(19, 'd', 'd', 'd', 'd', 'd', 'd', 3, 3, 'Male', 'd@gmail.com', '8277e0910d750195b448797616e091ad', '', '2023-05-26 14:40:18', 1, 1, 0, '0000-00-00 00:00:00');
->>>>>>> a5e9e7f63822c4e7c26f433c3f5c15f52a805db2
 
 -- --------------------------------------------------------
 
@@ -588,19 +530,19 @@ CREATE TABLE `tbl_variant` (
   `product_variant` text NOT NULL,
   `product_stock` int(11) NOT NULL,
   `product_img` text NOT NULL,
+  `category` text NOT NULL,
   `date_created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
-
 -- Dumping data for table `tbl_variant`
 --
 
-INSERT INTO `tbl_variant` (`id`, `product_id`, `product_variant`, `product_stock`, `product_img`, `date_created`) VALUES
-(1, 0, 'green', 0, 'hard.jpg', '2023-05-23 02:12:38');
+INSERT INTO `tbl_variant` (`id`, `product_id`, `product_variant`, `product_stock`, `product_img`, `category`, `date_created`) VALUES
+(14, 68, 'red', 11, 'red.webp', 'mobile', '2023-05-26 16:34:04'),
+(15, 68, 'green', 4, 'green.jpg', 'mobile', '2023-05-26 16:34:29');
 
 --
-
 -- Indexes for dumped tables
 --
 
@@ -643,13 +585,13 @@ ALTER TABLE `tbl_variant`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase`
@@ -671,7 +613,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_variant`
 --
 ALTER TABLE `tbl_variant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
