@@ -11,6 +11,16 @@ createApp({
             totalSales: '',
             username: '',
             email: '',
+            firstname: '',
+            lastname: '',
+            street: '',
+            city: '',
+            state: '',
+            zipcode: '',
+            gender: '',
+            date_created: '',
+            role: '',
+            status: '',
             userid: 0,
             product_id: 0,
             product_name: '',
@@ -20,12 +30,20 @@ createApp({
             product_variant: '',
             product_stock: '',
             product_description: '',
-            product_specification: '',
+            product_spec: '',
             product_images: '',
-            product_category: ''
+            product_category: '',
+            inputVariants:[{type:'text', name:'variant',class:'form-control',divClass:'col-sm-5'},{type:'number', name:'variant_stock',class:'form-control',divClass:'col-sm-3'},{type:'file', name:'variant_image',class:'form-control-file',divClass:'col-sm-4'},{type:'hidden',key:1}],
+            // variants: [],
+            objVariant: [],
+            key:[1],
         }
     },
     methods:{
+        addInputField() {
+            
+            this.inputVariants.push({type:'text', name:'variant',class:'form-control',divClass:'col-sm-5'},{type:'number', name:'variant_stock',class:'form-control',divClass:'col-sm-3'},{type:'file', name:'variant_image',class:'form-control-file',divClass:'col-sm-4'},{type:'hidden',key:String(++this.key)});
+        },
         fnGetUser:function(userid){
             const vm = this;
             const data = new FormData();
@@ -53,7 +71,7 @@ createApp({
                         })
                     })
                 }
-                else{
+                else{                
                     f.data.forEach(function(e){
                             vm.username = e.username,
                             vm.email = e.email,
@@ -212,30 +230,39 @@ createApp({
         fnAddProduct:function(e){
             e.preventDefault();
             var form = e.currentTarget;
+            // console.log(form )
+            // console.log(this.variants)
+            // this.variants.forEach((v,index) => {
+                
+            // })
+            // console.log(this.variants)
+            // console.log(form);
             const data = new FormData(form);
             data.append('method','fnAddProduct');
             data.append('product_id',this.product_id);
+            // data.append('variants',JSON.stringify(this.variants));
             axios.post('model/adminModel.php',data)
             .then(function(r){
-                if(r.data == 1)
-                {
-                    Swal.fire(
-                        'Added!',
-                        'Product has been Added.',
-                        'success'
-                    )
-                }
-                else
-                {
-                    Swal.fire(
-                        'Error!',
-                        'There is an error upon uploading.',
-                        'error'
-                    )
-                }
-                setTimeout(function(){
-                    location.reload();
-                }, 2000);
+                console.log(r.data);
+                // if(r.data == 1)
+                // {
+                //     Swal.fire(
+                //         'Added!',
+                //         'Product has been Added.',
+                //         'success'
+                //     )
+                // }
+                // else
+                // {
+                //     Swal.fire(
+                //         'Error!',
+                //         'There is an error upon uploading.',
+                //         'error'
+                //     )
+                // }
+                // setTimeout(function(){
+                //     location.reload();
+                // }, 2000);
             })
         },
         fnAddVariant:function(e){
@@ -300,9 +327,8 @@ createApp({
                             vm.product_name = e.product_name,
                             vm.product_description = e.product_description,
                             vm.product_spec = e.product_specification,
-                            vm.product_price = e.product_oldPrice,
+                            vm.product_price = e.product_newPrice,
                             vm.product_variant = e.product_variant,
-                            vm.product_newPrice = e.product_newPrice,
                             vm.product_stock = e.product_stock,
                             vm.product_sold = e.product_sold,
                             vm.product_images = e.product_img,

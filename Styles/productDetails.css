@@ -286,6 +286,7 @@ input[type="search"]::-webkit-search-cancel-button {
 	font-family: Verdana;
 	font-size: 0.9vw;
 	display: inline-block;
+	width: 100%;
 }
 .stock-sold span{
 	margin-right: 10px;

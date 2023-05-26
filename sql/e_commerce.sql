@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 10:22 AM
+-- Generation Time: May 26, 2023 at 10:52 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -213,7 +213,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUser` (IN `sp_userid` INT)   
 	if sp_userid = 0 THEN
     SELECT * FROM tbl_user where log_attempts = 1;
     else
-    SELECT * FROM tbl_user where userid = sp_userid;
+    SELECT * FROM tbl_user WHERE userid = sp_userid;
      end if;
 END$$
 
@@ -459,7 +459,7 @@ INSERT INTO `tbl_user` (`userid`, `username`, `firstname`, `lastname`, `street`,
 (10, 'sweetie', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 23, '0', 'rere@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:52:12', 1, 1, 1, '0000-00-00 00:00:00'),
 (11, 'saranghae', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 23, '0', 'jenc@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-12 15:58:38', 1, 1, 1, '0000-00-00 00:00:00'),
 (12, 'ran', 'Ranel', 'Soliano', 'Lapu Lapu', 'Cebu', 'phil', 6016, 25, 'Male', 'ranel.soliano1@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 18:47:40', 1, 1, 1, '0000-00-00 00:00:00'),
-(13, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 1234, 28, 'Female', 'jenc5@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:27:19', 1, 1, 5, '2023-05-23 16:42:41'),
+(13, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 1234, 28, 'Female', 'jenc5@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:27:19', 1, 1, 1, '2023-05-23 16:42:41'),
 (14, 'jenny', 'jenny', 'fier', 'test', 'canada', 'america', 0, 28, 'Female', 'jenc51@yahoo.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cpc.jpg', '2023-05-14 19:28:24', 1, 1, 1, '0000-00-00 00:00:00'),
 (16, 'soulyaknow', 'lenar', 'onailos', 'atabay', 'lapu lapu', 'philippines', 6016, 25, 'Female', 'lenar123@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '331106143_1364428367646657_658814879832039531_n.jpg', '2023-05-17 20:27:28', 1, 1, 1, '0000-00-00 00:00:00'),
 (18, 'fide championship', 'f', 'f', 'f', 'f', 'f', 3, 3, 'Male', 'f@gmail.com', '2510c39011c5be704182423e3a695e91', '', '2023-05-26 10:59:48', 1, 1, 3, '2023-05-26 15:37:40'),
