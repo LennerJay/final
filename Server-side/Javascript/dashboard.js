@@ -33,15 +33,10 @@ createApp({
             product_spec: '',
             product_images: '',
             product_category: '',
-            inputVariants:[{type:'text', name:'variant',class:'form-control',divClass:'col-sm-5'},{type:'number', name:'variant_stock',class:'form-control',divClass:'col-sm-3'},{type:'file', name:'variant_image',class:'form-control-file',divClass:'col-sm-4'},{type:'hidden',key:1}],
-            // variants: [],
-            objVariant: [],
-            key:[1],
         }
     },
     methods:{
         addInputField() {
-            
             this.inputVariants.push({type:'text', name:'variant',class:'form-control',divClass:'col-sm-5'},{type:'number', name:'variant_stock',class:'form-control',divClass:'col-sm-3'},{type:'file', name:'variant_image',class:'form-control-file',divClass:'col-sm-4'},{type:'hidden',key:String(++this.key)});
         },
         fnGetUser:function(userid){
@@ -230,39 +225,31 @@ createApp({
         fnAddProduct:function(e){
             e.preventDefault();
             var form = e.currentTarget;
-            // console.log(form )
-            // console.log(this.variants)
-            // this.variants.forEach((v,index) => {
-                
-            // })
-            // console.log(this.variants)
-            // console.log(form);
             const data = new FormData(form);
             data.append('method','fnAddProduct');
             data.append('product_id',this.product_id);
-            // data.append('variants',JSON.stringify(this.variants));
             axios.post('model/adminModel.php',data)
             .then(function(r){
                 console.log(r.data);
-                // if(r.data == 1)
-                // {
-                //     Swal.fire(
-                //         'Added!',
-                //         'Product has been Added.',
-                //         'success'
-                //     )
-                // }
-                // else
-                // {
-                //     Swal.fire(
-                //         'Error!',
-                //         'There is an error upon uploading.',
-                //         'error'
-                //     )
-                // }
-                // setTimeout(function(){
-                //     location.reload();
-                // }, 2000);
+                if(r.data == 1)
+                {
+                    Swal.fire(
+                        'Added!',
+                        'Product has been Added.',
+                        'success'
+                    )
+                }
+                else
+                {
+                    Swal.fire(
+                        'Error!',
+                        'There is an error upon uploading.',
+                        'error'
+                    )
+                }
+                setTimeout(function(){
+                    location.reload();
+                }, 2000);
             })
         },
         fnAddVariant:function(e){
@@ -272,7 +259,7 @@ createApp({
             data.append('method','fnAddVariant');
             axios.post('model/adminModel.php',data)
             .then(function(r){
-                console.log(r);
+                console.log(r.data);
                 if(r.data == 1)
                 {
                     Swal.fire(
@@ -280,6 +267,9 @@ createApp({
                         'Variant has been Added.',
                         'success'
                     )
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
                 }
                 else
                 {
@@ -289,9 +279,7 @@ createApp({
                         'error'
                     )
                 }
-                setTimeout(function(){
-                    location.reload();
-                }, 2000);
+
             })
         },
         fnGetItems:function(productid){

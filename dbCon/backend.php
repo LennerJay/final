@@ -1,6 +1,22 @@
 <?php 
 require "database.php";
     class Backend{
+        public function getVariant($product_id){
+            try{
+                $db = new Database;
+                if($db->getStatus()){
+                    $stmt = $db->getCon()->prepare('SELECT * FROM tbl_variant WHERE product_id = ?');
+                    $stmt->execute(array($product_id));
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    $db->closeConnection();
+                    return json_encode($result);
+                }else{
+                    return "Database Connection Error";
+                }
+            }catch(PDOException $e){
+                return $e;
+            }
+        }
         public function fnGetUser(){
             try{
                 $db = new Database;

@@ -17,35 +17,20 @@
               <input type="text" class="form-control" name="product_name" id="product_name" required>
             </div>
             <div class="input-field">
-              <label for="price">Product Price</label>
-              <input type="text" class="form-control" name="price" id="price" required>
-            </div>
-            <div class="input-field">
               <input type="hidden" class="form-control" name="new_price" id="new_price" required>
             </div>
             <div class="input-field">
               <label for="brand">Product Brand</label>
               <input type="text" class="form-control" name="brand" id="brand" required>
             </div>
-
+            <div class="input-field">
+              <label for="price">Product Price</label>
+              <input type="text" class="form-control" name="price" id="price" required>
+            </div>
             <div class="input-field">
               <label for="brand">Product Picture <span id="default">(default)</span></label>
               <input type="file" class="form-control-file" name="product_picture" id="product_picture" style="text-align: center; width: 50%;">
             </div>
-            <div class="form-row">
-              <div v-for="(input, index) in inputVariants" :key="input.key" class="form-group input-field" :class="input.divClass">
-                  <span>{{input.key}}</span>
-                  <label :for="input.name">{{input.name}}</label>
-                  <input :type="input.type":class="input.class" :name="'variants['+ input.key +']['+input.name+']'" :id="input.name">
-              </div>
-            </div>
-            <div class="input-field">
-              <button type="button" class="form-control btn btn-default " @click ="addInputField()">Add another Variant</button>
-
-            <!-- <div class="input-field">
-              <label for="brand">Product Variant</label>
-              <input type="text" class="form-control" name="color" id="color">
-            </div> -->
             <div class="input-field">
               <label for="brand">Variant Stock</label>
               <input type="text" class="form-control" name="vstock" id="vstock" required>
@@ -71,11 +56,6 @@
               </select>
 
             </div>
-            <div class="input-field">
-              <label for="brand">Product Picture</label>
-              <input type="file" class="form-control" name="product_picture" id="product_picture" style="text-align: center; width: 50%;" required>
-
-            </div><br>
             <div class="input-field">
               <button type="submit" class="form-control btn btn-default">Submit</button>
             </div>
@@ -112,14 +92,7 @@
               <label for="brand">Product Brand</label>
               <input type="text" class="form-control" name="brand" id="brand" v-model="product_brand">
             </div>
-            <!-- <div class="input-field">
-              <label for="brand">Product Variant</label>
-
-              <input type="text" class="form-control" name="variant" id="variant" v-model="product_variant">
-            </div>
-
-              <input type="text" class="form-control" name="color" id="color" v-model="product_variant">
-            </div> -->
+    
             <div class="input-field">
               <label for="brand">Variant Stock</label>
               <input type="text" class="form-control" name="vstock" id="vstock" v-model="product_stock">
@@ -144,8 +117,8 @@
               </select>
             </div>
             <div class="input-field">
-              <label for="brand">Product Picture</label>
-              <input type="file" class="form-control" name="product_picture" id="product_picture" style="text-align: center; width: 50%;" v-model="product_images">
+              <label for="brand">Change Product Picture <span id="default">(default)</span></label>
+              <input type="file" class="form-control" name="product_picture" id="product_picture" style="text-align: center; width: 50%;">
             </div><br>
             <div class="input-field">
               <button type="submit" class="form-control btn btn-default">Submit</button>
@@ -170,6 +143,7 @@
             <div class="input-field">
               <!-- <label for="variant">Product ID</label> -->
               <input type="hidden" class="form-control" name="product_id" id="product_id" required v-model="product_id">
+              <input type="hidden" class="form-control" name="product_category" id="product_category" required v-model="product_category">
             </div>
             <div class="input-field">
               <label for="product_variant">Product Variant</label>
@@ -180,8 +154,8 @@
               <input type="text" class="form-control" name="var_stock" id="var_stock" required>
             </div>
             <div class="input-field">
-              <!-- <label for="product_img">Product Image</label> -->
-              <input type="hidden" class="form-control" name="product_img" id="product_img" v-model="product_images">
+              <label for="product_img">Product Image</label>
+              <input type="file" class="form-control" name="product_picture" id="product_picture" v-model="product_picture">
             </div><br>
             <div class="input-field">
               <button type="submit" class="form-control btn btn-default">Submit</button>

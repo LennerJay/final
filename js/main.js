@@ -94,7 +94,6 @@ createApp({
         selectPreviousAutocomplete() {
             if (this.selectedIndex > -1) {
                 this.selectedIndex--;
-                
             }
         },
         fnViewDetail:function(id){
@@ -204,7 +203,6 @@ createApp({
                             }
                             data.append('product_id',product_id)
                             axios.post('dbCon/router.php',data).then(respond=>{
-                                console.log(respond.data)
                                 if(respond.data == 1){
                                     swal.fire(
                                         'Purchased Success',
