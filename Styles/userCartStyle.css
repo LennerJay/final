@@ -210,160 +210,73 @@ body, html {
     box-shadow: 1px 1px 3px gray;
 }
 
-#fill-form {
-    width: 70%;
-    margin: 50px auto 50px auto;
-    font-family: Verdana;
+#main-section {
     background-color: #ffffff;
-    padding: 60px 10px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 2px gray;
+    padding: 15px;
+    height: 90vh;
+    overflow: scroll;
 }
 
-#fill-form .form-content {
-    width: 80%;
-    margin: auto;
+#main-section .product-details {
+    background-color: #E6E6E6;
+    padding: 15px;
 }
 
-#fill-form .row-1-content, 
-#fill-form .row-2-content,
-#fill-form .row-3-content,
-#fill-form .row-5-content {
-    margin-bottom: 20px;
+#main-section .products {
+    display: inline-flex;
+    font-family: Helvetica;
 }
 
-#fill-form .row-1-content .row-1,
-#fill-form .row-2-content .row-2,
-#fill-form .row-3-content .row-2,
-#fill-form .row-4-content .row-2,
-#fill-form .row-5-content .row-2,
-#fill-form .row-6-content .row-3 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+#main-section .products img {
+    margin-right: 10px;
 }
 
-#fill-form .row-1-content h2,
-#fill-form .row-3-content h2,
-#fill-form .row-5-content h2 {
-    font-size: 12px;
-    margin-bottom: 15px;
-    color: #2374CC;
+#main-section .prod-infos {
+    display: inline-block;
 }
 
-#fill-form .row-4-content {
-    margin-bottom: 20px;
-}
-
-#fill-form .row-3-content .row-2 .col-1 select {
-    padding: 6px 15px;
-    width: 312px;
-    outline: none;
-    border: 1px solid gray;
-    height: 35px;
-}
-
-#fill-form label {
+#main-section .prod-infos p {
     display: block;
-    font-size: 12px;
     margin-bottom: 5px;
+    font-size: 13px;
 }
 
-#fill-form input[type="text"],
-#fill-form input[type="number"],
-#fill-form input[type="email"],
-#fill-form input[type="password"] {
-    padding: 6px 15px;
-    width: 280px;
-    outline: none;
-    border: 1px solid gray;
-    height: 18px;
+/* #main-section .prod-infos p.brand {
+    font-size: 13px;
+} */
+
+#main-section .prod-infos .buttons {
+    margin-top: 15px;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-#fill-form input[type="text"]:hover,
-#fill-form input[type="text"]:focus,
-#fill-form input[type="number"]:hover,
-#fill-form input[type="number"]:focus,
-#fill-form input[type="email"]:hover,
-#fill-form input[type="email"]:focus,
-#fill-form input[type="password"]:hover,
-#fill-form input[type="password"]:focus {
-    border: 1px solid #007BFF;
-    transition: all 0.3s ease 0s;
-}
-
-#fill-form input[type="text"]::placeholder {
-    font-size: 11.5px;
-    font-style: Verdana;
-    letter-spacing: 0.9px;
-}
-
-#fill-form .buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 18px;
-}
-
-#fill-form .buttons button#cancel {
-    padding: 10px 18px;
-    background-color: #6C747E;
+#main-section .prod-infos button#remove {
+    padding: 8px 15px;
+    background-color: mediumseagreen;
+    color: #ffffff;
     border: none;
     outline: none;
-    color: #ffffff;
-    font-size: 12px;
     border-radius: 3px;
     margin-right: 5px;
 }
 
-#fill-form .buttons button#cancel:hover {
-    background-color: #5B636D;
+#main-section .prod-infos button#remove:hover {
     cursor: pointer;
+    background-color: tomato;
     transition: all 0.3s ease 0s;
 }
 
-#fill-form .buttons button#update {
-    padding: 10px 18px;
-    background-color: #007BFF;
+#main-section .prod-infos button#purchase {
+    padding: 8px 15px;
+    background-color: tomato;
+    color: #ffffff;
     border: none;
     outline: none;
-    color: #ffffff;
-    font-size: 12px;
-    border-radius: 3px;
-    display: none;
-}
-
-#fill-form .buttons button#update:hover {
-    background-color: #6C747E;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
-
-#fill-form .buttons button#edit {
-    padding: 10px 27.5px;
-    background-color: #007BFF;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    font-size: 12px;
     border-radius: 3px;
 }
 
-#fill-form .buttons button#edit {
-    background-color: #007BFF;
+#main-section .prod-infos button#purchase:hover {
     cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
-
-#fill-form .buttons button#edit:hover {
-    background-color: #6C747E;
-    cursor: pointer;
+    background-color: mediumseagreen;
     transition: all 0.3s ease 0s;
 }
 
