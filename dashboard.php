@@ -61,80 +61,80 @@
   </nav>
 
   <section class="dashboard">
-    <div class="top">
-      <i class="uil uil-bars sidebar-toggle"></i>
-    </div>
-    
-    <div class="dash-content">
-      <div class="overview">
-        <div class="title">
-          <i class="uil uil-tachometer-fast-alt"></i>
-          <span class="text">Dashboard</span>
-        </div>
-        
-        <div class="boxes">
-          <div class="box box1">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
-            <span class="text">Total User</span>
-            <span class="number">{{ users.length }}</span>
-          </div>
-
-          <div class="box box2">
-              <i class="fa-solid fa-cart-shopping"></i>
-              <span class="text">Total Sales</span>
-              <span class="number">{{ totalSales}}</span>
-          </div>
-
-          <div class="box box3">
-            <i class="fa fa-user-times" aria-hidden="true"></i>
-            <span class="text">Disabled User</span>
-            <span class="number">{{ disuser.length }}</span>
-          </div>
-        </div>
+        <div class="top">
+        <i class="uil uil-bars sidebar-toggle" id="toggle-btn"></i>
       </div>
-
-      <div class="activity">
-        <div class="title">
-          <i class="uil uil-clock-three"></i>
-          <span class="text">Recent Register</span>
-        </div>
-
-        <div style="overflow-x:auto;">
-          <table class="datas" id="myDataTable">
-            <div class="activity-data">
-              <thead>
-                <tr>
-                  <div class="data names">
-                    <th class="data-title">Username</th></span>
-                  </div>
-                  <div class="data email">
-                    <th class="data-title">Email</th></span>
-                  </div>
-                  <div class="data joined">
-                    <th class="data-title">Date Joined</th>
-                  </div>
-                  <div class="data type">
-                    <th class="data-title">Roles</th></span>
-                  </div>
-                  <div class="data status">
-                    <th class="data-title">Status</th></span>
-                  </div>
-                </tr>
-              </thead>
-              <tbody id="tbl_Data">
-                <tr v-for="user in users">
-                  <td>{{  user.username }}</td>
-                  <td>{{  user.email }}</td>
-                  <td>{{  user.date_created }}</td>
-                  <td>{{  user.role }}</td>
-                  <td>{{  user.status }}</td>
-                </tr>
-              </tbody>
+      
+      <div class="dash-content">
+        <div class="overview">
+          <div class="title">
+            <i class="uil uil-tachometer-fast-alt"></i>
+            <span class="text">Dashboard</span>
+          </div>
+          
+          <div class="boxes">
+            <div class="box box1">
+              <i class="fa fa-user-circle" aria-hidden="true"></i>
+              <span class="text">Total User</span>
+              <span class="number">{{ users.length }}</span>
             </div>
-          </table>
+
+            <div class="box box2">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="text">Total Sales</span>
+                <span class="number">{{ totalSales}}</span>
+            </div>
+
+            <div class="box box3">
+              <i class="fa fa-user-times" aria-hidden="true"></i>
+              <span class="text">Disabled User</span>
+              <span class="number">{{ disuser.length }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="title">
+            <i class="uil uil-clock-three"></i>
+            <span class="text">Recent Register</span>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="datas" id="myDataTable">
+              <div class="activity-data">
+                <thead>
+                  <tr>
+                    <div class="data names">
+                      <th class="data-title">Username</th></span>
+                    </div>
+                    <div class="data email">
+                      <th class="data-title">Email</th></span>
+                    </div>
+                    <div class="data joined">
+                      <th class="data-title">Date Joined</th>
+                    </div>
+                    <div class="data type">
+                      <th class="data-title">Roles</th></span>
+                    </div>
+                    <div class="data status">
+                      <th class="data-title">Status</th></span>
+                    </div>
+                  </tr>
+                </thead>
+                <tbody id="tbl_Data">
+                  <tr v-for="user in users">
+                    <td>{{  user.username }}</td>
+                    <td>{{  user.email }}</td>
+                    <td>{{  user.date_created }}</td>
+                    <td>{{  user.role }}</td>
+                    <td>{{  user.status }}</td>
+                  </tr>
+                </tbody>
+              </div>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
   </section>
 </div>
 
