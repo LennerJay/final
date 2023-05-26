@@ -10,6 +10,36 @@
     }
 function fnAddProduct(){
     global $con;
+
+    // echo json_encode([$_POST['variant'],$_POST['variant_stock'],$_FILES['variant_image']['name']]);
+    echo json_encode([$_POST['variants']]);
+    // $product_name = $_POST['product_name'];
+    // $product_price = $_POST['price'];
+    // $product_newPrice = $_POST['new_price'];
+    // $product_brand = $_POST['brand'];
+    // $product_stock = $_POST['vstock'];
+    // $product_spec = $_POST['product_spec'];
+    // $product_description = $_POST['product_description'];
+    // $product_category = $_POST['product_category'];
+    // $files = $_FILES['product_picture']['name'];
+    // $folder = "../images/" . $product_category . '/';
+    // $destination = $folder . $files;
+    // $product_id = $_POST['product_id'];
+    // $query = $con->prepare('CALL sp_addUpdateProduct(?,?,?,?,?,?,?,?,?,?)');
+    // $query->bind_param('ssssiiissi',$product_brand,$product_name,$product_description,$product_spec,$product_price,$product_newPrice,$product_stock,$product_category,$files,$product_id);
+    // if($query->execute()){
+    //     move_uploaded_file($_FILES['product_picture']['tmp_name'],$destination);
+    //     addVariantUpdateProduct();
+    //     // echo 1;
+    // }
+    // else{
+    //     echo json_encode(mysqli_error($con));
+    // }
+
+}
+function addVariantUpdateProduct(){
+    global $con;
+
     $product_name = $_POST['product_name'];
     $product_price = $_POST['price'];
     $product_newPrice = $_POST['new_price'];
@@ -24,14 +54,8 @@ function fnAddProduct(){
     $product_id = $_POST['product_id'];
     $query = $con->prepare('CALL sp_addUpdateProduct(?,?,?,?,?,?,?,?,?,?)');
     $query->bind_param('ssssiiissi',$product_brand,$product_name,$product_description,$product_spec,$product_price,$product_newPrice,$product_stock,$product_category,$files,$product_id);
+
     
-    if($query->execute()){
-        move_uploaded_file($_FILES['product_picture']['tmp_name'],$destination);
-        echo 1;
-    }
-    else{
-        echo json_encode(mysqli_error($con));
-    }
 }
 function fnAddVariant(){
     global $con;
@@ -53,10 +77,8 @@ function fnAddVariant(){
 function fnGetItems(){
     global $con;
     $productid = $_POST['productid'];
-
     $query = $con->prepare('CALL sp_getProduct(?)');
     $query->bind_param('i',$productid);
-    
     $query->execute();
     $result = $query->get_result();
     $data = array();

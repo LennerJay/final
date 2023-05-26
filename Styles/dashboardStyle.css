@@ -206,7 +206,13 @@ body.dark .nav-links li a:hover .link-name{
 body.dark .switch:before{
     left: 20px;
 }
-
+.input-field{
+    margin-bottom: 10px !important;
+}
+#default{
+    font-size: 10px !important;
+    color:  #888585;
+}
 .dashboard{
     position: relative;
     left: 250px;
