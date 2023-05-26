@@ -7,6 +7,10 @@
     }else{
         echo "Function not exist";
     }
+    function getVariant(){
+        $backend = new Backend();
+        echo $backend->getVariant($_POST['id']);
+    }
     function fnGetUser(){
         $backend = new Backend;
         echo $backend->fnGetUser();

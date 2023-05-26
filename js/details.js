@@ -15,9 +15,32 @@ createApp({
             showShoppingCart:false,
             selectedIndex: -1,
             showProfile:false,
+            img:'',
+            stock:0,
+            sold:0,
+            variants:[],
         }
     },
     methods:{
+        getVariant:function(id){
+            const vm = this;
+            const data = new FormData;
+            data.append('method','getVariant')
+            data.append('id',id)
+            axios.post('dbCon/router.php',data).then((respond)=>{
+                console.log(respond.data)
+                respond.data.forEach(v =>{
+                    vm.variants.push({
+                        id:v.product_id,
+                        name:v.product_variant,
+                        // price:v.price,
+                        stock:v.product_stock,
+                        img:v.product_img,
+                    })
+                })
+            })
+            console.log(this.variants)
+        },
         fnAddToCart:function(product_id){
             let isExists = this.shoppingCart.some(item => item.id == product_id)
             if(isExists){
@@ -182,7 +205,6 @@ createApp({
                         })
 
                     })
-
                 }else{
                     respond.data.forEach(e=>{   
                         vm.product.push({
@@ -196,10 +218,14 @@ createApp({
                             sold: e.product_sold,
                             img: e.product_img,
                             category: e.product_category
+                            
                         })
+                        vm.sold= e.product_sold
+                        vm.stock= e.product_stock
+                        vm.img = e.product_img
                         vm.specs.push(e.product_specification.split(","))
+                        
                     })
-                    console.log(vm.product);
                 }
             })
         },
@@ -291,6 +317,7 @@ createApp({
     },
     created(){
         this.getProduct(localStorage.getItem('id'))
+        this.getVariant(localStorage.getItem('id'));
         this.getProduct(0);
         this.checkStatus();
    
