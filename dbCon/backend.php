@@ -158,7 +158,6 @@ require "database.php";
                     $stmt = $db->getCon()->prepare('call sp_checkUser(?,?)');
                     $stmt->execute(array($email,$tmp));
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    
                     $db->closeConnection();
                     return $result;
                 }else{
