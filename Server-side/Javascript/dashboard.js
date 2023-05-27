@@ -33,12 +33,10 @@ createApp({
             product_spec: '',
             product_images: '',
             product_category: '',
+            variant_id: 0,
         }
     },
     methods:{
-        addInputField() {
-            this.inputVariants.push({type:'text', name:'variant',class:'form-control',divClass:'col-sm-5'},{type:'number', name:'variant_stock',class:'form-control',divClass:'col-sm-3'},{type:'file', name:'variant_image',class:'form-control-file',divClass:'col-sm-4'},{type:'hidden',key:String(++this.key)});
-        },
         fnGetUser:function(userid){
             const vm = this;
             const data = new FormData();
@@ -257,6 +255,7 @@ createApp({
             var form = e.currentTarget;
             const data = new FormData(form);
             data.append('method','fnAddVariant');
+            data.append('variant_id',this.variant_id);
             axios.post('model/adminModel.php',data)
             .then(function(r){
                 console.log(r.data);
@@ -289,6 +288,7 @@ createApp({
             data.append("productid",productid);
             axios.post('model/adminModel.php',data)
             .then(function(f){
+                
                 if(productid == 0){
                     vm.items = [];
                     f.data.forEach(function(e){
@@ -310,11 +310,13 @@ createApp({
                     })
                 }
                 else{
+                    console.log(f.data);
                     f.data.forEach(function(e){
                             vm.product_brand = e.product_brand,
                             vm.product_name = e.product_name,
                             vm.product_description = e.product_description,
                             vm.product_spec = e.product_specification,
+                            vm.product_oldPrice = e.product_oldPrice,
                             vm.product_price = e.product_newPrice,
                             vm.product_variant = e.product_variant,
                             vm.product_stock = e.product_stock,

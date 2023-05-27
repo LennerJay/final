@@ -87,8 +87,6 @@
             $_SESSION['password'] = $result['password'];
             $_SESSION['user_id'] = $result['userid'];
             $_SESSION['role'] = $result['role'];
-            $ret = ['ret'=>$result['ret'],'user_role'=>$result['role']];
-
             $_SESSION['username'] = $result['username'];
             $_SESSION['firstname'] = $result['firstname'];
             $_SESSION['lastname'] = $result['lastname'];
@@ -98,6 +96,7 @@
             $_SESSION['city'] = $result['city'];
             $_SESSION['state'] = $result['state'];
             $_SESSION['zipcode'] = $result['zipcode'];
+            $ret = ['ret'=>$result['ret'],'user_role'=>$result['role']];
         }else{
             $ret =  ['ret'=>$result['ret']];
         }

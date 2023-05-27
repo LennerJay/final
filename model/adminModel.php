@@ -59,9 +59,13 @@ function fnAddVariant(){
     $var_stock = $_POST['var_stock'];
     $files = $_FILES['product_picture']['name'];
     $product_id = $_POST['product_id'];
+    $variant_id = $_POST['variant_id'];
+    $product_oldPrice = $_POST['product_oldPrice'];
+    $new_price = $_POST['product_newPrice'];
     $category = $_POST['product_category'];
-    $query = $con->prepare('CALL sp_addVariant(?,?,?,?,?)');
-    $query->bind_param('isiss',$product_id,$variant,$var_stock,$files, $category);
+    $product_sold = 0;
+    $query = $con->prepare('CALL sp_addUpdateVariant(?,?,?,?,?,?,?,?,?)');
+    $query->bind_param('isissisii',$product_id,$variant,$var_stock,$files,$category,$new_price ,$product_oldPrice,$variant_id, $product_sold);
     if($query->execute()){
         $folder = "../images/" . $category . '/';
         $destination = $folder . $files;
@@ -80,7 +84,7 @@ function fnGetItems(){
     $query->execute();
     $result = $query->get_result();
     $data = array();
-    while($row = $result->fetch_array()){
+    while($row = $result->fetch_assoc()){
         $data[] = $row;
     }
 

@@ -154,6 +154,14 @@
               <input type="text" class="form-control" name="var_stock" id="var_stock" required>
             </div>
             <div class="input-field">
+              <label for="var_stock">Variant Price</label>
+              <input type="number" class="form-control" name="product_oldPrice" id="product_oldPrice" v-model="product_oldPrice" required>
+            </div>
+            <div class="input-field">
+              <label for="var_stock">Variant new Price</label>
+              <input type="number" class="form-control" name="product_newPrice" id="product_newPrice" v-model="product_price"required>
+            </div>
+            <div class="input-field">
               <label for="product_img">Product Image</label>
               <input type="file" class="form-control" name="product_picture" id="product_picture" v-model="product_picture">
             </div><br>

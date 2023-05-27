@@ -80,8 +80,8 @@
 			<h4>Brand | {{item.brand}}</h4>
 			<h4><span v-if="item.oldPrice > 0" class="discount">&#8369;{{Intl.NumberFormat().format(item.oldPrice)}}</span> &nbsp; <span class="price">&#8369;{{Intl.NumberFormat().format(item.newPrice)}}</span></h4>
 			<div class="variant">
-				<button id="click-black" type="button" >Default</button>
-				<button v-if="variants.length > 0" type="button" v-for="variant in variants">{{variant.name}}</button>
+				<button id="click-black" type="button" @click="showSet()" >Default</button>
+				<button v-if="variants.length > 0" type="button" v-for="variant in variants" @click="showSet(variant.id)">{{variant.name}}</button>
 			</div>
 			<div class="stock-sold">
 				<span >Stock : {{stock}}</span >
@@ -89,7 +89,7 @@
 			</div>
 
 			<div class="pur-add">
-				<button v-if="item.stock > 0" class="purchase" @click="fnPurchase(item.brand,item.id,item.newPrice,item.category,item.img)">Purchase</button>
+				<button v-if="stock > 0" class="purchase" @click="fnPurchase(item.brand,item.id,item.newPrice,item.category,item.img)">Purchase</button>
 				<button v-else class="purchase" disabled>Purchase</button>
 				<button class="cart" @click="fnAddToCart(item.id)">Add to Cart</button>
 			</div>

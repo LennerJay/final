@@ -18,10 +18,25 @@ createApp({
             img:'',
             stock:0,
             sold:0,
+            oldPrice : 0,
+            newPrice : 0,
             variants:[],
         }
     },
     methods:{
+        showSet:function(id){
+            let variant = this.variants.filter(v => v.id == id)
+            console.log(variant)
+            variant.forEach(variant =>{
+                this.sold= variant.sold
+                this.stock= variant.stock
+                this.sold= variant.sold
+                this.img = variant.img
+                this.newPrice = variant.newPrice
+                this.oldPrice = variant.oldPrice
+            })
+ 
+        },
         getVariant:function(id){
             const vm = this;
             const data = new FormData;
@@ -33,9 +48,11 @@ createApp({
                     vm.variants.push({
                         id:v.product_id,
                         name:v.product_variant,
-                        // price:v.price,
+                        newPrice:v.variant_newPrice,
+                        oldPrice:v.variant_oldPrice,
                         stock:v.product_stock,
                         img:v.product_img,
+                        sold:v.variant_sold
                     })
                 })
             })
@@ -226,6 +243,8 @@ createApp({
                         vm.sold= e.product_sold
                         vm.stock= e.product_stock
                         vm.img = e.product_img
+                        vm.newPrice = e.product_newPrice
+                        vm.oldPrice = e.product_oldPrice
                         vm.specs.push(e.product_specification.split(","))
                         
                     })
